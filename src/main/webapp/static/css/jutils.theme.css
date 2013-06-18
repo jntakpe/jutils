@@ -1,0 +1,36 @@
+/*Général*/
+body {
+    margin-top: 90px;
+    margin-bottom: 80px;
+}
+
+fieldset {
+    margin-top: 20px;
+}
+
+.noclear {
+    clear: none;
+}
+
+/*Menu*/
+
+.navbar [class^="icon-"] {
+    vertical-align: 5%;
+}
+
+#logout {
+    margin-top: 25px;
+    font-size: 22px;
+}
+
+/*Connexion*/
+
+#connexion-container {
+    margin-top: 200px;
+    width: 300px;
+}
+
+#connexion-container > .row {
+    border: solid 1px;
+    text-align: center;
+}

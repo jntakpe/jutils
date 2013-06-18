@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<body>
+
+<div th:fragment="fullMenu">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <div class="pull-left">
+                    <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" th:href="@{/portal}">jUtils</a>
+                </div>
+
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript;">
+                                <i class="icon-wrench"></i> Outils<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a th:href="@{/age}"><i class="icon-gift"></i> Age</a></li>
+                                <li><a th:href="@{/movie}"><i class="icon-film"></i> Films</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle"
+                               data-toggle="dropdown" href="#"><i class="icon-th"></i>
+                                Quiz<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a th:href="@{/quiz/play}"><i class="icon-gamepad"></i> Jouer</a></li>
+                                <li><a th:href="@{/quiz/new}"><i class="icon-plus"></i> Création</a></li>
+                                <li><a th:href="@{/quiz/edit}"><i class="icon-edit"></i> Modification</a></li>
+                                <li><a th:href="@{/quiz/stats}"><i class="icon-dashboard"></i> Résultats</a></li>
+                            </ul>
+                        </li>
+                        <li sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon-cog"></i> Admin<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a th:href="@{/admin/user}"><i class="icon-user"></i> Utilisateurs</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/admin/param}"><i class="icon-bar-chart"></i> Paramètres</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav pull-right">
+                        <li>
+                            <a th:href="@{/user/account}" data-toggle="tooltip" title="Mon compte"
+                               data-placement="left">
+                                <span sec:authentication="name"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/logout}" data-toggle="tooltip" title="Déconnexion" data-placement="right">
+                                <i class="icon-signout"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="emptyMenu">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <div class="pull-left">
+                    <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" th:href="@{/portal}">jUtils</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
