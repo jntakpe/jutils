@@ -34,3 +34,8 @@ fieldset {
     border: solid 1px;
     text-align: center;
 }
+
+.connexion-help {
+    margin-left: 5px;
+    vertical-align: 20%;
+}

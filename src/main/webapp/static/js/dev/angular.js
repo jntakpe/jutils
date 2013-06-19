@@ -11824,7 +11824,7 @@ function checkboxInputType(scope, element, attr, ctrl) {
        </script>
        <div ng-controller="Ctrl">
          <form name="myForm">
-           User name: <input type="text" name="userName" ng-model="user.name" required>
+           Utilisateur name: <input type="text" name="userName" ng-model="user.name" required>
            <span class="error" ng-show="myForm.userName.$error.required">
              Required!</span><br>
            Last name: <input type="text" name="lastName" ng-model="user.last"

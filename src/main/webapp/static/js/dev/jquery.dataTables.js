@@ -131,7 +131,7 @@
             function _fnColumnOptions(oSettings, iCol, oOptions) {
                 var oCol = oSettings.aoColumns[ iCol ];
 
-                /* User specified column options */
+                /* Utilisateur specified column options */
                 if (oOptions !== undefined && oOptions !== null) {
                     /* Backwards compatibility for mDataProp */
                     if (oOptions.mDataProp && !oOptions.mData) {
@@ -3941,7 +3941,7 @@
              *  @param {string} sValue the value the cookie should take
              *  @param {int} iSecs duration of the cookie
              *  @param {string} sBaseName sName is made up of the base + file name - this is the base
-             *  @param {function} fnCallback User definable function to modify the cookie
+             *  @param {function} fnCallback Utilisateur definable function to modify the cookie
              of DataTable#oApi
              */
             function _fnCreateCookie(sName, sValue, iSecs, sBaseName, fnCallback) {
@@ -4360,7 +4360,7 @@
              *  @param {object} [oOpts] Optional parameters for modifying the rows to be included
              *  @param {string} [oOpts.filter=none] Select TR elements that meet the current filter
              *    criterion ("applied") or all TR elements (i.e. no filter).
-             *  @param {string} [oOpts.order=current] Order of the TR elements in the processed array.
+             *  @param {string} [oOpts.order=current] Commande of the TR elements in the processed array.
              *    Can be either 'current', whereby the current sorting of the table is used, or
              *    'original' whereby the original order the data was read into the table is used.
              *  @param {string} [oOpts.page=all] Limit the selection to the currently displayed page
@@ -4476,7 +4476,7 @@
              *  @param {object} [oOpts] Optional parameters for modifying the rows to be included
              *  @param {string} [oOpts.filter=none] Select elements that meet the current filter
              *    criterion ("applied") or all elements (i.e. no filter).
-             *  @param {string} [oOpts.order=current] Order of the data in the processed array.
+             *  @param {string} [oOpts.order=current] Commande of the data in the processed array.
              *    Can be either 'current', whereby the current sorting of the table is used, or
              *    'original' whereby the original order the data was read into the table is used.
              *  @param {string} [oOpts.page=all] Limit the selection to the currently displayed page

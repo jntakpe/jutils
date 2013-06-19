@@ -14,7 +14,7 @@ import java.util.Date;
 @Entity
 @Table(name = "users")
 @SequenceGenerator(name = "SG", sequenceName = "SEQ_USER")
-public class User extends GenericDomain {
+public class Utilisateur extends GenericDomain {
 
     @Column(nullable = false, unique = true)
     private String login;
@@ -118,13 +118,13 @@ public class User extends GenericDomain {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (!(o instanceof Utilisateur)) return false;
 
-        User user = (User) o;
+        Utilisateur utilisateur = (Utilisateur) o;
 
-        if (!email.equals(user.email)) return false;
-        if (!login.equals(user.login)) return false;
-        if (!phone.equals(user.phone)) return false;
+        if (!email.equals(utilisateur.email)) return false;
+        if (!login.equals(utilisateur.login)) return false;
+        if (!phone.equals(utilisateur.phone)) return false;
 
         return true;
     }
