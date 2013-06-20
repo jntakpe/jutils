@@ -9,7 +9,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.hibernate.type" level="ALL"/>
+    <!--<logger name="org.hibernate.type" level="ALL"/>-->
 
     <root level="INFO">
         <appender-ref ref="console"/>

@@ -131,7 +131,7 @@
             function _fnColumnOptions(oSettings, iCol, oOptions) {
                 var oCol = oSettings.aoColumns[ iCol ];
 
-                /* Utilisateur specified column options */
+                /* User specified column options */
                 if (oOptions !== undefined && oOptions !== null) {
                     /* Backwards compatibility for mDataProp */
                     if (oOptions.mDataProp && !oOptions.mData) {
@@ -3941,7 +3941,7 @@
              *  @param {string} sValue the value the cookie should take
              *  @param {int} iSecs duration of the cookie
              *  @param {string} sBaseName sName is made up of the base + file name - this is the base
-             *  @param {function} fnCallback Utilisateur definable function to modify the cookie
+             *  @param {function} fnCallback User definable function to modify the cookie
              of DataTable#oApi
              */
             function _fnCreateCookie(sName, sValue, iSecs, sBaseName, fnCallback) {

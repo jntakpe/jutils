@@ -1,10 +1,12 @@
 package com.github.jntakpe.jutils.domain;
 
 import com.github.jntakpe.fmk.domain.GenericDomain;
-import com.github.jntakpe.fmk.util.constant.Role;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Entité représentant un utilisateur
@@ -12,36 +14,43 @@ import java.util.Date;
  * @author jntakpe
  */
 @Entity
-@Table(name = "users")
 @SequenceGenerator(name = "SG", sequenceName = "SEQ_USER")
 public class Utilisateur extends GenericDomain {
 
-    @Column(nullable = false, unique = true)
-    private String login;
-
     @Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
+    String nom;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    String login;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(nullable = false, unique = true)
+    String mail;
 
-    private Date birthdate;
+    @Column(nullable = false, unique = true)
+    String matricule;
 
     @Column(unique = true)
-    private String phone;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
+    private String telephone;
 
     @Column(nullable = false)
-    private Date lastAccess;
+    private Date premierAcces;
+
+    @Column(nullable = false)
+    private Date dernierAcces;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "utilisateur_role", joinColumns = {
+            @JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)})
+    private Set<Role> roles = new HashSet<>();
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 
     public String getLogin() {
         return login;
@@ -51,94 +60,83 @@ public class Utilisateur extends GenericDomain {
         this.login = login;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getMail() {
+        return mail;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getMatricule() {
+        return matricule;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setMatricule(String matricule) {
+        this.matricule = matricule;
     }
 
-    public String getEmail() {
-        return email;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
-    public String getPassword() {
-        return password;
+    public Date getPremierAcces() {
+        return premierAcces;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPremierAcces(Date premierAcces) {
+        this.premierAcces = premierAcces;
     }
 
-    public Date getBirthdate() {
-        return birthdate;
+    public Date getDernierAcces() {
+        return dernierAcces;
     }
 
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
+    public void setDernierAcces(Date dernierAcces) {
+        this.dernierAcces = dernierAcces;
     }
 
-    public String getPhone() {
-        return phone;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    public Role getRole() {
-        return role;
+    public void addRole(Role role) {
+        this.getRoles().add(role);
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Date getLastAccess() {
-        return lastAccess;
-    }
-
-    public void setLastAccess(Date lastAccess) {
-        this.lastAccess = lastAccess;
+    public void removeRole(Role role) {
+        this.getRoles().remove(role);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Utilisateur)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        Utilisateur utilisateur = (Utilisateur) o;
+        Utilisateur that = (Utilisateur) o;
 
-        if (!email.equals(utilisateur.email)) return false;
-        if (!login.equals(utilisateur.login)) return false;
-        if (!phone.equals(utilisateur.phone)) return false;
+        if (!login.equals(that.login)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = login.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + phone.hashCode();
-        return result;
+        return login.hashCode();
     }
 
     @Override
     public String toString() {
-        return login;
+        return "Utilisateur{" +
+                "nom='" + nom + '\'' +
+                '}';
     }
 }

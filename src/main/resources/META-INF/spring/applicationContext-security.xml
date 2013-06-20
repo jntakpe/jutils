@@ -24,32 +24,33 @@
 
     </security:http>
 
-    <!--<security:ldap-server url="ldap://ptx.ldap-ad.dmsi.corp.sopra:3268/DC=emea,DC=msad,DC=sopra"-->
-                          <!--manager-dn="CN=Giraud Charles Eric,OU=Sopragroup.com,OU=UsersEmea,DC=emea,DC=msad,DC=sopra"-->
-                          <!--manager-password="Ouiche4*"/>-->
+    <security:ldap-server id="ldapContextSource" url="ldap://ptx.ldap-ad.dmsi.corp.sopra:3268/DC=emea,DC=msad,DC=sopra"
+                          manager-dn="CN=N'takpe Jocelyn,OU=Sopragroup.com,OU=UsersEmea,DC=emea,DC=msad,DC=sopra"
+                          manager-password="J*ntakpe31"/>
 
-    <!--<security:authentication-manager>-->
-        <!--<security:ldap-authentication-provider utilisateur-search-filter="(uid={0})"-->
-                <!--utilisateur-search-base="OU=PROJ,OU=Organisation,OU=Internal,OU=Distribution lists,OU=UsersEmea,DC=emea,DC=msad,DC=sopra"-->
-                <!--group-search-filter="(uniqueMember={0})"-->
-                <!--group-search-base="OU=PROJ,OU=Organisation,OU=Internal,OU=Distribution lists,OU=UsersEmea,DC=emea,DC=msad,DC=sopra"-->
-                <!--group-role-attribute="CN"/>-->
-    <!--</security:authentication-manager>-->
+    <bean id="ldapUserSearch" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+        <constructor-arg index="0" value="OU=UsersEmea"/>
+        <constructor-arg index="1" value="(sAMAccountName={0})"/>
+        <constructor-arg index="2" ref="ldapContextSource"/>
+    </bean>
 
-    <!-- http://krams915.blogspot.fr/2011/01/spring-security-mvc-using-ldap.html -->
+    <bean id="fmkAuthoritiesPopulator" class="com.github.jntakpe.fmk.service.impl.FmkAuthoritiesPopulator"/>
 
+    <bean id="ldapAuthProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+        <constructor-arg>
+            <bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
+                <constructor-arg ref="ldapContextSource"/>
+                <property name="userSearch" ref="ldapUserSearch"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg ref="fmkAuthoritiesPopulator"/>
+    </bean>
 
+    <security:authentication-manager>
+        <security:authentication-provider ref="ldapAuthProvider"/>
+    </security:authentication-manager>
 
     <bean id="webexpressionHandler"
           class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
-
-    <security:authentication-manager>
-        <security:authentication-provider>
-            <security:utilisateur-service>
-                <security:utilisateur name="jntakpe" password="12345" authorities="ROLE_ADMIN" />
-                <security:utilisateur name="cegiraud" password="12345" authorities="ROLE_USER" />
-            </security:utilisateur-service>
-        </security:authentication-provider>
-    </security:authentication-manager>
 
 </beans>

@@ -1,13 +1,15 @@
 package com.github.jntakpe.fmk.web;
 
-import com.github.jntakpe.fmk.util.constant.Role;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 /**
  * Contrôleur de gestion du formulaire de connexion
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class ConnexionController {
+
+    public static final String BASIC_ROLE = "ROLE_USER";
 
     /**
      * Si l'utilisateur est connecté renvoi vers le portail sinon renvoi vers la page de connexion en ajoutant un
@@ -27,7 +31,7 @@ public class ConnexionController {
      */
     @RequestMapping(value = "/connexion", method = RequestMethod.GET)
     public ModelAndView connexion(HttpServletRequest request, @RequestParam(required = false) String authentication) {
-        if (request.isUserInRole(Role.ROLE_USER.name()) || request.isUserInRole(Role.ROLE_ADMIN.name()))
+        if (request.isUserInRole(BASIC_ROLE))
             return new ModelAndView("redirect:/portal");
         else
             return new ModelAndView("connexion").addObject("authentication", authentication);
@@ -43,5 +47,4 @@ public class ConnexionController {
     public String portal() {
         return "/portal";
     }
-
 }

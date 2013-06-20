@@ -8,7 +8,8 @@ package com.github.jntakpe.fmk.exception;
 public enum BusinessCode implements ErrorCode {
 
     DEFAULT_EXCEPTION("Une erreur inconnue est survenue."),
-    EMAIL_MISSING_PARAM("Le paramètre {} est obligatoire pour la configuration SMTP.");
+    EMAIL_MISSING_PARAM("Le paramètre {} est obligatoire pour la configuration SMTP."),
+    LDAP_MISSING_ATTR("Impossible de récupérer l'attribut {} pour l'utilisateur {}");
 
     private final String message;
 
