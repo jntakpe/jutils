@@ -5,6 +5,8 @@ import com.github.jntakpe.jutils.util.constants.ModeDegustation;
 import com.github.jntakpe.jutils.util.constants.ProfilAromatique;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Entité représentant un café
@@ -18,15 +20,22 @@ public class Cafe extends GenericDomain {
     @Column(unique = true, nullable = false)
     private String nom;
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private Integer intensite;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ModeDegustation modeDegustation;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProfilAromatique profilAromatique;
+
+    @OneToMany(mappedBy = "demandeCafeId.cafe", cascade = CascadeType.REMOVE)
+    private Set<DemandeCafe> demandeCafes = new HashSet<>();
 
     public String getNom() {
         return nom;
@@ -66,6 +75,14 @@ public class Cafe extends GenericDomain {
 
     public void setProfilAromatique(ProfilAromatique profilAromatique) {
         this.profilAromatique = profilAromatique;
+    }
+
+    public Set<DemandeCafe> getDemandeCafes() {
+        return demandeCafes;
+    }
+
+    public void setDemandeCafes(Set<DemandeCafe> demandeCafes) {
+        this.demandeCafes = demandeCafes;
     }
 
     @Override

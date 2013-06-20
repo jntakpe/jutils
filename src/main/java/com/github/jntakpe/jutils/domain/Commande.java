@@ -2,33 +2,34 @@ package com.github.jntakpe.jutils.domain;
 
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Entité représentant une commande de café
+ * Entité représentant la commande de café totale
  *
  * @author jntakpe
  */
 @Entity
-@SequenceGenerator(name = "SG", sequenceName = "SEQ_ORDER")
+@SequenceGenerator(name="SG", sequenceName = "SEQ_COMMANDE")
 public class Commande extends GenericDomain {
 
-    private Date opening;
+    private Date ouverture;
 
-    private Date closing;
+    private Date fermeture;
 
-    @OneToOne
-    private Utilisateur creator;
+    private Float montantTotal;
 
-    private Integer totalAmount;
+    private Float montantPaye;
 
-    private Integer paidAmount;
+    private Integer nombreBoites;
 
-    private Integer totalCaps;
+    @OneToOne(optional = false)
+    private Utilisateur responsable;
 
-
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Demande> demandes = new HashSet<>();
 
 }
