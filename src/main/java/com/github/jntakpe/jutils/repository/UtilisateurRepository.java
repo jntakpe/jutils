@@ -8,14 +8,10 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author jntakpe
  */
-public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long> {
+public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>, UtilisateurRepositoryCustom {
 
-    Utilisateur findByLogin(String login);
+    Utilisateur findByLoginIgnoreCase(String login);
 
-    Utilisateur findByMail(String mail);
-
-    Utilisateur findByMatricule(String matricule);
-
-    Utilisateur findByTelephone(String telephone);
+    Utilisateur findByNomIgnoreCase(String nom);
 
 }

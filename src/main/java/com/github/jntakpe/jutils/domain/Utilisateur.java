@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @SequenceGenerator(name = "SG", sequenceName = "SEQ_USER")
 public class Utilisateur extends GenericDomain {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     String nom;
 
     @Column(nullable = false, unique = true)
@@ -29,13 +29,12 @@ public class Utilisateur extends GenericDomain {
     @Column(nullable = false, unique = true)
     String matricule;
 
-    @Column(unique = true)
+//    @Column(unique = true)
+    //TODO décommenter
     private String telephone;
 
-    @Column(nullable = false)
     private Date premierAcces;
 
-    @Column(nullable = false)
     private Date dernierAcces;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -43,6 +42,12 @@ public class Utilisateur extends GenericDomain {
             @JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)})
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany
+    private Set<Item> items = new HashSet<>();
+
+    @Transient
+    private String agence;
 
     public String getNom() {
         return nom;
@@ -114,6 +119,22 @@ public class Utilisateur extends GenericDomain {
 
     public void removeRole(Role role) {
         this.getRoles().remove(role);
+    }
+
+    public Set<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Item> items) {
+        this.items = items;
+    }
+
+    public String getAgence() {
+        return agence;
+    }
+
+    public void setAgence(String agence) {
+        this.agence = agence;
     }
 
     @Override

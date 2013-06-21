@@ -1,8 +1,5 @@
 package com.github.jntakpe.fmk.service.impl;
 
-import com.github.jntakpe.fmk.exception.BusinessCode;
-import com.github.jntakpe.fmk.exception.BusinessException;
-import com.github.jntakpe.fmk.util.constant.LdapAttrs;
 import com.github.jntakpe.jutils.domain.Role;
 import com.github.jntakpe.jutils.domain.Utilisateur;
 import com.github.jntakpe.jutils.service.UtilisateurService;
@@ -15,7 +12,6 @@ import org.springframework.security.ldap.userdetails.LdapAuthoritiesPopulator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.NamingException;
 import java.util.*;
 
 /**
@@ -43,19 +39,10 @@ public class FmkAuthoritiesPopulator implements LdapAuthoritiesPopulator {
         List<GrantedAuthority> authorities = new ArrayList<>();
         Utilisateur utilisateur = utilisateurService.findByLogin(username);
         if (utilisateur == null) {
-            Map<LdapAttrs, String> ldapCtx = new HashMap<>();
-            for (LdapAttrs mandatoryAttr : LdapAttrs.values()) {
-                try {
-                    ldapCtx.put(mandatoryAttr, userData.getAttributes().get(mandatoryAttr.getAttr()).get().toString());
-                } catch (NamingException e) {
-                    e.printStackTrace();
-                    throw new BusinessException(BusinessCode.LDAP_MISSING_ATTR, mandatoryAttr, userData);
-                }
-            }
-            utilisateur = utilisateurService.create(ldapCtx);
-        } else {
-            utilisateur.setDernierAcces(Instant.now().toDate());
+            utilisateur = utilisateurService.create(userData);
+            utilisateur.setPremierAcces(Instant.now().toDate());
         }
+        utilisateur.setDernierAcces(Instant.now().toDate());
         for (Role role : utilisateur.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getCode()));
         }

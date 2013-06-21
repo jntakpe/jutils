@@ -1,13 +1,8 @@
 package com.github.jntakpe.jutils.service;
 
 import com.github.jntakpe.fmk.service.GenericService;
-import com.github.jntakpe.fmk.util.constant.LdapAttrs;
-import com.github.jntakpe.jutils.domain.Role;
 import com.github.jntakpe.jutils.domain.Utilisateur;
-
-import javax.naming.directory.Attributes;
-import java.util.Map;
-import java.util.Set;
+import org.springframework.ldap.core.DirContextOperations;
 
 /**
  * Traitement métiers associés à l'entité {@link Utilisateur}
@@ -16,8 +11,11 @@ import java.util.Set;
  */
 public interface UtilisateurService extends GenericService<Utilisateur> {
 
-    Utilisateur create(Map<LdapAttrs, String> ldapCtx);
+    Utilisateur create(DirContextOperations ldapCtx);
 
     Utilisateur findByLogin(String login);
 
+    Utilisateur findByNom(String nom);
+
+    Utilisateur findByLdapNom(String nom);
 }
