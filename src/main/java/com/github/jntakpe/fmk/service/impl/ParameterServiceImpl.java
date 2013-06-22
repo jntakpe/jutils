@@ -25,6 +25,9 @@ public class ParameterServiceImpl extends GenericServiceImpl<Parameter> implemen
         return parameterRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public Parameter findByKey(String key) {

@@ -7,6 +7,4 @@ package com.github.jntakpe.fmk.exception;
  */
 public interface ErrorCode {
 
-    String getMessage();
-
 }

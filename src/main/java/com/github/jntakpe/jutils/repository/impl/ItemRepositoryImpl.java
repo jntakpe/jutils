@@ -26,19 +26,27 @@ import java.util.Map;
  */
 public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
+    private static final String COLO2_DIR = "OU=Toulouse Colomiers 2,OU=FR,OU=Workstations";
+
     @Autowired
     private LdapTemplate ldapTemplate;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Item> findAllLdapItems() {
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectClass", "computer")).and(new LikeFilter("name", "ITEM-*"));
-        List<Item> items = ldapTemplate.search("OU=Toulouse Colomiers 2,OU=FR,OU=Workstations", filter.encode(),
-                new ItemAttributeMapper());
+        List<Item> items = ldapTemplate.search(COLO2_DIR, filter.encode(), new ItemAttributeMapper());
         return items;
     }
 
+    /**
+     * Inner classe permettant de mapper le résultat d'une requête ldap sur un attribut avec un {@link Item}
+     */
     private class ItemAttributeMapper implements AttributesMapper {
+
         @Override
         public Object mapFromAttributes(Attributes attrs) {
             Map<ItemLdapAttrs, String> attrsMap = new HashMap<>();
@@ -47,7 +55,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                     attrsMap.put(mandatoryAttr, (String) attrs.get(mandatoryAttr.getAttr()).get());
                 } catch (NamingException e) {
                     e.printStackTrace();
-                    throw new BusinessException(BusinessCode.LDAP_ITEM_MISSING, mandatoryAttr, attrs);
+                    throw new BusinessException(BusinessCode.LDAP_ITEM_ATTR_MISSING, mandatoryAttr, attrs);
                 }
             }
             Item item = new Item();

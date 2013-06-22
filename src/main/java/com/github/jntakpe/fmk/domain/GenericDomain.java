@@ -12,10 +12,16 @@ import java.io.Serializable;
 @MappedSuperclass
 public abstract class GenericDomain implements Serializable {
 
+    /**
+     * Clé primaire et technique de toutes les entités étendant cette classe
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SG")
     private Long id;
 
+    /**
+     * Version permettant de détecter les modifications concurrentes
+     */
     @Version
     private Integer version;
 

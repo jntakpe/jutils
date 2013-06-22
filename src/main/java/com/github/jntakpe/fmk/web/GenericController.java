@@ -2,9 +2,12 @@ package com.github.jntakpe.fmk.web;
 
 import com.github.jntakpe.fmk.domain.GenericDomain;
 import com.github.jntakpe.fmk.service.GenericService;
+import com.github.jntakpe.fmk.service.MessageManager;
+import com.github.jntakpe.fmk.util.constant.LogLevel;
 import com.github.jntakpe.fmk.util.dto.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,6 +33,9 @@ public abstract class GenericController<T extends GenericDomain> {
     public static final String PREFIX_CONTROL = "/control";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private MessageManager messageManager;
 
     /**
      * Méthode permettant de récupérer le service à utiliser.
@@ -83,8 +89,8 @@ public abstract class GenericController<T extends GenericDomain> {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         T entity = getService().findOne(id);
         getService().delete(id);
-        logger.info("{} a supprimé l'enregistrement {}", username, entity);
-        return ResponseMessage.getSuccessMessage("Supression de l'enregistrement " + entity, entity);
+        messageManager.logMessage("MSG00003", LogLevel.INFO, username, entity);
+        return ResponseMessage.getSuccessMessage(messageManager.getMessage("delete.success", entity), entity);
     }
 
     /**
@@ -99,7 +105,7 @@ public abstract class GenericController<T extends GenericDomain> {
         T domain = getService().findOne(id);
         if (domain == null) {
             mv.setViewName(constructNomPageHTMLList());
-            return mv.addObject(ResponseMessage.getErrorMessage("L'entité spécifiée est introuvable."));
+            return mv.addObject(ResponseMessage.getErrorMessage(messageManager.getMessage("access.notexist")));
         }
         return mv.addObject("domain", domain);
     }
@@ -115,7 +121,7 @@ public abstract class GenericController<T extends GenericDomain> {
     public ResponseMessage populate(@PathVariable Long id) {
         T entity = getService().findOne(id);
         if (entity == null)
-            return ResponseMessage.getErrorMessage("L'entité spécifiée est introuvable.");
+            return ResponseMessage.getErrorMessage(messageManager.getMessage("access.notexist"));
         else
             return ResponseMessage.getSuccessMessage(entity);
     }
@@ -142,12 +148,10 @@ public abstract class GenericController<T extends GenericDomain> {
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView save(@ModelAttribute T domain, RedirectAttributes redirectAttributes) {
         T entity = getService().save(domain);
-        String type = domain.getId() == null ? "Création " : "Modification ";
-        ResponseMessage msg = ResponseMessage.getSuccessMessage(type + " de l'entité " + entity);
+        String msg = messageManager.getMessage(domain.getId() == null ? "create.success" : "update.success", entity);
         redirectAttributes.addFlashAttribute("responseMessage", msg);
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        String typeVerb = domain.getId() == null ? "créé " : "modifié ";
-        logger.info("{} a {} l'entité {}", username, typeVerb, entity);
+        messageManager.logMessage(domain.getId() == null ? "MSG00001" : "MSG00002", LogLevel.INFO, username, entity);
         return new ModelAndView(getRedirectListView());
     }
 
@@ -157,15 +161,14 @@ public abstract class GenericController<T extends GenericDomain> {
      * @param domain entité à sauvegarder
      * @return message indiquant le résultat de l'opération
      */
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value="/ajax", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage put(@ModelAttribute T domain) {
+    public ResponseMessage ajaxSave(@ModelAttribute T domain) {
         T entity = getService().save(domain);
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        String typeVerb = domain.getId() == null ? "créé " : "modifié ";
-        logger.info("{} a {} l'entité {}", username, typeVerb, entity);
-        String type = domain.getId() == null ? "Création " : "Modification ";
-        return ResponseMessage.getSuccessMessage(type + " de l'entité " + entity);
+        String msg = messageManager.getMessage(domain.getId() == null ? "create.success": "update.success", entity);
+        messageManager.logMessage(domain.getId() == null ? "MSG00001" : "MSG00002", LogLevel.INFO, username, entity);
+        return ResponseMessage.getSuccessMessage(msg, entity);
     }
 
     /**

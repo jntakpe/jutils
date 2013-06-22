@@ -11,28 +11,17 @@ import org.springframework.dao.OptimisticLockingFailureException;
  */
 public enum TechCode implements ErrorCode {
 
-    CONSTRAINT_VIOLATION(DataIntegrityViolationException.class,
-            "Échec de l'opération suite à une violation de contrainte d'intégrité."),
-    OPTIMISTIC_LOCKING(OptimisticLockingFailureException.class,
-            "Échec de l'opération suite à la détection d'une mise à jour concurrente."),
-    NO_RESULT(EmptyResultDataAccessException.class,
-            "Échec de l'opération, cette entité est introuvable.");
+    CONSTRAINT_VIOLATION(DataIntegrityViolationException.class),
+    OPTIMISTIC_LOCKING(OptimisticLockingFailureException.class),
+    NO_RESULT(EmptyResultDataAccessException.class);
 
     private final Class<?> sourceException;
 
-    private final String message;
-
-    private TechCode(Class<?> sourceException, String message) {
+    private TechCode(Class<?> sourceException) {
         this.sourceException = sourceException;
-        this.message = message;
     }
 
     public Class<?> getSourceException() {
         return sourceException;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
     }
 }

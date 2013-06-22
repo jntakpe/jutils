@@ -9,10 +9,19 @@ package com.github.jntakpe.fmk.util.dto;
  */
 public class ResponseMessage {
 
+    /**
+     * Message qui sera affiché à l'écran
+     */
     private String message;
 
+    /**
+     * Indicateur permettant de savoir si le message doit être affiché dans une alerte d'erreur
+     */
     private boolean success;
 
+    /**
+     * Objet permettant de passer n'importe quel paramètre additionnel
+     */
     private Object data;
 
     private ResponseMessage() {

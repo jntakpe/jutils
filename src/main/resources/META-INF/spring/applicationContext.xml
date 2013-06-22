@@ -19,4 +19,14 @@
 
     <aop:aspectj-autoproxy/>
 
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>/messages/alert-messages</value>
+                <value>/messages/exception-messages</value>
+                <value>/messages/log-messages</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>

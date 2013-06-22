@@ -29,7 +29,9 @@ $.validator.setDefaults({
     }
 });
 
-//Ajout de messages de validation francais
+/**
+ * Messages de validation en français
+ */
 $.extend($.validator.messages, {
     required: "Ce champ est obligatoire.",
     remote: "Veuillez corriger ce champ.",
@@ -72,11 +74,12 @@ $.extend($.validator.messages, {
     require_from_group: "Veuillez fournir au moins {0} de ces champs."
 });
 
-//Configuration par défaut de DataTables
+/** Configuration par défaut de DataTables */
 $.extend(true, $.fn.dataTable.defaults, {
     "bProcessing": true,
     "bRetrieve": true,
     "bDeferRender": true,
+    "bLengthChange": false,
     "oSearch": {"bSmart": false},
     "sAjaxDataProp": "",
     "iDisplayLength": 12,
@@ -106,31 +109,32 @@ $.extend(true, $.fn.dataTable.defaults, {
     }
 });
 
-//Ajout du theme Bootstrap à DataTables
+/** Plugins de DataTables */
+
+/** Bootstrap theme */
 $.extend($.fn.dataTableExt.oStdClasses, {
     "sWrapper": "dataTables_wrapper form-inline"
 });
 
 $.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {
-    "use strict";
     return {
         "iStart": oSettings._iDisplayStart,
         "iEnd": oSettings.fnDisplayEnd(),
         "iLength": oSettings._iDisplayLength,
         "iTotal": oSettings.fnRecordsTotal(),
         "iFilteredTotal": oSettings.fnRecordsDisplay(),
-        "iPage": oSettings._iDisplayLength === -1 ? 0 : Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
-        "iTotalPages": oSettings._iDisplayLength === -1 ? 0 : Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
+        "iPage": oSettings._iDisplayLength === -1 ?
+            0 : Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
+        "iTotalPages": oSettings._iDisplayLength === -1 ?
+            0 : Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
     };
 };
 
 $.extend($.fn.dataTableExt.oPagination, {
     "bootstrap": {
         "fnInit": function (oSettings, nPaging, fnDraw) {
-            "use strict";
-            var fnClickHandler, els, oLang;
-            oLang = oSettings.oLanguage.oPaginate;
-            fnClickHandler = function (e) {
+            var oLang = oSettings.oLanguage.oPaginate;
+            var fnClickHandler = function (e) {
                 e.preventDefault();
                 if (oSettings.oApi._fnPageChange(oSettings, e.data.action)) {
                     fnDraw(oSettings);
@@ -143,23 +147,22 @@ $.extend($.fn.dataTableExt.oPagination, {
                     '<li class="next disabled"><a href="#">' + oLang.sNext + ' &rarr; </a></li>' +
                     '</ul>'
             );
-            els = $('a', nPaging);
+            var els = $('a', nPaging);
             $(els[0]).bind('click.DT', { action: "previous" }, fnClickHandler);
             $(els[1]).bind('click.DT', { action: "next" }, fnClickHandler);
         },
 
         "fnUpdate": function (oSettings, fnDraw) {
-            "use strict";
-            var iListLength, oPaging, an, i, ien, j, sClass, iStart, iEnd, iHalf;
-            iListLength = 5;
-            oPaging = oSettings.oInstance.fnPagingInfo();
-            an = oSettings.aanFeatures.p;
-            iHalf = Math.floor(iListLength / 2);
+            var iListLength = 5;
+            var oPaging = oSettings.oInstance.fnPagingInfo();
+            var an = oSettings.aanFeatures.p;
+            var i, ien, j, sClass, iStart, iEnd, iHalf = Math.floor(iListLength / 2);
 
             if (oPaging.iTotalPages < iListLength) {
                 iStart = 1;
                 iEnd = oPaging.iTotalPages;
-            } else if (oPaging.iPage <= iHalf) {
+            }
+            else if (oPaging.iPage <= iHalf) {
                 iStart = 1;
                 iEnd = iListLength;
             } else if (oPaging.iPage >= (oPaging.iTotalPages - iHalf)) {
@@ -170,13 +173,13 @@ $.extend($.fn.dataTableExt.oPagination, {
                 iEnd = iStart + iListLength - 1;
             }
 
-            for (i = 0, ien = an.length; i < ien; i + 1) {
+            for (i = 0, ien = an.length; i < ien; i++) {
                 // Remove the middle elements
                 $('li:gt(0)', an[i]).filter(':not(:last)').remove();
 
                 // Add the new list items and their event handlers
-                for (j = iStart; j <= iEnd; j + 1) {
-                    sClass = (j === oPaging.iPage + 1) ? 'class="active"' : '';
+                for (j = iStart; j <= iEnd; j++) {
+                    sClass = (j == oPaging.iPage + 1) ? 'class="active"' : '';
                     $('<li ' + sClass + '><a href="#">' + j + '</a></li>')
                         .insertBefore($('li:last', an[i])[0])
                         .bind('click', function (e) {
@@ -237,9 +240,7 @@ if ($.fn.DataTable.TableTools) {
 
 /** Refraichissement de la table */
 $.fn.dataTableExt.oApi.fnReloadAjax = function (oSettings, sNewSource, fnCallback, bStandingRedraw) {
-    "use strict";
-    var that, iStart, aData, i;
-    if (sNewSource !== 'undefined' && sNewSource !== null) {
+    if (typeof sNewSource != 'undefined' && sNewSource != null) {
         oSettings.sAjaxSource = sNewSource;
     }
 
@@ -250,9 +251,9 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function (oSettings, sNewSource, fnCallbac
     }
 
     this.oApi._fnProcessingDisplay(oSettings, true);
-    that = this;
-    iStart = oSettings._iDisplayStart;
-    aData = [];
+    var that = this;
+    var iStart = oSettings._iDisplayStart;
+    var aData = [];
 
     this.oApi._fnServerParams(oSettings, aData);
 
@@ -261,54 +262,117 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function (oSettings, sNewSource, fnCallbac
         that.oApi._fnClearTable(oSettings);
 
         /* Got the data - add it to the table */
-        var aData = (oSettings.sAjaxDataProp !== "") ? that.oApi._fnGetObjectDataFn(oSettings.sAjaxDataProp)(json) : json;
+        var aData = (oSettings.sAjaxDataProp !== "") ?
+            that.oApi._fnGetObjectDataFn(oSettings.sAjaxDataProp)(json) : json;
 
-        for (i = 0; i < aData.length; i + 1) {
+        for (var i = 0; i < aData.length; i++) {
             that.oApi._fnAddData(oSettings, aData[i]);
         }
 
         oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
 
-        if (bStandingRedraw !== 'undefined' && bStandingRedraw === true) {
+        if (typeof bStandingRedraw != 'undefined' && bStandingRedraw === true) {
             oSettings._iDisplayStart = iStart;
             that.fnDraw(false);
-        } else {
+        }
+        else {
             that.fnDraw();
         }
 
         that.oApi._fnProcessingDisplay(oSettings, false);
 
         /* Callback user function - for event handlers etc */
-        if (typeof fnCallback === 'function' && fnCallback !== null) {
+        if (typeof fnCallback == 'function' && fnCallback != null) {
             fnCallback(oSettings);
         }
     }, oSettings);
 };
 
-//Tri des dates francaises
-$.extend(jQuery.fn.dataTableExt.oSort, {
+/** RRécupération des données d'une colonne */
+$.fn.dataTableExt.oApi.fnGetColumnData = function (oSettings, iColumn, bUnique, bFiltered, bIgnoreEmpty) {
+    // check that we have a column id
+    if (typeof iColumn == "undefined") return [];
+
+    // by default we only wany unique data
+    if (typeof bUnique == "undefined") bUnique = true;
+
+    // by default we do want to only look at filtered data
+    if (typeof bFiltered == "undefined") bFiltered = true;
+
+    // by default we do not wany to include empty values
+    if (typeof bIgnoreEmpty == "undefined") bIgnoreEmpty = true;
+
+    // list of rows which we're going to loop through
+    var aiRows;
+
+    // use only filtered rows
+    if (bFiltered == true) aiRows = oSettings.aiDisplay;
+    // use all rows
+    else aiRows = oSettings.aiDisplayMaster; // all row numbers
+
+    // set up data array
+    var asResultData = new Array();
+
+    for (var i = 0, c = aiRows.length; i < c; i++) {
+        iRow = aiRows[i];
+        var sValue = this.fnGetData(iRow, iColumn);
+
+        // ignore empty values?
+        if (bIgnoreEmpty == true && sValue.length == 0) continue;
+
+        // ignore unique values?
+        else if (bUnique == true && jQuery.inArray(sValue, asResultData) > -1) continue;
+
+        // else push the value onto the result data array
+        else asResultData.push(sValue);
+    }
+
+    return asResultData;
+};
+
+/**
+ * Formatage date fr pour datatables
+ */
+jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     "date-euro-pre": function (a) {
-        "use strict";
-        var frDatea, frTimea, frDatea2, x;
-        if ($.trim(a) !== '') {
-            frDatea = $.trim(a).split(' ');
-            frTimea = frDatea[1].split(':');
-            frDatea2 = frDatea[0].split('/');
-            x = frDatea2[2] + frDatea2[1] + frDatea2[0] + frTimea[0] + frTimea[1] + frTimea[2];
+        if ($.trim(a) != '') {
+            var frDatea = $.trim(a).split(' ');
+            var frTimea = frDatea[1].split(':');
+            var frDatea2 = frDatea[0].split('/');
+            var x = (frDatea2[2] + frDatea2[1] + frDatea2[0] + frTimea[0] + frTimea[1] + frTimea[2]) * 1;
         } else {
-            x = 10000000000000; // = l'an 1000 ...
+            var x = 10000000000000; // = l'an 1000 ...
         }
 
         return x;
     },
 
     "date-euro-asc": function (a, b) {
-        "use strict";
         return a - b;
     },
 
     "date-euro-desc": function (a, b) {
-        "use strict";
+        return b - a;
+    }
+});
+
+jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+    "date-euro-simple-pre": function (a) {
+        if ($.trim(a) != '') {
+            var frDatea = $.trim(a).split(' ');
+            var frDatea2 = frDatea[0].split('/');
+            var x = (frDatea2[2] + frDatea2[1] + frDatea2[0]) * 1;
+        } else {
+            var x = 10000000000000;
+        }
+        return x;
+    },
+
+    "date-euro-simple-asc": function (a, b) {
+        return a - b;
+    },
+
+    "date-euro-simple-desc": function (a, b) {
         return b - a;
     }
 });

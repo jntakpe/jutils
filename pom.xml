@@ -46,7 +46,7 @@
         <version.fest-assert>1.4</version.fest-assert>
 
         <!-- Dépendances tierces -->
-        <version.aspectj>1.7.2</version.aspectj>
+        <version.aspectj>1.7.3</version.aspectj>
         <version.commons-lang3>3.1</version.commons-lang3>
         <version.commons-io>2.4</version.commons-io>
         <version.commons-collections>3.2.1</version.commons-collections>

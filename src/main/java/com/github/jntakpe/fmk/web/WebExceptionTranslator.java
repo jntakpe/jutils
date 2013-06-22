@@ -1,12 +1,16 @@
 package com.github.jntakpe.fmk.web;
 
-import com.github.jntakpe.fmk.exception.*;
+import com.github.jntakpe.fmk.exception.BusinessException;
+import com.github.jntakpe.fmk.exception.ErrorCode;
+import com.github.jntakpe.fmk.exception.FrameworkException;
+import com.github.jntakpe.fmk.exception.TechException;
+import com.github.jntakpe.fmk.service.MessageManager;
 import com.github.jntakpe.fmk.util.dto.ResponseMessage;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.helpers.MessageFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +21,9 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class WebExceptionTranslator {
+
+    @Autowired
+    private MessageManager messageManager;
 
     /**
      * Méthode interceptant les exceptions lancées par la couche web et renvoi un message adapté pour les requêtes AJAX
@@ -36,14 +43,14 @@ public class WebExceptionTranslator {
                 if (e instanceof BusinessException) {
                     ErrorCode errorCode = ((FrameworkException) e).getErrorCode();
                     Object[] params = ((FrameworkException) e).getParams();
-                    String msg = MessageFormatter.arrayFormat(errorCode.getMessage(), params).getMessage();;
+                    String msg = messageManager.getMessage(errorCode, params);
                     if (e instanceof TechException) {
                         return ResponseMessage.getErrorMessage(msg, e.getStackTrace());
                     } else {
                         return ResponseMessage.getErrorMessage(msg);
                     }
                 } else {
-                    return ResponseMessage.getErrorMessage(BusinessCode.DEFAULT_EXCEPTION.getMessage(),
+                    return ResponseMessage.getErrorMessage(messageManager.getMessage("unknown.error"),
                             e.getStackTrace());
                 }
             }

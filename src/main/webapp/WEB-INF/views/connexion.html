@@ -15,7 +15,7 @@
         </div>
         <div th:if="${responseMessage != null}"
              th:class="${responseMessage.success} ? 'alert alert-success fade in' : 'alert alert-error fade in'">
-            <i id="alert-list-icon" th:class="${responseMessage.success} ? 'icon-ok' : 'icon-warning-sign'"></i>
+            <i id="alert-icon" th:class="${responseMessage.success} ? 'icon-ok' : 'icon-warning-sign'"></i>
             <span id="alert-message" th:text="${responseMessage.message}"/>
             <button type="button" class="close">&times;</button>
         </div>

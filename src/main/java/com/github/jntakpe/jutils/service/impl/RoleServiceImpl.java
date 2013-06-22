@@ -24,6 +24,9 @@ public class RoleServiceImpl extends GenericServiceImpl<Role> implements RoleSer
         return roleRepository;
     }
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     public Role findByCode(String code) {
         return roleRepository.findByCode(code);

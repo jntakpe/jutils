@@ -10,6 +10,12 @@ import com.github.jntakpe.jutils.domain.Role;
  */
 public interface RoleService extends GenericService<Role> {
 
+    /**
+     * Récupère un {@link Role} à l'aide de son code
+     *
+     * @param code code du rôle
+     * @return le rôle ou null si aucun rôle ne correspond à ce code
+     */
     Role findByCode(String code);
 
 }

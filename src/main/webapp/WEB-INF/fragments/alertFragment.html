@@ -4,24 +4,13 @@
 <body>
 
 <!-- Bandeau d'alerte pour les listes -->
-<div th:fragment="alertList">
-    <div id="alert-list" th:class="${responseMessage != null} ?
+<div th:fragment="alert">
+    <div id="alert" th:class="${responseMessage != null} ?
     (${responseMessage.success} ? 'alert alert-success fade in' : 'alert alert-error fade in') : 'alert fade'">
-        <button id="close-alert-list" type="button" class="close">&times;</button>
-        <i id="alert-list-icon"
+        <button id="close-alert" type="button" class="close">&times;</button>
+        <i id="alert-icon"
            th:class="${responseMessage != null} ? (${responseMessage.success} ? 'icon-ok' : 'icon-warning-sign')"></i>
-        <span id="alert-list-message" th:text="${responseMessage != null} ? ${responseMessage.message}"/>
-    </div>
-</div>
-
-<!-- Bandeau d'alerte pour les détails -->
-<div th:fragment="alertForm">
-    <div id="alert-form" th:class="${responseMessage != null} ?
-    (${responseMessage.success} ? 'alert alert-success fade in' : 'alert alert-error fade in') : 'alert fade'">
-        <button id="close-alert-form" type="button" class="close">&times;</button>
-        <i id="alert-form-icon"
-           th:class="${responseMessage != null} ? (${responseMessage.success} ? 'icon-ok' : 'icon-warning-sign')"></i>
-        <span id="alert-form-message" th:text="${responseMessage != null} ? ${responseMessage.message}"/>
+        <span id="alert-message" th:text="${responseMessage != null} ? ${responseMessage.message}"/>
     </div>
 </div>
 

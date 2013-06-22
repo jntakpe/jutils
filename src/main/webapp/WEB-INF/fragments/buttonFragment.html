@@ -1,0 +1,57 @@
+<!-- Fragment pour les boutons -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- form -->
+<div th:fragment="formButtonsFragment">
+    <div class="form-button clear">
+        <button type="button" class="btn btn-primary" onclick="jUtils.back()">
+            <i class="icon-arrow-left"></i>
+            <span th:text="#{layout.return}"></span>
+        </button>
+        <button type="reset" class="btn pull-right">
+            <i class="icon-undo"></i>
+            <span th:text="#{layout.reset}"></span>
+        </button>
+        <button type="submit" class="btn btn-success pull-right">
+            <i class="icon-ok"></i>
+            <span th:text="#{layout.submit}"></span>
+        </button>
+    </div>
+</div>
+
+<!-- Nouveau detail -->
+<div th:fragment="newDetailFragment">
+    <div class="clear">
+        <button type="button" class="btn btn-success" onclick="jUtils.detailNew()">
+            <i class="icon-plus"></i>
+            <span> Nouveau</span>
+        </button>
+    </div>
+</div>
+
+<!-- Nouvelle popup -->
+<div th:fragment="newPopupFragment">
+    <div class="clear">
+        <button type="button" class="btn btn-success" onclick="jUtils.popupNew()">
+            <i class="icon-plus"></i>
+            <span>Nouveau</span>
+        </button>
+    </div>
+</div>
+
+<!-- Popup buttons -->
+<div th:fragment="popupButtonsFragment">
+    <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">
+        <i class="icon-remove"></i>
+        <span> Fermer</span>
+    </button>
+    <button type="submit" class="btn btn-success" form="popupForm">
+        <i class="icon-ok"></i>
+        <span> Valider</span>
+    </button>
+</div>
+
+</body>
+</html>

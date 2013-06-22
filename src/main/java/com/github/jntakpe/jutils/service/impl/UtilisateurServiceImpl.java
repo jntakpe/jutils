@@ -31,6 +31,9 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
         return utilisateurRepository;
     }
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     @Transactional
     public Utilisateur create(DirContextOperations ldapCtx) {
@@ -39,18 +42,27 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
         return save(utilisateur);
     }
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public Utilisateur findByLogin(String login) {
         return utilisateurRepository.findByLoginIgnoreCase(login);
     }
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public Utilisateur findByNom(String nom) {
         return utilisateurRepository.findByNomIgnoreCase(nom);
     }
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public Utilisateur findByLdapNom(String nom) {

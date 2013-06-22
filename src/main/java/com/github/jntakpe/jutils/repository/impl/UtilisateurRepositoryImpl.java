@@ -29,23 +29,26 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepositoryCustom {
 
     private static final String COLO_AGENCE = "TOULOUSE COLOMIERS 1";
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private LdapTemplate ldapTemplate;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Utilisateur map(Attributes attrs) {
         return (Utilisateur) new UtilisateurAttributesMapper().mapFromAttributes(attrs);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Utilisateur findByLdapNom(String nom) {
         List<Utilisateur> utilisateurs = ldapTemplate.search("OU=UsersEmea",
-                new WhitespaceWildcardsFilter("cn", nom).encode(), new UtilisateurAttributesMapper());
+                new WhitespaceWildcardsFilter("name", nom).encode(), new UtilisateurAttributesMapper());
         if (utilisateurs.size() == 0) {
-            logger.warn("Impossible de retrouver l'utilisateur {}", nom);
-            return null;
+            throw new BusinessException(BusinessCode.LDAP_USER_MISSING, nom);
         } else if (utilisateurs.size() != 1) {
             List<Utilisateur> utilisateurAgenceList = new ArrayList<>();
             for (Utilisateur utilisateur : utilisateurs) {
@@ -55,15 +58,18 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepositoryCustom {
             }
             if (utilisateurAgenceList.size() != 1) {
                 if (utilisateurAgenceList.size() == 0)
-                    logger.warn("Impossible de retrouver l'utilisateur {} répondant aux critères de recherche", nom);
+                    throw new BusinessException(BusinessCode.LDAP_USER_MISSING, nom);
                 else
-                    logger.warn("Impossible d'identifier l'utilisateur {} dans la liste de résultats", nom);
+                    throw new BusinessException(BusinessCode.LDAP_NO_SINGLE_RESULT, nom);
             }
             return utilisateurAgenceList.get(0);
         }
         return utilisateurs.get(0);
     }
 
+    /**
+     * Inner classe permettant de mapper le résultat d'une requête LDAP avec un {@link Utilisateur}
+     */
     private class UtilisateurAttributesMapper implements AttributesMapper {
 
         public Object mapFromAttributes(Attributes attrs) {
@@ -72,17 +78,13 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepositoryCustom {
                 try {
                     Attribute attr = attrs.get(lookupAttr.getAttr());
                     if (attr == null) {
-                        if (lookupAttr != UtilisateurLdapAttrs.TELEPHONE || lookupAttr != UtilisateurLdapAttrs.AGENCE)
-                            throw new BusinessException(BusinessCode.LDAP_USER_MISSING, lookupAttr, attrs);
+                        if (lookupAttr != UtilisateurLdapAttrs.TELEPHONE)
+                            throw new BusinessException(BusinessCode.LDAP_USER_ATTR_MISSING, lookupAttr, attrs);
                     } else {
                         attrsMap.put(lookupAttr, (String) attr.get());
                     }
                 } catch (NamingException e) {
-                    e.printStackTrace();
-                    throw new BusinessException(BusinessCode.LDAP_USER_MISSING, lookupAttr, attrs);
-                } catch (Exception e) {
-                    //TODO a enlever rapidement meme très rapidement
-                    e.printStackTrace();
+                    throw new BusinessException(BusinessCode.LDAP_USER_ATTR_MISSING, lookupAttr, attrs);
                 }
             }
 

@@ -12,6 +12,10 @@ import java.util.List;
  */
 public interface ItemService extends GenericService<Item> {
 
-    public List<Item> majLdapItems();
+    /**
+     * Insère en base de données tous les {@link Item} de COLO 2 depuis le ldap et les associe à leur propriétaire
+     *
+     */
+    public void majLdapItems();
 
 }
