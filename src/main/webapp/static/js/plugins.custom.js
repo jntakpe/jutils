@@ -1,4 +1,4 @@
-//Modification pour le plugin jQuery validation afin de respecter le theme Bootstrap
+/** Modification pour le plugin jQuery validation afin de respecter le theme Bootstrap */
 $.validator.setDefaults({
     errorClass: 'help-inline',
     errorElement: 'span',
@@ -29,9 +29,60 @@ $.validator.setDefaults({
     }
 });
 
-/**
- * Messages de validation en français
- */
+/** Ajout d'une méthode regex */
+$.validator.addMethod("regex", function (value, element, regexp) {
+    "use strict";
+    if (regexp.constructor !== RegExp) {
+        regexp = new RegExp(regexp);
+    } else if (regexp.global) {
+        regexp.lastIndex = 0;
+    }
+    return this.optional(element) || regexp.test(value);
+}, "Veuillez fournir un format valide.");
+
+/** Ajout d'une méthode pour les contrôles d'unicité */
+$.validator.addMethod("unicity", function (value, element, param) {
+    "use strict";
+    var loc, pathname, args, url, root, module, endModule;
+    if (param === true) {
+        pathname = window.location.pathname.substring(1);
+        if (param === true) {
+            loc = "control" + $(element).attr('name');
+        } else {
+            loc = param;
+        }
+        if (pathname.match(/\/$/)) {
+            pathname = pathname.substring(pathname.length - 1);
+        }
+        root = pathname.substring(0, pathname.indexOf("/"));
+        if ($.isNumeric(pathname.substring(pathname.lastIndexOf("/")))) {
+            endModule = pathname.lastIndexOf("/");
+        } else {
+            endModule = pathname.length;
+        }
+        module = pathname.substring(pathname.indexOf("/"), endModule);
+        url = "/" + root + module + "/" + loc;
+    }
+    args = {
+        url: param === true ? url : param,
+        data: function () {
+            var id = $('#id').val();
+            if (id) {
+                return {
+                    id: id,
+                    value: value
+                }
+            } else {
+                return {
+                    value: value
+                }
+            }
+        }()
+    };
+    return $.validator.methods.remote.call(this, value, element, args);
+}, "Contrainte d'unicité non respectée, veuillez modifier cette valeur.");
+
+/** Message de validation en francais */
 $.extend($.validator.messages, {
     required: "Ce champ est obligatoire.",
     remote: "Veuillez corriger ce champ.",
@@ -376,3 +427,4 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
         return b - a;
     }
 });
+

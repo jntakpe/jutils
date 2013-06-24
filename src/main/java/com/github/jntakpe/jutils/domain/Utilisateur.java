@@ -29,13 +29,14 @@ public class Utilisateur extends GenericDomain {
     @Column(nullable = false, unique = true)
     String matricule;
 
-//    @Column(unique = true)
-    //TODO décommenter
+    @Column(unique = true)
     private String telephone;
 
     private Date premierAcces;
 
     private Date dernierAcces;
+
+    private Integer nombreAccess = 0;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "utilisateur_role", joinColumns = {
@@ -103,6 +104,18 @@ public class Utilisateur extends GenericDomain {
 
     public void setDernierAcces(Date dernierAcces) {
         this.dernierAcces = dernierAcces;
+    }
+
+    public void incrementNombreAccess() {
+        this.nombreAccess = nombreAccess++;
+    }
+
+    public Integer getNombreAccess() {
+        return nombreAccess;
+    }
+
+    public void setNombreAccess(Integer nombreAccess) {
+        this.nombreAccess = nombreAccess;
     }
 
     public Set<Role> getRoles() {

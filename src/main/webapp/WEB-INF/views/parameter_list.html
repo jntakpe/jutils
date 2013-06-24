@@ -61,10 +61,13 @@
 </footer>
 
 <script type="text/javascript">
+    var oTable;
+    var popupForm;
+
     $(function () {
         "use strict";
 
-        var paramTable = $('#dt_parameter').dataTable({
+        oTable = $('#dt_parameter').dataTable({
             sAjaxSource: "param/list",
             aoColumns: [
                 {mData: "key"},
@@ -73,13 +76,14 @@
             ]
         });
 
-        var validForm = $('#popupForm').validate({
+        popupForm = $('#popupForm').validate({
             submitHandler: function (form) {
-                jUtils.saveRow(form, paramTable);
+                jUtils.saveRow(form, oTable);
             },
             rules: {
                 key: {
-                    required: true
+                    required: true,
+                    unicity: true
                 },
                 value: {
                     required: true

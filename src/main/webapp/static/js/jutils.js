@@ -246,7 +246,11 @@ var jUtils = {
             }
         })
             .error(function (response) {
-                $('table[id^=dt_]').dataTable().fnReloadAjax();
+                if (oTable) {
+                    oTable.fnReloadAjax();
+                } else {
+                    $('table[id^=dt_]').dataTable().fnReloadAjax();
+                }
                 if (response.message) {
                     jUtils.displayError(response.message);
                 } else {
@@ -293,7 +297,13 @@ var jUtils = {
      */
     remove: function () {
         "use strict";
-        var dataTable = $('table[id^=dt_]').dataTable(), removeUrl;
+        var dataTable, removeUrl;
+        if (oTable) {
+            dataTable = oTable;
+        } else {
+            dataTable = $('table[id^=dt_]').dataTable();
+        }
+
         if (window.location.pathname.match(/\/$/)) {
             removeUrl = window.location.pathname + jUtils.getCurrentRowId();
         } else {
@@ -381,7 +391,11 @@ $(function () {
     //Fermeture de la popup d'ajout/édition
     $('#popup').on('hidden', function () {
         var form = $('#popupForm');
-        form.validate().resetForm();
+        if (popupForm) {
+            popupForm.resetForm();
+        } else {
+            form.validate().resetForm();
+        }
         form[0].reset();
         form.find('.control-group').removeClass('error');
         form.find(':input').removeData("previousValue");

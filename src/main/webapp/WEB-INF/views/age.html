@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../fragments/headFragment :: head"></head>
+<body>
+<header th:include="../fragments/menuFragment :: fullMenu"></header>
+<div class="container">
+    <div th:include="../fragments/alertFragment :: alert"></div>
+    <h2>Calculs âge</h2>
+
+    <div class="row offset2">
+        <form class="form-horizontal" action="#">
+            <fieldset>
+                <legend>Saisie de la date de naissance</legend>
+                <div class="control-group">
+                    <label class="control-label" for="birthdate">Date de naissance</label>
+
+                    <div class="controls date datepicker input-append">
+                        <input type="text" id="birthdate" name="birthdate" class="input-small"/>
+                        <span class="add-on"><i class="icon-calendar"></i></span>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div class="span4 offset1">
+            <table id="age-table" class="table table-bordered table-striped hide">
+                <thead>
+                <th colspan="2"><h3>Vous êtes né depuis : </h3></th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td id="month"></td>
+                    <td> mois</td>
+                </tr>
+                <tr>
+                    <td id="week"></td>
+                    <td> semaines</td>
+                </tr>
+                <tr>
+                    <td id="day"></td>
+                    <td> jours</td>
+                </tr>
+                <tr>
+                    <td id="hour"></td>
+                    <td> heures</td>
+                </tr>
+                <tr>
+                    <td id="minute"></td>
+                    <td> minutes</td>
+                </tr>
+                <tr>
+                    <td id="second"></td>
+                    <td> secondes</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<footer th:include="../fragments/footerFragment :: footer">
+</footer>
+<script type="text/javascript">
+    $(function () {
+        'use strict';
+        var refresh;
+        //Gestion du datepicker
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            startView: 'decade'
+        }).on('changeDate', function (e) {
+                    clearInterval(refresh);
+                    $('#age-table').show();
+                    var call = function () {
+                        $.ajax({
+                            url: 'age/calc',
+                            data: {
+                                birthdate: e.date
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    var data = response.data;
+                                    $('#month').text(data.month);
+                                    $('#week').text(data.week);
+                                    $('#day').text(data.day);
+                                    $('#hour').text(data.hour);
+                                    $('#minute').text(data.minute);
+                                    $('#second').text(data.second);
+                                    $('#age-table').show();
+                                } else {
+                                    jUtils.displayError(response.message);
+                                    clearInterval(refresh);
+                                }
+                            },
+                            error: function () {
+                                jUtils.displayError();
+                                clearInterval(refresh);
+                            }
+                        });
+                    }
+                    call();
+                    refresh = setInterval(call, 1000);
+                });
+
+    });
+</script>
+</body>
+</html>

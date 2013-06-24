@@ -2,6 +2,8 @@ package com.github.jntakpe.fmk.service.impl;
 
 
 import com.github.jntakpe.fmk.domain.GenericDomain;
+import com.github.jntakpe.fmk.exception.BusinessCode;
+import com.github.jntakpe.fmk.exception.BusinessException;
 import com.github.jntakpe.fmk.service.GenericService;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,7 +96,14 @@ public abstract class GenericServiceImpl<T extends GenericDomain> implements Gen
     public boolean isAvaillable(String fieldName, Long id, Object value) {
         Class<?> fieldClass = ReflectionUtils.findField(getDomainClass(), fieldName).getType();
         String upperName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-        Method method = ReflectionUtils.findMethod(getRepository().getClass(), "findBy" + upperName, fieldClass);
+        Class<?> repoClass = getRepository().getClass();
+        String methodName = "findBy" + upperName;
+        String methodNameIC = "findBy" + upperName + "IgnoreCase";
+        Method method;
+        if ((method = ReflectionUtils.findMethod(repoClass, methodName, fieldClass)) == null)
+            if ((method = ReflectionUtils.findMethod(repoClass, methodNameIC, fieldClass)) == null)
+                throw new BusinessException(BusinessCode.REPOSITORY_METHOD_MISSING, fieldClass, methodName,
+                        methodNameIC, repoClass);
         T entity = (T) ReflectionUtils.invokeMethod(method, getRepository(), value);
         return entity == null || entity.getId().equals(id);
     }

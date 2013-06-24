@@ -21,7 +21,7 @@
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
         </property>
         <property name="dataSource" ref="jutilsDS"/>
-        <property name="packagesToScan" value="com.github.jntakpe.jutils.domain"/>
+        <property name="packagesToScan" value="com.github.jntakpe.fmk.domain, com.github.jntakpe.jutils.domain"/>
         <property name="persistenceUnitName" value="jutilsPU"/>
     </bean>
 

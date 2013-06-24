@@ -40,7 +40,7 @@ public class WebExceptionTranslator {
             result = joinPoint.proceed();
         } catch (Exception e) {
             if (isReturningResponseMessage((MethodSignature) joinPoint.getSignature())) {
-                if (e instanceof BusinessException) {
+                if (e instanceof FrameworkException) {
                     ErrorCode errorCode = ((FrameworkException) e).getErrorCode();
                     Object[] params = ((FrameworkException) e).getParams();
                     String msg = messageManager.getMessage(errorCode, params);
