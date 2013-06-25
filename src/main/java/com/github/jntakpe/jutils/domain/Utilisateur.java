@@ -1,5 +1,9 @@
 package com.github.jntakpe.jutils.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
@@ -14,6 +18,8 @@ import java.util.Set;
  */
 @Entity
 @SequenceGenerator(name = "SG", sequenceName = "SEQ_USER")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Utilisateur extends GenericDomain {
 
     @Column(nullable = false, unique = true)
@@ -36,13 +42,14 @@ public class Utilisateur extends GenericDomain {
 
     private Integer nombreAcces = 0;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "utilisateur_role", joinColumns = {
             @JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)})
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur")
+    @OneToMany(mappedBy = "utilisateur", fetch = FetchType.EAGER)
     private Set<Item> items = new HashSet<>();
 
     @Transient
@@ -159,18 +166,18 @@ public class Utilisateur extends GenericDomain {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Utilisateur)) return false;
 
         Utilisateur that = (Utilisateur) o;
 
-        if (!login.equals(that.login)) return false;
+        if (nom != null ? !nom.equals(that.nom) : that.nom != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return login.hashCode();
+        return nom != null ? nom.hashCode() : 0;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.github.jntakpe.jutils.service;
 import com.github.jntakpe.fmk.service.GenericService;
 import com.github.jntakpe.jutils.domain.Item;
 import com.github.jntakpe.jutils.domain.Utilisateur;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.ldap.core.DirContextOperations;
 
 import java.util.List;

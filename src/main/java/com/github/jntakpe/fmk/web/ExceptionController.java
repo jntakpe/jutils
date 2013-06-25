@@ -24,6 +24,7 @@ public class ExceptionController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView handleException(Exception e) {
+        e.printStackTrace();
         ModelAndView mv = new ModelAndView("/error");
         if (e instanceof FrameworkException)
             mv.addObject("fmkMessage", messageManager.getMessage(((FrameworkException) e).getErrorCode(),

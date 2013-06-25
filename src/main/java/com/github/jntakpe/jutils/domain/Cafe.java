@@ -92,14 +92,14 @@ public class Cafe extends GenericDomain {
 
         Cafe cafe = (Cafe) o;
 
-        if (!nom.equals(cafe.nom)) return false;
+        if (nom != null ? !nom.equals(cafe.nom) : cafe.nom != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return nom.hashCode();
+        return nom != null ? nom.hashCode() : 0;
     }
 
     @Override

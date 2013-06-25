@@ -9,6 +9,7 @@ import com.github.jntakpe.jutils.service.ItemService;
 import com.github.jntakpe.jutils.service.RoleService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.ldap.core.DirContextOperations;

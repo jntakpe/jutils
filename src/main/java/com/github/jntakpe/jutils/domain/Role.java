@@ -52,18 +52,18 @@ public class Role extends GenericDomain {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Role)) return false;
 
         Role role = (Role) o;
 
-        if (!code.equals(role.code)) return false;
+        if (code != null ? !code.equals(role.code) : role.code != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return code.hashCode();
+        return code != null ? code.hashCode() : 0;
     }
 
     @Override

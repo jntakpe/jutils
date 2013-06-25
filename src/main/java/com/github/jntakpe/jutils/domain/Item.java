@@ -1,5 +1,8 @@
 package com.github.jntakpe.jutils.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
@@ -60,18 +63,18 @@ public class Item extends GenericDomain {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Item)) return false;
 
         Item item = (Item) o;
 
-        if (!nom.equals(item.nom)) return false;
+        if (nom != null ? !nom.equals(item.nom) : item.nom != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return nom.hashCode();
+        return nom != null ? nom.hashCode() : 0;
     }
 
     @Override

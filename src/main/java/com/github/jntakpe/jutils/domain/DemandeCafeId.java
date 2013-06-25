@@ -42,16 +42,16 @@ public class DemandeCafeId implements Serializable {
 
         DemandeCafeId that = (DemandeCafeId) o;
 
-        if (!cafe.equals(that.cafe)) return false;
-        if (!demande.equals(that.demande)) return false;
+        if (cafe != null ? !cafe.equals(that.cafe) : that.cafe != null) return false;
+        if (demande != null ? !demande.equals(that.demande) : that.demande != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = demande.hashCode();
-        result = 31 * result + cafe.hashCode();
+        int result = demande != null ? demande.hashCode() : 0;
+        result = 31 * result + (cafe != null ? cafe.hashCode() : 0);
         return result;
     }
 

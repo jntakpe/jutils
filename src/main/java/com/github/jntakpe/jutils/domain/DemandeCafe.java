@@ -56,14 +56,15 @@ public class DemandeCafe implements Serializable {
 
         DemandeCafe that = (DemandeCafe) o;
 
-        if (!demandeCafeId.equals(that.demandeCafeId)) return false;
+        if (demandeCafeId != null ? !demandeCafeId.equals(that.demandeCafeId) : that.demandeCafeId != null)
+            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return demandeCafeId.hashCode();
+        return demandeCafeId != null ? demandeCafeId.hashCode() : 0;
     }
 
     @Override

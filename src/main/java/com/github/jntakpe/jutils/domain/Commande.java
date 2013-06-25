@@ -1,6 +1,7 @@
 package com.github.jntakpe.jutils.domain;
 
 import com.github.jntakpe.fmk.domain.GenericDomain;
+import com.github.jntakpe.jutils.util.constants.ModePaiement;
 import org.joda.time.Instant;
 
 import javax.persistence.*;
@@ -31,6 +32,10 @@ public class Commande extends GenericDomain {
     private Integer nombreBoites;
 
     private String informations;
+
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private Set<ModePaiement> modePaiement;
 
     @OneToOne(optional = false)
     private Utilisateur responsable;
@@ -102,6 +107,14 @@ public class Commande extends GenericDomain {
         this.demandes = demandes;
     }
 
+    public Set<ModePaiement> getModePaiement() {
+        return modePaiement;
+    }
+
+    public void setModePaiement(Set<ModePaiement> modePaiement) {
+        this.modePaiement = modePaiement;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -109,16 +122,16 @@ public class Commande extends GenericDomain {
 
         Commande commande = (Commande) o;
 
-        if (!fermeture.equals(commande.fermeture)) return false;
-        if (!ouverture.equals(commande.ouverture)) return false;
+        if (fermeture != null ? !fermeture.equals(commande.fermeture) : commande.fermeture != null) return false;
+        if (ouverture != null ? !ouverture.equals(commande.ouverture) : commande.ouverture != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = ouverture.hashCode();
-        result = 31 * result + fermeture.hashCode();
+        int result = ouverture != null ? ouverture.hashCode() : 0;
+        result = 31 * result + (fermeture != null ? fermeture.hashCode() : 0);
         return result;
     }
 }

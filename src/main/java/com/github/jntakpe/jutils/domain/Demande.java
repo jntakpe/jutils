@@ -88,16 +88,16 @@ public class Demande extends GenericDomain {
 
         Demande demande = (Demande) o;
 
-        if (!commande.equals(demande.commande)) return false;
-        if (!utilisateur.equals(demande.utilisateur)) return false;
+        if (commande != null ? !commande.equals(demande.commande) : demande.commande != null) return false;
+        if (utilisateur != null ? !utilisateur.equals(demande.utilisateur) : demande.utilisateur != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = commande.hashCode();
-        result = 31 * result + utilisateur.hashCode();
+        int result = commande != null ? commande.hashCode() : 0;
+        result = 31 * result + (utilisateur != null ? utilisateur.hashCode() : 0);
         return result;
     }
 }

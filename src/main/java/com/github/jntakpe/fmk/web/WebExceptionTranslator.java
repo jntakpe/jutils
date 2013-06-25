@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
+@Order(Integer.MAX_VALUE)
 public class WebExceptionTranslator {
 
     @Autowired

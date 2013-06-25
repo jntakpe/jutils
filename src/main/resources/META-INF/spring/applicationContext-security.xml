@@ -25,42 +25,42 @@
     </security:http>
 
     <security:ldap-server id="ldapContextSource" url="ldap://ptx.ldap-ad.dmsi.corp.sopra:3268/DC=emea,DC=msad,DC=sopra"
-    manager-dn="CN=N'takpe Jocelyn,OU=Sopragroup.com,OU=UsersEmea,DC=emea,DC=msad,DC=sopra"
-    manager-password="J*ntakpe31"/>
+                          manager-dn="CN=N'takpe Jocelyn,OU=Sopragroup.com,OU=UsersEmea,DC=emea,DC=msad,DC=sopra"
+                          manager-password="J*ntakpe31"/>
 
     <bean id="ldapUserSearch" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
-    <constructor-arg index="0" value="OU=UsersEmea"/>
-    <constructor-arg index="1" value="(sAMAccountName={0})"/>
-    <constructor-arg index="2" ref="ldapContextSource"/>
+        <constructor-arg index="0" value="OU=UsersEmea"/>
+        <constructor-arg index="1" value="(sAMAccountName={0})"/>
+        <constructor-arg index="2" ref="ldapContextSource"/>
     </bean>
 
     <bean id="fmkAuthoritiesPopulator" class="com.github.jntakpe.fmk.service.impl.FmkAuthoritiesPopulator"/>
 
     <bean id="ldapAuthProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
-    <constructor-arg>
-    <bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
-    <constructor-arg ref="ldapContextSource"/>
-    <property name="userSearch" ref="ldapUserSearch"/>
-    </bean>
-    </constructor-arg>
-    <constructor-arg ref="fmkAuthoritiesPopulator"/>
+        <constructor-arg>
+            <bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
+                <constructor-arg ref="ldapContextSource"/>
+                <property name="userSearch" ref="ldapUserSearch"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg ref="fmkAuthoritiesPopulator"/>
     </bean>
 
     <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
-    <constructor-arg ref="ldapContextSource"/>
+        <constructor-arg ref="ldapContextSource"/>
     </bean>
 
-    <security:authentication-manager>
-    <security:authentication-provider ref="ldapAuthProvider"/>
-    </security:authentication-manager>
-
     <!--<security:authentication-manager>-->
-        <!--<security:authentication-provider>-->
-            <!--<security:utilisateur-service>-->
-                <!--<security:utilisateur name="jntakpe" password="J*ntakpe31" authorities="ROLE_USER, ROLE_ADMIN"/>-->
-            <!--</security:utilisateur-service>-->
-        <!--</security:authentication-provider>-->
+    <!--<security:authentication-provider ref="ldapAuthProvider"/>-->
     <!--</security:authentication-manager>-->
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="jntakpe" password="J*ntakpe31" authorities="ROLE_USER, ROLE_ADMIN"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
 
 
     <bean id="webexpressionHandler"
