@@ -3,6 +3,7 @@ package com.github.jntakpe.jutils.repository;
 import com.github.jntakpe.jutils.domain.Utilisateur;
 
 import javax.naming.directory.Attributes;
+import java.util.List;
 
 
 /**
@@ -21,10 +22,9 @@ public interface UtilisateurRepositoryCustom {
     Utilisateur map(Attributes attrs);
 
     /**
-     * Récupère l'{@link Utilisateur} dans le LDAP correspondant à ce nom
+     * Récupère tous les {@link Utilisateur} de COLO 2
      *
-     * @param nom nom de l'utilisateur recherché
-     * @return l'utilisateur recherché ou null si aucun utilisateur ne correspond à ce nom
+     * @return liste des utilisateurs de COLO2
      */
-    Utilisateur findByLdapNom(String nom);
+    List<Utilisateur> findAllLdapUtilisateurs();
 }

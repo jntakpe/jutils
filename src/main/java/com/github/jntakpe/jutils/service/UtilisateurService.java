@@ -1,8 +1,11 @@
 package com.github.jntakpe.jutils.service;
 
 import com.github.jntakpe.fmk.service.GenericService;
+import com.github.jntakpe.jutils.domain.Item;
 import com.github.jntakpe.jutils.domain.Utilisateur;
 import org.springframework.ldap.core.DirContextOperations;
+
+import java.util.List;
 
 /**
  * Traitement métiers associés à l'entité {@link Utilisateur}
@@ -28,18 +31,10 @@ public interface UtilisateurService extends GenericService<Utilisateur> {
     Utilisateur findByLogin(String login);
 
     /**
-     * Récupère un {@link Utilisateur} à l'aide de son nom
+     * Récupère tous les {@link Utilisateur} de COLO 2 dans le LDAP et les associes aux {@link Item}
      *
-     * @param nom nom de l'utilisateur
-     * @return l'utilisateur ou null si aucun utilisateur ne correspond à ce nom
+     * @param items liste des items récupérés précédemment
+     * @return les items associés aux utilisateurs
      */
-    Utilisateur findByNom(String nom);
-
-    /**
-     * Récupère un {@link Utilisateur} dans le LDAP à l'aide de son nom
-     *
-     * @param nom nom de l'utilisateur
-     * @return l'utilisateur ou null si aucun utilisateur ne correspond à ce nom
-     */
-    Utilisateur findByLdapNom(String nom);
+    List<Item> mapItemsAndUtilisateurs(List<Item> items);
 }

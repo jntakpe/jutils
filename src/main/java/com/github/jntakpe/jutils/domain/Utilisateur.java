@@ -3,10 +3,9 @@ package com.github.jntakpe.jutils.domain;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Entité représentant un utilisateur
@@ -29,14 +28,13 @@ public class Utilisateur extends GenericDomain {
     @Column(nullable = false, unique = true)
     String matricule;
 
-    @Column(unique = true)
     private String telephone;
 
     private Date premierAcces;
 
     private Date dernierAcces;
 
-    private Integer nombreAccess = 0;
+    private Integer nombreAcces = 0;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "utilisateur_role", joinColumns = {
@@ -44,7 +42,7 @@ public class Utilisateur extends GenericDomain {
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)})
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur")
     private Set<Item> items = new HashSet<>();
 
     @Transient
@@ -106,16 +104,16 @@ public class Utilisateur extends GenericDomain {
         this.dernierAcces = dernierAcces;
     }
 
-    public void incrementNombreAccess() {
-        this.nombreAccess = nombreAccess++;
+    public Integer getNombreAcces() {
+        return nombreAcces;
     }
 
-    public Integer getNombreAccess() {
-        return nombreAccess;
+    public void setNombreAcces(Integer nombreAcces) {
+        this.nombreAcces = nombreAcces;
     }
 
-    public void setNombreAccess(Integer nombreAccess) {
-        this.nombreAccess = nombreAccess;
+    public void incrementNombreAcces() {
+        nombreAcces++;
     }
 
     public Set<Role> getRoles() {
@@ -127,11 +125,11 @@ public class Utilisateur extends GenericDomain {
     }
 
     public void addRole(Role role) {
-        this.getRoles().add(role);
+        roles.add(role);
     }
 
     public void removeRole(Role role) {
-        this.getRoles().remove(role);
+        roles.remove(role);
     }
 
     public Set<Item> getItems() {
@@ -140,6 +138,14 @@ public class Utilisateur extends GenericDomain {
 
     public void setItems(Set<Item> items) {
         this.items = items;
+    }
+
+    public void addItem(Item item) {
+        item.setUtilisateur(this);
+    }
+
+    public void removeItem(Item item) {
+        item.setUtilisateur(null);
     }
 
     public String getAgence() {

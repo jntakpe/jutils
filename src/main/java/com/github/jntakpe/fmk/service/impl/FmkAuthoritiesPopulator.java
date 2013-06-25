@@ -45,7 +45,7 @@ public class FmkAuthoritiesPopulator implements LdapAuthoritiesPopulator {
         else if (utilisateur.getPremierAcces() == null)
             utilisateur.setPremierAcces(Instant.now().toDate());
         utilisateur.setDernierAcces(Instant.now().toDate());
-        utilisateur.incrementNombreAccess();
+        utilisateur.incrementNombreAcces();
         for (Role role : utilisateur.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getCode()));
         }

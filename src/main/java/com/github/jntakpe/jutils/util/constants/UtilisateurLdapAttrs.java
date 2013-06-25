@@ -8,7 +8,7 @@ package com.github.jntakpe.jutils.util.constants;
 public enum UtilisateurLdapAttrs {
 
     LOGIN("samaccountname"),
-    NOM("name"),
+    NOM("cn"),
     MAIL("mail"),
     MATRICULE("employeeid"),
     TELEPHONE("telephonenumber"),

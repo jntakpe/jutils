@@ -26,8 +26,6 @@ import java.util.Map;
  */
 public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
-    private static final String COLO2_DIR = "OU=Toulouse Colomiers 2,OU=FR,OU=Workstations";
-
     @Autowired
     private LdapTemplate ldapTemplate;
 
@@ -38,8 +36,8 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     public List<Item> findAllLdapItems() {
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectClass", "computer")).and(new LikeFilter("name", "ITEM-*"));
-        List<Item> items = ldapTemplate.search(COLO2_DIR, filter.encode(), new ItemAttributeMapper());
-        return items;
+        return ldapTemplate.search("OU=Toulouse Colomiers 2,OU=FR,OU=Workstations", filter.encode(),
+                new ItemAttributeMapper());
     }
 
     /**
@@ -63,7 +61,8 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
             String fullDate = attrsMap.get(ItemLdapAttrs.DATE_CREATION);
             String dateItem = fullDate.substring(0, fullDate.indexOf("."));
             item.setCreation(DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(dateItem).toDate());
-            item.setDescription(attrsMap.get(ItemLdapAttrs.DESCRIPTION));
+            String desc = attrsMap.get(ItemLdapAttrs.DESCRIPTION);
+            item.setDescription(desc.substring(0, desc.indexOf("-")));
             return item;
         }
     }

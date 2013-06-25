@@ -5,17 +5,15 @@ import com.github.jntakpe.fmk.exception.BusinessException;
 import com.github.jntakpe.jutils.domain.Utilisateur;
 import com.github.jntakpe.jutils.repository.UtilisateurRepositoryCustom;
 import com.github.jntakpe.jutils.util.constants.UtilisateurLdapAttrs;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.filter.WhitespaceWildcardsFilter;
+import org.springframework.ldap.filter.AndFilter;
+import org.springframework.ldap.filter.EqualsFilter;
 
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +24,6 @@ import java.util.Map;
  * @author jntakpe
  */
 public class UtilisateurRepositoryImpl implements UtilisateurRepositoryCustom {
-
-    private static final String COLO_AGENCE = "TOULOUSE COLOMIERS 1";
 
     @Autowired
     private LdapTemplate ldapTemplate;
@@ -44,27 +40,10 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepositoryCustom {
      * {@inheritDoc}
      */
     @Override
-    public Utilisateur findByLdapNom(String nom) {
-        List<Utilisateur> utilisateurs = ldapTemplate.search("OU=UsersEmea",
-                new WhitespaceWildcardsFilter("name", nom).encode(), new UtilisateurAttributesMapper());
-        if (utilisateurs.size() == 0) {
-            throw new BusinessException(BusinessCode.LDAP_USER_MISSING, nom);
-        } else if (utilisateurs.size() != 1) {
-            List<Utilisateur> utilisateurAgenceList = new ArrayList<>();
-            for (Utilisateur utilisateur : utilisateurs) {
-                if (COLO_AGENCE.equals(utilisateur.getAgence())) {
-                    utilisateurAgenceList.add(utilisateur);
-                }
-            }
-            if (utilisateurAgenceList.size() != 1) {
-                if (utilisateurAgenceList.size() == 0)
-                    throw new BusinessException(BusinessCode.LDAP_USER_MISSING, nom);
-                else
-                    throw new BusinessException(BusinessCode.LDAP_NO_SINGLE_RESULT, nom);
-            }
-            return utilisateurAgenceList.get(0);
-        }
-        return utilisateurs.get(0);
+    public List<Utilisateur> findAllLdapUtilisateurs() {
+        AndFilter filter = new AndFilter();
+        filter.and(new EqualsFilter("objectClass", "person")).and(new EqualsFilter("l", "TOULOUSE COLOMIERS 1"));
+        return ldapTemplate.search("OU=UsersEmea", filter.encode(), new UtilisateurAttributesMapper());
     }
 
     /**
