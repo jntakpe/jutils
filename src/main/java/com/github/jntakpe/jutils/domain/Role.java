@@ -1,5 +1,6 @@
 package com.github.jntakpe.jutils.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Role extends GenericDomain {
 
     private String description;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     private Set<Utilisateur> utilisateurs = new HashSet<>();
 

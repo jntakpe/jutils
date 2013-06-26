@@ -44,7 +44,7 @@ public class Utilisateur extends GenericDomain {
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)})
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "utilisateur", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "utilisateur")
     @JsonIgnoreProperties({"utilisateur"})
     private Set<Item> items = new HashSet<>();
 

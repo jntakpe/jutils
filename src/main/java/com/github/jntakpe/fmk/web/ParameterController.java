@@ -4,6 +4,7 @@ import com.github.jntakpe.fmk.domain.Parameter;
 import com.github.jntakpe.fmk.service.GenericService;
 import com.github.jntakpe.fmk.service.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/admin/param")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class ParameterController extends GenericController<Parameter> {
 
     @Autowired

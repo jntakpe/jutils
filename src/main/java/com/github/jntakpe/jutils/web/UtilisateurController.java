@@ -32,12 +32,7 @@ public class UtilisateurController {
     @RequestMapping(value = "/utilisateur/list", method = RequestMethod.GET)
     @ResponseBody
     public Iterable<Utilisateur> list() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        Iterable<Utilisateur> utilisateurs = utilisateurService.findAll();
-        stopWatch.stop();
-        System.out.println("Temps : " + stopWatch.getLastTaskTimeMillis());
-        return utilisateurs;
+        return utilisateurService.findAllUtilisateursWithItems();
     }
 
 }

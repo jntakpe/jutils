@@ -1,6 +1,8 @@
 package com.github.jntakpe.jutils.service.impl;
 
+import com.github.jntakpe.fmk.service.MessageManager;
 import com.github.jntakpe.fmk.service.impl.GenericServiceImpl;
+import com.github.jntakpe.fmk.util.constant.LogLevel;
 import com.github.jntakpe.jutils.domain.Item;
 import com.github.jntakpe.jutils.repository.ItemRepository;
 import com.github.jntakpe.jutils.service.ItemService;
@@ -26,6 +28,9 @@ public class ItemServiceImpl extends GenericServiceImpl<Item> implements ItemSer
     @Autowired
     private UtilisateurService utilisateurService;
 
+    @Autowired
+    private MessageManager messageManager;
+
     @Override
     public CrudRepository<Item, Long> getRepository() {
         return itemRepository;
@@ -37,9 +42,11 @@ public class ItemServiceImpl extends GenericServiceImpl<Item> implements ItemSer
     @Override
     @Transactional
     public void saveLdapItems() {
+        messageManager.logMessage("MSG10000", LogLevel.INFO);
         itemRepository.deleteAllInBatch();
         List<Item> items = utilisateurService.mapItemsAndUtilisateurs(itemRepository.findAllLdapItems());
         itemRepository.save(items);
+        messageManager.logMessage("MSG10001", LogLevel.INFO);
     }
 
     /**

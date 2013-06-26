@@ -3,10 +3,12 @@ package com.github.jntakpe.jutils.service;
 import com.github.jntakpe.fmk.service.GenericService;
 import com.github.jntakpe.jutils.domain.Item;
 import com.github.jntakpe.jutils.domain.Utilisateur;
+import com.github.jntakpe.jutils.util.dto.UtilisateurRoleDTO;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.ldap.core.DirContextOperations;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Traitement métiers associés à l'entité {@link Utilisateur}
@@ -38,4 +40,16 @@ public interface UtilisateurService extends GenericService<Utilisateur> {
      * @return les items associés aux utilisateurs
      */
     List<Item> mapItemsAndUtilisateurs(List<Item> items);
+
+    /**
+     * Récupère tous les {@link Utilisateur} et initialise la liste des {@link Item} associés
+     * @return la liste des utilisateurs
+     */
+    Iterable<Utilisateur> findAllUtilisateursWithItems();
+
+    /**
+     * Récupère tous les {@link Utilisateur} et initialise la liste des {@link com.github.jntakpe.jutils.domain.Role} associés
+     * @return un set d'utilisateur mappé avec les rôles
+     */
+    Set<UtilisateurRoleDTO> findAllUtilisateursWithRoles();
 }

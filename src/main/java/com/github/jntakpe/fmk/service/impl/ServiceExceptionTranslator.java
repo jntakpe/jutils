@@ -6,6 +6,8 @@ import com.github.jntakpe.fmk.exception.TechException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 @Order(Integer.MIN_VALUE)
 public class ServiceExceptionTranslator {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
      * Méthode interceptant les exceptions lancées par la couche service/business lors d'une interaction avec
      * une source de données
@@ -34,11 +37,14 @@ public class ServiceExceptionTranslator {
         Object result;
         try {
             result = joinPoint.proceed();
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            for (TechCode techCode : TechCode.values()) {
-                if (e.getClass().isAssignableFrom(techCode.getSourceException())) {
-                    throw new TechException(e.getMessage(), e.getCause(), techCode);
+            logger.error(e.getMessage(), e);
+            if (e instanceof DataAccessException) {
+                for (TechCode techCode : TechCode.values()) {
+                    if (e.getClass().isAssignableFrom(techCode.getSourceException())) {
+                        throw new TechException(e.getMessage(), e.getCause(), techCode);
+                    }
                 }
             }
             throw e;

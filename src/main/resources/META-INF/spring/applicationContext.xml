@@ -37,7 +37,7 @@
 
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="updateItems" />
-        <property name="cronExpression" value="0 25 18 * * ?" />
+        <property name="cronExpression" value="0 0 7 * * ?" />
     </bean>
 
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

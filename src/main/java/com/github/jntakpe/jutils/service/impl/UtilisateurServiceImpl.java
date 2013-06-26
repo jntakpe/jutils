@@ -8,6 +8,7 @@ import com.github.jntakpe.jutils.repository.UtilisateurRepository;
 import com.github.jntakpe.jutils.service.ItemService;
 import com.github.jntakpe.jutils.service.RoleService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
+import com.github.jntakpe.jutils.util.dto.UtilisateurRoleDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Implémentation des services associés à l'entité {@link Utilisateur}
@@ -98,7 +96,39 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     }
 
     /**
+     * @{inhericDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Iterable<Utilisateur> findAllUtilisateursWithItems() {
+        Iterable<Utilisateur> utilisateurs = findAll();
+        for (Utilisateur utilisateur : utilisateurs) {
+            Hibernate.initialize(utilisateur.getItems());
+        }
+        return utilisateurs;
+    }
+
+    /**
+     * @{inhericDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Set<UtilisateurRoleDTO> findAllUtilisateursWithRoles() {
+        Iterable<Utilisateur> utilisateurs = findAll();
+        Set<UtilisateurRoleDTO> utilisateurRoleDTOs = new HashSet<>((int) count());
+        for (Utilisateur utilisateur : utilisateurs) {
+            Hibernate.initialize(utilisateur.getRoles());
+            UtilisateurRoleDTO utilisateurRoleDTO = new UtilisateurRoleDTO();
+            utilisateurRoleDTO.setNom(utilisateur.getNom());
+            utilisateurRoleDTO.setRoles(utilisateur.getRoles());
+            utilisateurRoleDTOs.add(utilisateurRoleDTO);
+        }
+        return utilisateurRoleDTOs;
+    }
+
+    /**
      * Normalise une chaine de caractère
+     *
      * @param str string à normaliser
      * @return string normalisé
      */
