@@ -29,4 +29,23 @@
         </property>
     </bean>
 
+    <bean id="updateItems" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="itemServiceImpl"/>
+        <property name="targetMethod" value="saveLdapItems" />
+        <property name="concurrent"  value="false" />
+    </bean>
+
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="updateItems" />
+        <property name="cronExpression" value="0 25 18 * * ?" />
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger" />
+            </list>
+        </property>
+    </bean>
+
 </beans>

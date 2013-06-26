@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,17 +50,15 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     @Override
     @Transactional
     public List<Item> mapItemsAndUtilisateurs(List<Item> items) {
-
         List<Utilisateur> utilisateurs = utilisateurRepository.findAllLdapUtilisateurs();
         Map<String, Utilisateur> utilisateurMap = new HashMap<>(utilisateurs.size());
         for (Utilisateur utilisateur : utilisateurs) { //On créé une map pour indexer les utilisateurs
-            String nom = utilisateur.getNom();
-            nom = Normalizer.normalize(nom, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").replaceAll("\\W", " ");
-            utilisateurMap.put(nom, utilisateur);
+            utilisateurMap.put(normalize(utilisateur.getNom()), utilisateur);
         }
         for (Item item : items) {
-            if (utilisateurMap.containsKey(item.getDescription().trim())) {
-                Utilisateur utilisateur = utilisateurMap.get(item.getDescription().trim());
+            String itemKey = normalize(item.getDescription());
+            if (utilisateurMap.containsKey(itemKey)) {
+                Utilisateur utilisateur = utilisateurMap.get(itemKey);
                 Utilisateur managedUtilisateur = findByLogin(utilisateur.getLogin());
                 utilisateur.setTelephone(StringUtils.deleteWhitespace(utilisateur.getTelephone()));
                 if (managedUtilisateur == null) {
@@ -67,7 +66,6 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
                 } else {
                     managedUtilisateur.setNom(utilisateur.getNom());
                     managedUtilisateur.setAgence(utilisateur.getAgence());
-                    managedUtilisateur.setItems(utilisateur.getItems());
                     managedUtilisateur.setLogin(utilisateur.getLogin());
                     managedUtilisateur.setMail(utilisateur.getMail());
                     managedUtilisateur.setMatricule(utilisateur.getMatricule());
@@ -97,5 +95,15 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     @Transactional(readOnly = true)
     public Utilisateur findByLogin(String login) {
         return utilisateurRepository.findByLoginIgnoreCase(login);
+    }
+
+    /**
+     * Normalise une chaine de caractère
+     * @param str string à normaliser
+     * @return string normalisé
+     */
+    private String normalize(String str) {
+        str = Normalizer.normalize(str, Normalizer.Form.NFD);
+        return str.replaceAll("[^\\p{ASCII}]", "").replaceAll("\\W", " ").trim().toLowerCase();
     }
 }

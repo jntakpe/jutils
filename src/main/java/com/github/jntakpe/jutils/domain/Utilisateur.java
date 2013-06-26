@@ -1,9 +1,6 @@
 package com.github.jntakpe.jutils.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
@@ -18,8 +15,6 @@ import java.util.Set;
  */
 @Entity
 @SequenceGenerator(name = "SG", sequenceName = "SEQ_USER")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
-@JsonIgnoreProperties(ignoreUnknown=true)
 public class Utilisateur extends GenericDomain {
 
     @Column(nullable = false, unique = true)
@@ -50,6 +45,7 @@ public class Utilisateur extends GenericDomain {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "utilisateur", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"utilisateur"})
     private Set<Item> items = new HashSet<>();
 
     @Transient
@@ -145,14 +141,6 @@ public class Utilisateur extends GenericDomain {
 
     public void setItems(Set<Item> items) {
         this.items = items;
-    }
-
-    public void addItem(Item item) {
-        item.setUtilisateur(this);
-    }
-
-    public void removeItem(Item item) {
-        item.setUtilisateur(null);
     }
 
     public String getAgence() {

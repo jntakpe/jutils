@@ -34,15 +34,17 @@
     $(function () {
         "use strict";
         $('#dt_item').dataTable({
-            iDisplayLength: 25,
+            iDisplayLength: 20,
             sDom: "<'row'r>t<'row'<'span6'i><'span6'p>>",
             sAjaxSource: "item/list",
             aoColumns: [
-                {mData: "nom", "sWidth": 150},
-                {mData: "creation", "sWidth": 200, sType: "date-euro", mRender: function (data) {
+                {mData: "nom", sWidth: 150},
+                {mData: "creation", sWidth: 200, sType: "date-euro", mRender: function (data) {
                     return moment(new Date(data)).format("DD/MM/YYYY HH:mm:ss");
                 }},
-                {mData: "utilisateur.nom", "sWidth": 300}
+                {mData : "utilisateur", sWidth: 300, mRender: function (data) {
+                    return data ?  data.nom: "-";
+                }}
             ]
         }).columnFilter({
                     sPlaceHolder: "head:before"

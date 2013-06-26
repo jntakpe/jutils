@@ -1,8 +1,6 @@
 package com.github.jntakpe.jutils.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
@@ -23,6 +21,7 @@ public class Item extends GenericDomain {
     private Date creation;
 
     @ManyToOne
+    @JsonIgnoreProperties({"items"})
     private Utilisateur utilisateur;
 
     @Transient
