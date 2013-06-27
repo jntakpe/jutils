@@ -2,6 +2,7 @@ package com.github.jntakpe.fmk.service.impl;
 
 import com.github.jntakpe.jutils.domain.Role;
 import com.github.jntakpe.jutils.domain.Utilisateur;
+import com.github.jntakpe.jutils.service.RoleService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
 import org.joda.time.Instant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Classe permettant de récupérer un utilisateur dans le LDAP et de l'associer avec des rôles récupérés en base de
@@ -27,6 +29,9 @@ public class FmkAuthoritiesPopulator implements LdapAuthoritiesPopulator {
 
     @Autowired
     private UtilisateurService utilisateurService;
+
+    @Autowired
+    private RoleService roleService;
 
     /**
      * Association des rôles entre l'utilisateur récupérer du LDAP et celui persisté en base de données
@@ -46,7 +51,10 @@ public class FmkAuthoritiesPopulator implements LdapAuthoritiesPopulator {
             utilisateur.setPremierAcces(Instant.now().toDate());
         utilisateur.setDernierAcces(Instant.now().toDate());
         utilisateur.incrementNombreAcces();
-        for (Role role : utilisateur.getRoles()) {
+        Set<Role> roles = utilisateur.getRoles();
+        if (roles.isEmpty())
+            roles.add(roleService.findByCode("ROLE_USER"));
+        for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getCode()));
         }
         return authorities;

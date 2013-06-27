@@ -399,6 +399,8 @@ $(function () {
         form[0].reset();
         form.find('.control-group').removeClass('error');
         form.find(':input').removeData("previousValue");
+        $("#id").val("");
+        $("#version").val("");
         jUtils.removeCurrentRow();
     });
 

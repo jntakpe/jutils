@@ -1,6 +1,10 @@
 /**
 * La taille des champs de recherche dépend du conteneur
 */
-.search_init {
+.text_filter {
+    width: 100%;
+}
+
+.text_filter:focus {
     width: 100%;
 }

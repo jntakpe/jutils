@@ -11,6 +11,7 @@ import com.github.jntakpe.jutils.service.UtilisateurService;
 import com.github.jntakpe.jutils.util.dto.UtilisateurRoleDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
+import org.joda.time.Instant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.ldap.core.DirContextOperations;
@@ -83,6 +84,7 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     public Utilisateur create(DirContextOperations ldapCtx) {
         Utilisateur utilisateur = utilisateurRepository.map(ldapCtx.getAttributes());
         utilisateur.addRole(roleService.findByCode(ConnexionController.BASIC_ROLE));
+        utilisateur.setPremierAcces(Instant.now().toDate());
         return save(utilisateur);
     }
 

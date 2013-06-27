@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="323278618">
-    <data-source source="LOCAL" name="jUtils" product="PostgreSQL" version="9.2.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.2 JDBC4.1 (build 1002)" uuid="d14fa599-6b89-4ee1-b155-a488d239e843">
+  <component name="DataSourceManagerImpl" format="xml" hash="3217242339">
+    <data-source source="LOCAL" name="jutilsDS" product="PostgreSQL" version="9.2.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.2 JDBC4.1 (build 1002)" uuid="c7aece12-6f7d-495e-a702-4f7c6b4282b9">
       <identifier-quote-string>&quot;</identifier-quote-string>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/jutils</jdbc-url>
-      <user-name>postgres</user-name>
-      <user-password>dfd9dfc5dfdadfd8dfcbdf80</user-password>
-      <libraries>
-        <library>
-          <url>jar://$MAVEN_REPOSITORY$/org/postgresql/postgresql/9.2-1002-jdbc4/postgresql-9.2-1002-jdbc4.jar!/</url>
-        </library>
-      </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="jUtils test" product="PostgreSQL" version="9.2.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.2 JDBC4.1 (build 1002)" uuid="c922aa6d-7dd7-4700-b15c-af124e8373e6">
-      <identifier-quote-string>&quot;</identifier-quote-string>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/jutils-test</jdbc-url>
       <user-name>postgres</user-name>
       <user-password>dfd9dfc5dfdadfd8dfcbdf80</user-password>
       <libraries>
