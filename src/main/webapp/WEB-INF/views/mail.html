@@ -2,33 +2,133 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="../fragments/headFragment :: head">
 </head>
-<body>
+<body ng-app="richMail">
 <header th:include="../fragments/menuFragment :: fullMenu">
 </header>
-<div class="container row">
+<div class="container row" ng-controller="MailCtrl">
     <h1>Éditeur d'email</h1>
 
-    <div class="offset2">
-        <form id="mail-form" class="form-horizontal" method="post">
+    <div>
+        <div class="well">
+            <label class="radio inline">
+                <input type="radio" id="sopra" name="to-type" checked="checked" ng-click="enableSopra()"/>
+                Émetteur SopraGroup/SopraBanking (signature insérée automatiquement)
+            </label>
+            <label class="radio inline pull-right">
+                <input type="radio" id="other" name="to-type" ng-click="enableOther()"/>
+                Autres émetteurs (aucune gestion des signatures)
+            </label>
+        </div>
+        <form id="mail-form" class="form-horizontal" method="post" th:action="@{/mail}">
             <fielset>
-                <legend>Création du mail</legend>
-                <div class="control-group">
-                    <label class="control-label" for="sender">Émetteur</label>
+                <legend>{{ legendText }}</legend>
+
+                <div class="control-group" ng-show="showSopra">
+                    <label class="control-label" for="from-sopra">Émetteur</label>
 
                     <div class="controls">
-                        <select id="sender" class="input-xlarge">
-                            <option th:each="user: ${users}" th:value="${user.mail}" th:text="${user.nom}"></option>
+                        <select id="from-sopra" name="from-sopra" class="select2">
+                            <option value="">Veuillez choisir un émetteur</option>
+                            <option th:each="u: ${utilisateurs}" th:value="${u.mail}" th:text="${u.nom}"></option>
                         </select>
                     </div>
                 </div>
 
+                <div class="control-group" ng-hide="showSopra">
+                    <label class="control-label" for="from-other">Email de l'émetteur</label>
 
+                    <div class="controls">
+                        <input id="from-other" name="from-other" type="text" placeholder="Email de l'émetteur"/>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="to">Destinataire</label>
+
+                    <div class="controls">
+                        <select id="to" name="to" class="select2 input-block-level" multiple="multiple"
+                                data-placeholder="Veuillez sélectionner un ou plusieurs destinataires">
+                            <option value=""></option>
+                            <option th:each="u: ${utilisateurs}" th:value="${u.mail}" th:text="${u.nom}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="subject">Sujet</label>
+
+                    <div class="controls">
+                        <input id="subject" name="subject" class="input-block-level" type="text"
+                               placeholder="Sujet du mail"/>
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    <label class="control-label" for="from-other">Corps</label>
+
+                    <div class="controls">
+                        <textarea class="input-block-level" rows="8" name="mail-body"
+                                  placeholder="Corps du mail"></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">
+                        <i class="icon-ok"></i> Envoyer
+                    </button>
+                    <button type="reset" class="btn">
+                        <i class="icon-undo"></i> Reset
+                    </button>
+                </div>
             </fielset>
         </form>
     </div>
-    <div th:include="../fragments/alertFragment :: alert"></div>
 </div>
+<div th:include="../fragments/alertFragment :: alert"></div>
 <footer th:include="../fragments/footerFragment :: footer">
 </footer>
+<script type="text/javascript">
+//        $.validator.addMethod("multipleSelect", function(value, element) {
+//            return value !== null ? true : false;
+//        }, 'Please select a valid and non empty Guid value.');
+
+
+    $(function () {
+        $('.select2').select2();
+
+        $('#mail-form').validate({
+            rules: {
+                "from-sopra": {
+                    required: true
+                },
+                "from-other": {
+                    required: true
+                },
+                to: {
+                    required: true
+                },
+                "mail-body": {
+                    required: true
+                }
+            },
+            messages: {
+                "from-sopra": {
+                    required: "La saisie de l'émetteur est obligatoire"
+                },
+                "from-other": {
+                    required: "La saisie de l'émetteur est obligatoire"
+                },
+                to : {
+                    required: "Veuillez saisir au moins un destinataire"
+                },
+                "mail-body": {
+                    required: "La saisie du corps du mail obligatoire"
+                }
+            }
+        });
+
+    });
+</script>
+<script th:src="@{/static/js/controllers/rich.mail.js}"/>
 </body>
 </html>
