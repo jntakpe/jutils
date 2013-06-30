@@ -29,8 +29,7 @@ public class ItemController {
     public ModelAndView batch() {
         ModelAndView mv = new ModelAndView("portal");
         itemService.saveLdapItems();
-        ResponseMessage responseMessage = ResponseMessage.getSuccessMessage(messageManager.getMessage("update.item"));
-        return mv.addObject("responseMessage", responseMessage);
+        return mv.addObject(ResponseMessage.getSuccessMessage(messageManager.getMessage("update.item")));
     }
 
     @RequestMapping(value = "/item", method = RequestMethod.GET)

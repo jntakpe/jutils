@@ -161,12 +161,12 @@ public abstract class GenericController<T extends GenericDomain> {
      * @param domain entité à sauvegarder
      * @return message indiquant le résultat de l'opération
      */
-    @RequestMapping(value="/ajax", method = RequestMethod.POST)
+    @RequestMapping(value = "/ajax", method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessage ajaxSave(@ModelAttribute T domain) {
         T entity = getService().save(domain);
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        String msg = messageManager.getMessage(domain.getId() == null ? "create.success": "update.success", entity);
+        String msg = messageManager.getMessage(domain.getId() == null ? "create.success" : "update.success", entity);
         messageManager.logMessage(domain.getId() == null ? "MSG00001" : "MSG00002", LogLevel.INFO, username, entity);
         return ResponseMessage.getSuccessMessage(msg, entity);
     }

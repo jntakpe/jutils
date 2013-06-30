@@ -1,5 +1,8 @@
 package com.github.jntakpe.jutils.web;
 
+import com.github.jntakpe.fmk.service.MessageManager;
+import com.github.jntakpe.fmk.util.dto.ResponseMessage;
+import com.github.jntakpe.jutils.service.MailService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,9 +22,22 @@ public class MailController {
     @Autowired
     private UtilisateurService utilisateurService;
 
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private MessageManager messageManager;
+
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView display() {
         ModelAndView mv = new ModelAndView("mail");
         return mv.addObject("utilisateurs", utilisateurService.findAll());
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView send() {
+        ModelAndView mv = new ModelAndView("portal");
+        mailService.send();
+        return mv.addObject(ResponseMessage.getSuccessMessage(messageManager.getMessage("mail.send")));
     }
 }
