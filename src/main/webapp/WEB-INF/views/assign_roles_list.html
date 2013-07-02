@@ -56,7 +56,7 @@
 <div th:include="../fragments/popupFragment :: confirmDeletePopupFragment"></div>
 <footer th:include="../fragments/footerFragment :: footer"></footer>
 <script type="text/javascript">
-    var oTable, popupForm;
+    var oTable;
 
     $(function () {
         "use strict";
@@ -65,10 +65,14 @@
             sAjaxSource: "assign/list",
             aoColumns: [
                 {mData: "nom"},
-                {mData: "roles"}
+                resolveRolesCols()
             ]
         });
     });
+
+    function resolveRolesCols() {
+
+    }
 </script>
 </body>
 </html>

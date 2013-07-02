@@ -11,6 +11,7 @@ public interface MailService {
 
     /**
      * Envoi le mail
+     *
      * @param mailDTO objet contenant les informations sur le mail à envoyer
      */
     void send(MailDTO mailDTO);

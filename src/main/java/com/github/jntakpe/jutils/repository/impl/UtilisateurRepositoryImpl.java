@@ -5,6 +5,7 @@ import com.github.jntakpe.fmk.exception.BusinessException;
 import com.github.jntakpe.jutils.domain.Utilisateur;
 import com.github.jntakpe.jutils.repository.UtilisateurRepositoryCustom;
 import com.github.jntakpe.jutils.util.constants.UtilisateurLdapAttrs;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
@@ -57,7 +58,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepositoryCustom {
                 try {
                     Attribute attr = attrs.get(lookupAttr.getAttr());
                     if (attr == null) {
-                        if (lookupAttr != UtilisateurLdapAttrs.TELEPHONE)
+                        if (lookupAttr != UtilisateurLdapAttrs.TELEPHONE && lookupAttr != UtilisateurLdapAttrs.ARRIVEE)
                             throw new BusinessException(BusinessCode.LDAP_USER_ATTR_MISSING, lookupAttr, attrs);
                     } else {
                         attrsMap.put(lookupAttr, (String) attr.get());
@@ -74,6 +75,11 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepositoryCustom {
             utilisateur.setMatricule(attrsMap.get(UtilisateurLdapAttrs.MATRICULE));
             utilisateur.setTelephone(attrsMap.get(UtilisateurLdapAttrs.TELEPHONE));
             utilisateur.setAgence(attrsMap.get(UtilisateurLdapAttrs.AGENCE));
+            String fullDate = attrsMap.get(UtilisateurLdapAttrs.ARRIVEE);
+            if (fullDate != null) {
+                String dateStr = fullDate.substring(0, fullDate.indexOf("."));
+                utilisateur.setArriveeSopra(DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(dateStr).toDate());
+            }
             return utilisateur;
         }
     }

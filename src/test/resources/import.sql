@@ -1,10 +1,10 @@
--- Fichier chargÃ© au dÃ©marrage du serveur si JPA est configurÃ© en mode create,create-drop ou update
+-- Fichier chargé au démarrage du serveur si JPA est configuré en mode create,create-drop ou update
 
--- Table de paramÃ©trage
+-- Table de paramétrage
 INSERT INTO public.parameter (id, version, key, value) VALUES (0, 0, 'smtp.host', 'ptx.smtp.corp.sopra');
 INSERT INTO public.parameter (id, version, key, value) VALUES (1, 0, 'smtp.port', '25');
 INSERT INTO public.parameter (id, version, key, value) VALUES (2, 0, 'smtp.from', 'jutils@sopragroup.com');
 
--- Table des rÃ´les
-INSERT INTO public.role (id, version, code, description) VALUES (1, 0, 'ROLE_USER', 'RÃ´le par dÃ©faut des utilisateurs enregistrÃ©s');
-INSERT INTO public.role (id, version, code, description) VALUES (2, 0, 'ROLE_ADMIN', 'RÃ´le d''aministrateur de l''application. AccÃ¨s Ã  toutes les opÃ©rations disponnibles.');
+-- Table des rôles
+INSERT INTO public.role (id, version, code, description) VALUES (1, 0, 'ROLE_USER', 'Rôle par défaut des utilisateurs enregistrés');
+INSERT INTO public.role (id, version, code, description) VALUES (2, 0, 'ROLE_ADMIN', 'Rôle d''aministrateur de l''application. Accès à toutes les opérations disponnibles.');

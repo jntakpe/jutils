@@ -149,7 +149,7 @@ public abstract class GenericController<T extends GenericDomain> {
     public ModelAndView save(@ModelAttribute T domain, RedirectAttributes redirectAttributes) {
         T entity = getService().save(domain);
         String msg = messageManager.getMessage(domain.getId() == null ? "create.success" : "update.success", entity);
-        redirectAttributes.addFlashAttribute("responseMessage", msg);
+        redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(msg));
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         messageManager.logMessage(domain.getId() == null ? "MSG00001" : "MSG00002", LogLevel.INFO, username, entity);
         return new ModelAndView(getRedirectListView());

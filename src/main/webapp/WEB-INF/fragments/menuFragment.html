@@ -34,6 +34,9 @@
                                 <li><a th:href="@{/item}"><i class="icon-laptop"></i> Items</a></li>
                             </ul>
                         </li>
+                        <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MAIL')">
+                            <a th:href="@{/mail}"><i class="icon-envelope"></i> Mail</a>
+                        </li>
                         <li sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="icon-cog"></i> Admin<b class="caret"></b>
@@ -44,7 +47,6 @@
                                 <li><a th:href="@{/admin/batch/item}"><i class="icon-gears"></i> MaJ Items</a></li>
                             </ul>
                         </li>
-                        <li><a th:href="@{/mail}"><i class="icon-envelope"></i> Mail</a></li>
                     </ul>
                     <ul class="nav pull-right">
                         <li>

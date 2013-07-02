@@ -11,14 +11,16 @@
         <tr>
             <th>Nom</th>
             <th>Adresse mail</th>
-            <th>Téléphone</th>
+            <th>Tel</th>
             <th>Items</th>
+            <th>Arrivée</th>
         </tr>
         <tr>
             <th>Nom</th>
             <th>Adresse mail</th>
-            <th>Téléphone</th>
+            <th>Tel</th>
             <th>Items</th>
+            <th>Arrivée</th>
         </tr>
         </thead>
         <tbody>
@@ -40,9 +42,12 @@
             sAjaxSource: "utilisateur/list",
             aoColumns: [
                 {mData: "nom", sWidth: 250},
-                {mData: "mail", sWidth: 300},
-                {mData: "telephone", sWidth: 100},
-                {mData: "items", sWidth: 220, mRender: "[, ].nom"}
+                {mData: "mail", sWidth: 340},
+                {mData: "telephone", sWidth: 60},
+                {mData: "items", sWidth: 220, mRender: "[, ].nom"},
+                {mData: "arriveeSopra", sWidth: 80, sType: "date-euro", mRender: function (data) {
+                    return moment(new Date(data)).format("DD/MM/YYYY");
+                }}
             ]
         }).columnFilter({
                     sPlaceHolder: "head:before"

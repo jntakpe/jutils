@@ -10,7 +10,6 @@ import com.github.jntakpe.jutils.util.dto.MailDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +25,9 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private ParameterService parameterService;
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public void send(MailDTO mailDTO) {
@@ -47,5 +49,9 @@ public class MailServiceImpl implements MailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(isSopra ? mailDTO.getFromSopra() : mailDTO.getFromOther());
         message.setTo(mailDTO.getTo());
+        message.setSubject(mailDTO.getSubject());
+        message.setText(mailDTO.getBody());
+
+        mailSender.send(message);
     }
 }
