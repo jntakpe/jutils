@@ -37,6 +37,8 @@ public class Utilisateur extends GenericDomain {
 
     private Integer nombreAcces = 0;
 
+    private Date arriveeSopra;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "utilisateur_role", joinColumns = {
@@ -117,6 +119,14 @@ public class Utilisateur extends GenericDomain {
 
     public void incrementNombreAcces() {
         nombreAcces++;
+    }
+
+    public Date getArriveeSopra() {
+        return arriveeSopra;
+    }
+
+    public void setArriveeSopra(Date arriveeSopra) {
+        this.arriveeSopra = arriveeSopra;
     }
 
     public Set<Role> getRoles() {

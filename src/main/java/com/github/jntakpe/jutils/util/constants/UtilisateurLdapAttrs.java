@@ -12,6 +12,7 @@ public enum UtilisateurLdapAttrs {
     MAIL("mail"),
     MATRICULE("employeeid"),
     TELEPHONE("telephonenumber"),
+    ARRIVEE("whenCreated"),
     AGENCE("l");
 
     private final String attr;

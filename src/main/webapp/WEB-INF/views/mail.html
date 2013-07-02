@@ -14,6 +14,7 @@
                 <input type="radio" id="sopra" name="to-type" checked="checked" ng-click="enableSopra()"/>
                 Émetteur SopraGroup/SopraBanking (signature insérée automatiquement)
             </label>
+
             <label class="radio inline pull-right">
                 <input type="radio" id="other" name="to-type" ng-click="enableOther()"/>
                 Autres émetteurs (aucune gestion des signatures)
@@ -27,7 +28,7 @@
                     <label class="control-label" for="from-sopra">Émetteur</label>
 
                     <div class="controls">
-                        <select id="from-sopra" name="from-sopra" class="select2">
+                        <select id="from-sopra" name="fromSopra" class="select2">
                             <option value="">Veuillez choisir un émetteur</option>
                             <option th:each="u: ${utilisateurs}" th:value="${u.mail}" th:text="${u.nom}"></option>
                         </select>
@@ -38,7 +39,7 @@
                     <label class="control-label" for="from-other">Email de l'émetteur</label>
 
                     <div class="controls">
-                        <input id="from-other" name="from-other" type="text" placeholder="Email de l'émetteur"/>
+                        <input id="from-other" name="fromOther" type="text" placeholder="Email de l'émetteur"/>
                     </div>
                 </div>
 
@@ -68,7 +69,7 @@
                     <label class="control-label" for="from-other">Corps</label>
 
                     <div class="controls">
-                        <textarea class="input-block-level" rows="8" name="mail-body"
+                        <textarea class="input-block-level" rows="8" name="body"
                                   placeholder="Corps du mail"></textarea>
                     </div>
                 </div>
@@ -98,7 +99,8 @@
                     required: true
                 },
                 "from-other": {
-                    required: true
+                    required: true,
+                    email: true
                 },
                 to: {
                     required: true
@@ -114,7 +116,7 @@
                 "from-other": {
                     required: "La saisie de l'émetteur est obligatoire"
                 },
-                to : {
+                to: {
                     required: "Veuillez saisir au moins un destinataire"
                 },
                 "mail-body": {
@@ -122,7 +124,6 @@
                 }
             }
         });
-
     });
 </script>
 <script th:src="@{/static/js/controllers/rich.mail.js}"/>

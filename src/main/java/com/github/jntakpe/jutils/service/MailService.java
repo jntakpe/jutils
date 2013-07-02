@@ -1,5 +1,7 @@
 package com.github.jntakpe.jutils.service;
 
+import com.github.jntakpe.jutils.util.dto.MailDTO;
+
 /**
  * Services associés à la gestion des mails
  *
@@ -7,6 +9,10 @@ package com.github.jntakpe.jutils.service;
  */
 public interface MailService {
 
-    void send();
+    /**
+     * Envoi le mail
+     * @param mailDTO objet contenant les informations sur le mail à envoyer
+     */
+    void send(MailDTO mailDTO);
 
 }
