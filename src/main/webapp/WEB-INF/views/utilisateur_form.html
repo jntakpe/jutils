@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../fragments/headFragment :: head">
+</head>
+<body>
+<header th:include="../fragments/menuFragment :: fullMenu">
+</header>
+<div class="container row">
+    <h1>Vos informations</h1>
+
+    <div class="offset2">
+        <form class="form-horizontal" th:object="${utilisateur}" action="#">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="nom">Nom</label>
+
+                    <div class="controls">
+                        <input type="text" id="nom" th:field="*{nom}" disabled="disabled"/>/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="login">Login</label>
+
+                    <div class="controls">
+                        <input type="text" id="login" th:field="*{login}" disabled="disabled"/>/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="mail">Mail</label>
+
+                    <div class="controls">
+                        <input type="text" id="mail" th:field="*{mail}" class="input-large" disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="matricule">Matricule</label>
+
+                    <div class="controls">
+                        <input type="text" id="matricule" th:field="*{matricule}" class="input-small"
+                               disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="premierAcces">Premier accès</label>
+
+                    <div class="controls">
+                        <input type="text" id="premierAcces" name="premierAccess" class="input-medium"
+                               th:value="${#dates.format(utilisateur.premierAcces, 'dd/MM/yyyy HH:mm:ss')}"
+                               disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="nombreAcces">Nombre d'accès</label>
+
+                    <div class="controls">
+                        <input type="text" id="nombreAcces" th:field="*{nombreAcces}" class="input-mini"
+                               disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="arriveeSopra">Date d'embauche</label>
+
+                    <div class="controls">
+                        <input type="text" id="arriveeSopra" name="arriveeSopra" class="input-small"
+                               th:value="${#dates.format(utilisateur.arriveeSopra, 'dd/MM/yyyy')}" disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="agence">Agence</label>
+
+                    <div class="controls">
+                        <input type="text" id="agence" th:field="*{agence}" class="input-large" disabled="disabled"/>
+                    </div>
+                </div>
+                <h3>Rôles</h3>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <th>Code</th>
+                    <th>Description</th>
+                    </thead>
+                    <tr th:each="role : ${utilisateur.roles}">
+                        <td th:text="${role.code}"></td>
+                        <td th:text="${role.description}"></td>
+                    </tr>
+                </table>
+                <h3>Items</h3>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <th>Nom</th>
+                    <th>Date d'envoi</th>
+                    </thead>
+                    <tr th:each="item : ${utilisateur.items}">
+                        <td th:text="${item.nom}"></td>
+                        <td th:text="${item.creation}"></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
+    </div>
+    <div th:include="../fragments/alertFragment :: alertForm/List"></div>
+</div>
+<footer th:include="../fragments/footerFragment :: footer">
+</footer>
+</body>
+</html>

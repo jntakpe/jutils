@@ -129,6 +129,18 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     }
 
     /**
+     * @{inhericDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Utilisateur findByLoginAndInitialize(String login) {
+        Utilisateur utilisateur = findByLogin(login);
+        Hibernate.initialize(utilisateur.getRoles());
+        Hibernate.initialize(utilisateur.getItems());
+        return utilisateur;
+    }
+
+    /**
      * Normalise une chaine de caractère
      *
      * @param str string à normaliser
