@@ -9,7 +9,8 @@ public enum MandatoryParams {
 
     SMTP_HOST("smtp.host"),
     SMTP_PORT("smtp.port"),
-    SMTP_FROM("smtp.from");
+    SMTP_FROM("smtp.from"),
+    SOPRA_MAIL_FRAME("sopra.mail.frame");
 
     private final String key;
 

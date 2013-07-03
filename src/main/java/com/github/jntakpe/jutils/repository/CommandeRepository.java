@@ -12,6 +12,12 @@ import java.util.Date;
  */
 public interface CommandeRepository extends CrudRepository<Commande, Long> {
 
+    /**
+     * Récupère la commande ouverture avant la date de fermetture
+     *
+     * @param fermeture date du jour
+     * @return la commande ouverte sur cette plage ou null si aucune commande n'est ouverte
+     */
     Commande findByFermetureAfter(Date fermeture);
 
 }

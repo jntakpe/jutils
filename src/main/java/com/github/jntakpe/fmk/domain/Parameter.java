@@ -16,6 +16,7 @@ public class Parameter extends GenericDomain {
     @Column(nullable = false, unique = true)
     private String key;
 
+    @Column(length = 8000)
     private String value;
 
     public String getKey() {

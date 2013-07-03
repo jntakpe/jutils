@@ -34,6 +34,14 @@ public interface UtilisateurService extends GenericService<Utilisateur> {
     Utilisateur findByLogin(String login);
 
     /**
+     * Récupère un {@link Utilisateur} à l'aide de son mail
+     *
+     * @param mail mail de l'utilisateur
+     * @return l'utilisateur ou null si aucun utilisateur ne correspond à ce mail
+     */
+    Utilisateur findByMail(String mail);
+
+    /**
      * Récupère tous les {@link Utilisateur} de COLO 2 dans le LDAP et les associes aux {@link Item}
      *
      * @param items liste des items récupérés précédemment

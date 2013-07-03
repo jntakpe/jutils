@@ -19,6 +19,14 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
     Utilisateur findByLoginIgnoreCase(String login);
 
     /**
+     * Récupère un {@link Utilisateur} en fonction de son mail
+     *
+     * @param mail mail de l'utilisateur
+     * @return l'utilisateur ou null si aucun utilisateur ne correspont à ce mail
+     */
+    Utilisateur findByMail(String mail);
+
+    /**
      * Récupère un {@link Utilisateur} en fonction de son nom en ignorant la case
      *
      * @param nom nom de l'utilisateur

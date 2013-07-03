@@ -2,8 +2,6 @@ package com.github.jntakpe.jutils.web;
 
 import com.github.jntakpe.fmk.service.MessageManager;
 import com.github.jntakpe.fmk.util.dto.ResponseMessage;
-import com.github.jntakpe.fmk.web.GenericController;
-import com.github.jntakpe.jutils.domain.Utilisateur;
 import com.github.jntakpe.jutils.service.MailService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
 import com.github.jntakpe.jutils.util.dto.MailDTO;
@@ -42,7 +40,13 @@ public class MailController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView send(@ModelAttribute MailDTO mailDTO, RedirectAttributes redirectAttributes) {
-        mailService.send(mailDTO);
+        try {
+            mailService.send(mailDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
         redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("mail.send")));
         return new ModelAndView(new RedirectView("portal"));
     }

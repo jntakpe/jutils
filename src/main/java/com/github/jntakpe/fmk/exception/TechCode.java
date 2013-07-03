@@ -4,6 +4,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.OptimisticLockingFailureException;
 
+import java.io.IOException;
+
 /**
  * Codes d'erreurs relatifs aux exceptions techniques
  *
@@ -13,7 +15,8 @@ public enum TechCode implements ErrorCode {
 
     CONSTRAINT_VIOLATION(DataIntegrityViolationException.class),
     OPTIMISTIC_LOCKING(OptimisticLockingFailureException.class),
-    NO_RESULT(EmptyResultDataAccessException.class);
+    NO_RESULT(EmptyResultDataAccessException.class),
+    IO(IOException.class);
 
     private final Class<?> sourceException;
 

@@ -98,6 +98,15 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Utilisateur findByMail(String mail) {
+        return utilisateurRepository.findByMail(mail);
+    }
+
+    /**
      * @{inhericDoc}
      */
     @Override
