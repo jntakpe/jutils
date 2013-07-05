@@ -527,7 +527,7 @@
     </dependencies>
 
     <build>
-        <finalName>jtools</finalName>
+        <finalName>jutils</finalName>
         <plugins>
             <!-- Maven compiler -->
             <plugin>

@@ -3,7 +3,9 @@ package com.github.jntakpe.jutils.service.impl;
 import com.github.jntakpe.fmk.domain.Parameter;
 import com.github.jntakpe.fmk.exception.BusinessCode;
 import com.github.jntakpe.fmk.exception.BusinessException;
+import com.github.jntakpe.fmk.service.MessageManager;
 import com.github.jntakpe.fmk.service.ParameterService;
+import com.github.jntakpe.fmk.util.constant.LogLevel;
 import com.github.jntakpe.fmk.util.constant.MandatoryParams;
 import com.github.jntakpe.jutils.domain.Utilisateur;
 import com.github.jntakpe.jutils.service.MailService;
@@ -33,13 +35,18 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private UtilisateurService utilisateurService;
 
+    @Autowired
+    private MessageManager messageManager;
+
     /**
      * @{inhericDoc}
      */
     @Override
     @Transactional(readOnly = true)
     public void send(MailDTO mailDTO) throws MessagingException {
-        boolean isSopra = mailDTO.getFromSopra() != null;
+        boolean isSopra = !StringUtils.isBlank(mailDTO.getFromSopra());
+        messageManager.logMessage("MSG20000", LogLevel.INFO, isSopra ? mailDTO.getFromSopra() : mailDTO.getFromOther(),
+                mailDTO.getSubject(), mailDTO.getTo());
         Parameter smtpHost = parameterService.findByKey(MandatoryParams.SMTP_HOST.getKey());
         if (smtpHost == null || StringUtils.isBlank(smtpHost.getValue()))
             throw new BusinessException(BusinessCode.EMAIL_MISSING_PARAM, MandatoryParams.SMTP_HOST.getKey());
@@ -49,9 +56,7 @@ public class MailServiceImpl implements MailService {
         Parameter smtpFrom = parameterService.findByKey(MandatoryParams.SMTP_FROM.getKey());
         if (smtpFrom == null || StringUtils.isBlank(smtpFrom.getValue()))
             throw new BusinessException(BusinessCode.EMAIL_MISSING_PARAM, MandatoryParams.SMTP_FROM.getKey());
-        Parameter mailFrame = parameterService.findByKey(MandatoryParams.SOPRA_MAIL_FRAME.getKey());
-        if (mailFrame == null || StringUtils.isBlank(mailFrame.getValue()))
-            throw new BusinessException(BusinessCode.EMAIL_MISSING_PARAM, MandatoryParams.SOPRA_MAIL_FRAME.getKey());
+
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(smtpHost.getValue());
@@ -61,35 +66,98 @@ public class MailServiceImpl implements MailService {
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        helper.setFrom(isSopra ? mailDTO.getFromSopra() : mailDTO.getFromOther());
-        helper.setTo(mailDTO.getTo());
+        Utilisateur from = utilisateurService.findByMail(mailDTO.getFromSopra());
+        helper.setFrom(isSopra ? from.getNom() + " <" + mailDTO.getFromSopra() + ">" : mailDTO.getFromOther());
+        helper.setTo(mailDTO.getTo().split(","));
         helper.setSubject(mailDTO.getSubject());
-        helper.setText(sopraMailBuilder(mailDTO.getFromSopra(), mailFrame.getValue(), mailDTO.getBody()));
-
+        if (isSopra)
+            helper.setText(sopraMailBuilder(from, mailDTO.getBody(),
+                    from.getMail().trim().endsWith("soprabanking.com")), true);
+        else
+            helper.setText(mailDTO.getBody());
         mailSender.send(message);
     }
 
     /**
-     * Récupère le cadre du mail et l'initialise correctement
+     * Récupère le cadre du mailet l'initialise correctement
      *
-     * @param fromMail  émetteur du mail
-     * @param mailFrame cadre complet non initialisé
-     * @param text      texte du mail
-     * @return mailFrame initialisée
+     * @param from émetteur
+     * @param text texte du mail
+     * @param sbs  mail SBS
+     * @return le mail complet
      */
-    @Transactional(readOnly = true)
-    private String sopraMailBuilder(String fromMail, String mailFrame, String text) {
-        Utilisateur from = utilisateurService.findByMail(fromMail);
+    private String sopraMailBuilder(Utilisateur from, String text, boolean sbs) {
+        Parameter mailFrame;
+        if (!sbs) {
+            mailFrame = parameterService.findByKey(MandatoryParams.SOPRA_MAIL_FRAME.getKey());
+            if (mailFrame == null || StringUtils.isBlank(mailFrame.getValue()))
+                throw new BusinessException(BusinessCode.EMAIL_MISSING_PARAM, MandatoryParams.SOPRA_MAIL_FRAME.getKey());
+        } else {
+            mailFrame = parameterService.findByKey(MandatoryParams.SBS_MAIL_FRAME.getKey());
+            if (mailFrame == null || StringUtils.isBlank(mailFrame.getValue()))
+                throw new BusinessException(BusinessCode.EMAIL_MISSING_PARAM, MandatoryParams.SBS_MAIL_FRAME.getKey());
+        }
+        String sopraMailFrame = mailFrame.getValue();
         String tel;
         String partialTel = from.getTelephone();
-        if (partialTel.matches("[0-9]{5}")) {
-            tel = partialTel.substring(0, 2) + " " + partialTel.substring(2, 4);
+        if (partialTel != null && partialTel.matches("[0-9]{5}")) {
+            tel = partialTel.substring(1, 3) + " " + partialTel.substring(3, 5);
         } else {
             tel = "70 70";
         }
-        mailFrame = StringUtils.replace(mailFrame, "${text}", text);
-        mailFrame = StringUtils.replace(mailFrame, "${nom}", from.getNom());
-        mailFrame = StringUtils.replace(mailFrame, "${email}", fromMail);
-        return StringUtils.replace(mailFrame, "${tel}", tel);
+        sopraMailFrame = StringUtils.replace(sopraMailFrame, "${text}", escape(text));
+        sopraMailFrame = StringUtils.replace(sopraMailFrame, "${nom}", from.getNomOutlook());
+        sopraMailFrame = StringUtils.replace(sopraMailFrame, "${email}", from.getMail());
+        return StringUtils.replace(sopraMailFrame, "${tel}", tel);
+    }
+
+    /**
+     * Transforme du texte brut en HTML
+     *
+     * @param text texte brut
+     * @return texte transformé en HTML
+     */
+    private String escape(String text) {
+        StringBuilder builder = new StringBuilder();
+        boolean previousWasASpace = false;
+        for (char c : text.toCharArray()) {
+            if (c == ' ') {
+                if (previousWasASpace) {
+                    builder.append("&nbsp;");
+                    previousWasASpace = false;
+                    continue;
+                }
+                previousWasASpace = true;
+            } else {
+                previousWasASpace = false;
+            }
+            switch (c) {
+                case '<':
+                    builder.append("&lt;");
+                    break;
+                case '>':
+                    builder.append("&gt;");
+                    break;
+                case '&':
+                    builder.append("&amp;");
+                    break;
+                case '"':
+                    builder.append("&quot;");
+                    break;
+                case '\n':
+                    builder.append("<br>");
+                    break;
+                case '\t':
+                    builder.append("&nbsp; &nbsp; &nbsp;");
+                    break;
+                default:
+                    if (c < 128) {
+                        builder.append(c);
+                    } else {
+                        builder.append("&#").append((int) c).append(";");
+                    }
+            }
+        }
+        return builder.toString();
     }
 }

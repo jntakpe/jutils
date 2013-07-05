@@ -13,7 +13,9 @@ public enum UtilisateurLdapAttrs {
     MATRICULE("employeeid"),
     TELEPHONE("telephonenumber"),
     ARRIVEE("whenCreated"),
-    AGENCE("l");
+    AGENCE("l"),
+    OUTLOOK_PRENOM("givenName"),
+    OUTLOOK_NOM("sn");
 
     private final String attr;
 

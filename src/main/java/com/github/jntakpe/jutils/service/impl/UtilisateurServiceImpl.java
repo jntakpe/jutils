@@ -69,6 +69,7 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
                     managedUtilisateur.setMail(utilisateur.getMail());
                     managedUtilisateur.setMatricule(utilisateur.getMatricule());
                     managedUtilisateur.setTelephone(utilisateur.getTelephone());
+                    managedUtilisateur.setNomOutlook(utilisateur.getNomOutlook());
                 }
                 item.setUtilisateur(managedUtilisateur);
             }
@@ -98,7 +99,7 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     }
 
     /**
-     * {@inheritDoc}
+     * @{inhericDoc}
      */
     @Override
     @Transactional(readOnly = true)

@@ -1,7 +1,6 @@
 package com.github.jntakpe.jutils.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
@@ -40,7 +39,7 @@ public class Utilisateur extends GenericDomain {
 
     private Date arriveeSopra;
 
-    private String agence;
+    private String nomOutlook;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -52,6 +51,9 @@ public class Utilisateur extends GenericDomain {
     @OneToMany(mappedBy = "utilisateur")
     @JsonIgnoreProperties({"utilisateur"})
     private Set<Item> items = new HashSet<>();
+
+    @Transient
+    private String agence;
 
     public String getNom() {
         return nom;
@@ -129,12 +131,12 @@ public class Utilisateur extends GenericDomain {
         this.arriveeSopra = arriveeSopra;
     }
 
-    public String getAgence() {
-        return agence;
+    public String getNomOutlook() {
+        return nomOutlook;
     }
 
-    public void setAgence(String agence) {
-        this.agence = agence;
+    public void setNomOutlook(String nomOutlook) {
+        this.nomOutlook = nomOutlook;
     }
 
     public Set<Role> getRoles() {
@@ -159,6 +161,14 @@ public class Utilisateur extends GenericDomain {
 
     public void setItems(Set<Item> items) {
         this.items = items;
+    }
+
+    public String getAgence() {
+        return agence;
+    }
+
+    public void setAgence(String agence) {
+        this.agence = agence;
     }
 
     @Override

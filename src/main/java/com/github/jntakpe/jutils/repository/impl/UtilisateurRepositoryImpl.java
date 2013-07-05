@@ -75,6 +75,8 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepositoryCustom {
             utilisateur.setMatricule(attrsMap.get(UtilisateurLdapAttrs.MATRICULE));
             utilisateur.setTelephone(attrsMap.get(UtilisateurLdapAttrs.TELEPHONE));
             utilisateur.setAgence(attrsMap.get(UtilisateurLdapAttrs.AGENCE));
+            utilisateur.setNomOutlook(attrsMap.get(UtilisateurLdapAttrs.OUTLOOK_PRENOM) + " " +
+                    attrsMap.get(UtilisateurLdapAttrs.OUTLOOK_NOM).toUpperCase());
             String fullDate = attrsMap.get(UtilisateurLdapAttrs.ARRIVEE);
             if (fullDate != null) {
                 String dateStr = fullDate.substring(0, fullDate.indexOf("."));
