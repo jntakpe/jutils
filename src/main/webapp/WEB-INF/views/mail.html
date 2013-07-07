@@ -80,6 +80,9 @@
                     <button type="reset" class="btn">
                         <i class="icon-undo"></i> Reset
                     </button>
+                    <button id="previzualise" type="button" class="btn btn-primary">
+                        <i class="icon-eye-open"></i> Prévisualiser
+                    </button>
                 </div>
             </fielset>
         </form>
@@ -92,6 +95,21 @@
 
     $(function () {
         $('.select2').select2();
+
+        $('#previzualise').click(function () {
+            $('#mail-form').ajaxSubmit({
+                beforeSubmit: function () {
+                    return $('#mail-form').valid();
+                },
+                success: function (response) {
+                    if (response.success) {
+                        jUtils.displaySuccess(response.message);
+                    } else {
+                        jUtils.displayError(response.message);
+                    }
+                }
+            })
+        });
 
         $('#mail-form').validate({
             rules: {

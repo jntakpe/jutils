@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -40,14 +41,15 @@ public class MailController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView send(@ModelAttribute MailDTO mailDTO, RedirectAttributes redirectAttributes) {
-        try {
-            mailService.send(mailDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-
+        mailService.send(mailDTO, false);
         redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("mail.send")));
         return new ModelAndView(new RedirectView("portal"));
+    }
+
+    @RequestMapping(value = "/prev", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage previzualize(@ModelAttribute MailDTO mailDTO) {
+        mailService.send(mailDTO, true);
+        return ResponseMessage.getSuccessMessage(messageManager.getMessage("prev.send"));
     }
 }

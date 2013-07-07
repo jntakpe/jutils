@@ -3,6 +3,8 @@ package com.github.jntakpe.jutils.service.impl;
 import com.github.jntakpe.fmk.domain.Parameter;
 import com.github.jntakpe.fmk.exception.BusinessCode;
 import com.github.jntakpe.fmk.exception.BusinessException;
+import com.github.jntakpe.fmk.exception.TechCode;
+import com.github.jntakpe.fmk.exception.TechException;
 import com.github.jntakpe.fmk.service.MessageManager;
 import com.github.jntakpe.fmk.service.ParameterService;
 import com.github.jntakpe.fmk.util.constant.LogLevel;
@@ -15,6 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +47,7 @@ public class MailServiceImpl implements MailService {
      */
     @Override
     @Transactional(readOnly = true)
-    public void send(MailDTO mailDTO) throws MessagingException {
+    public void send(MailDTO mailDTO, boolean previzualize) {
         boolean isSopra = !StringUtils.isBlank(mailDTO.getFromSopra());
         messageManager.logMessage("MSG20000", LogLevel.INFO, isSopra ? mailDTO.getFromSopra() : mailDTO.getFromOther(),
                 mailDTO.getSubject(), mailDTO.getTo());
@@ -56,26 +60,31 @@ public class MailServiceImpl implements MailService {
         Parameter smtpFrom = parameterService.findByKey(MandatoryParams.SMTP_FROM.getKey());
         if (smtpFrom == null || StringUtils.isBlank(smtpFrom.getValue()))
             throw new BusinessException(BusinessCode.EMAIL_MISSING_PARAM, MandatoryParams.SMTP_FROM.getKey());
-
-
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(smtpHost.getValue());
         mailSender.setPort(Integer.parseInt(smtpPort.getValue()));
-
         MimeMessage message = mailSender.createMimeMessage();
-
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-        Utilisateur from = utilisateurService.findByMail(mailDTO.getFromSopra());
-        helper.setFrom(isSopra ? from.getNom() + " <" + mailDTO.getFromSopra() + ">" : mailDTO.getFromOther());
-        helper.setTo(mailDTO.getTo().split(","));
-        helper.setSubject(mailDTO.getSubject());
-        if (isSopra)
-            helper.setText(sopraMailBuilder(from, mailDTO.getBody(),
-                    from.getMail().trim().endsWith("soprabanking.com")), true);
-        else
-            helper.setText(mailDTO.getBody());
-        mailSender.send(message);
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            Utilisateur from = utilisateurService.findByMail(mailDTO.getFromSopra());
+            helper.setFrom(isSopra ? from.getNom() + " <" + mailDTO.getFromSopra() + ">" : mailDTO.getFromOther());
+            if (previzualize) {
+                String username = SecurityContextHolder.getContext().getAuthentication().getName();
+                helper.setTo(utilisateurService.findByLogin(username).getMail());
+            } else {
+                helper.setTo(mailDTO.getTo().split(","));
+            }
+            helper.setSubject(mailDTO.getSubject());
+            if (isSopra)
+                helper.setText(sopraMailBuilder(from, mailDTO.getBody(),
+                        from.getMail().trim().endsWith("soprabanking.com")), true);
+            else
+                helper.setText(mailDTO.getBody());
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new TechException(e, TechCode.MESSAGING);
+        }
     }
 
     /**
