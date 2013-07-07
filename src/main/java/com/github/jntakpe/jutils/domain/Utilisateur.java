@@ -1,6 +1,7 @@
 package com.github.jntakpe.jutils.domain;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
@@ -40,6 +41,9 @@ public class Utilisateur extends GenericDomain {
     private Date arriveeSopra;
 
     private String nomOutlook;
+
+    @Embedded
+    private Rib rib;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -137,6 +141,14 @@ public class Utilisateur extends GenericDomain {
 
     public void setNomOutlook(String nomOutlook) {
         this.nomOutlook = nomOutlook;
+    }
+
+    public Rib getRib() {
+        return rib;
+    }
+
+    public void setRib(Rib rib) {
+        this.rib = rib;
     }
 
     public Set<Role> getRoles() {

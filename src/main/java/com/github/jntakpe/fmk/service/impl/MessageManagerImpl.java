@@ -37,15 +37,24 @@ public class MessageManagerImpl implements MessageManager {
     }
 
     @Override
-    public void logMessage(String codeMessage, LogLevel logLevel, Object... args) {
-        resolveLevelAndLog(getMessage(codeMessage, args), logLevel);
+    public String logMessage(String codeMessage, LogLevel logLevel, Object... args) {
+        String msg = getMessage(codeMessage, args);
+        resolveLevelAndLog(msg, logLevel);
+        return msg;
     }
 
     @Override
-    public void logMessage(ErrorCode errorCode, LogLevel logLevel, Object... args) {
-        resolveLevelAndLog(getMessage(errorCode, args), logLevel);
+    public String logMessage(ErrorCode errorCode, LogLevel logLevel, Object... args) {
+        String msg = getMessage(errorCode, args);
+        resolveLevelAndLog(msg, logLevel);
+        return msg;
     }
 
+    /**
+     * Log le message avec le bon niveau
+     * @param msg message a logger
+     * @param logLevel niveau souhaité
+     */
     private void resolveLevelAndLog(String msg, LogLevel logLevel) {
         switch (logLevel) {
             case ERROR:

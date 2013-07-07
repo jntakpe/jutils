@@ -69,4 +69,10 @@ public interface UtilisateurService extends GenericService<Utilisateur> {
      * @return l'utilisateur totalement initialisé
      */
     Utilisateur findByLoginAndInitialize(String login);
+
+    /**
+     * Renvoi l'utilisateur actuellement connecté
+     * @return utilisateur connecté
+     */
+    Utilisateur getCurrent();
 }

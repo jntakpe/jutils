@@ -17,7 +17,7 @@
                     <input type="hidden" id="id" th:field="*{id}"/>
                     <input type="hidden" id="version" th:field="*{version}"/>
 
-                    <div class=" input-append control-group ">
+                    <div class="input-append control-group">
                         <label class="control-label" for="fermeture">Date de fermeture</label>
 
                         <div class="controls date datepicker">
@@ -27,13 +27,21 @@
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="modePaiement">Modes de paiement</label>
+                        <label class="control-label" for="modePaiement">Modes de paiement acceptés</label>
 
                         <div class="controls">
                             <select id="modePaiement" th:field="*{modePaiement}" multiple="multiple">
-                                <option value="">Veuillez sélection un ou plusiers modes de paiement</option>
                                 <option th:each="mode : ${modes}" th:text="${mode.description}" th:value="${mode}"/>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group ">
+                        <label class="control-label" for="titulaire">Titulaire du compte</label>
+
+                        <div class="controls">
+                            <input type="text" id="titulaire" th:field="*{utilisateur.}" class="input-medium"/>
+                            <span class="add-on"><i class="icon-calendar"></i></span>
                         </div>
                     </div>
 
@@ -41,7 +49,7 @@
                         <label class="control-label" for="fermeture">Informations complémentaires</label>
 
                         <div class="controls">
-                            <textarea id="informations" th:field="*{informations}"></textarea>
+                            <textarea id="informations" rows="5" th:field="*{informations}"></textarea>
                         </div>
                     </div>
 

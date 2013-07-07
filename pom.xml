@@ -11,6 +11,8 @@
 
         <!-- Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <log.folder>${project.basedir}/log/</log.folder>
+        <log.save>${log.folder}/collect/</log.save>
 
         <!-- JEE API (JBoss specs) -->
         <version.jboss.javaee>3.0.2.Final</version.jboss.javaee>
@@ -562,5 +564,11 @@
                 </dependencies>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 </project>

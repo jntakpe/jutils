@@ -1,5 +1,7 @@
 package com.github.jntakpe.fmk.service.impl;
 
+import com.github.jntakpe.fmk.service.MessageManager;
+import com.github.jntakpe.fmk.util.constant.LogLevel;
 import com.github.jntakpe.jutils.domain.Role;
 import com.github.jntakpe.jutils.domain.Utilisateur;
 import com.github.jntakpe.jutils.service.RoleService;
@@ -33,6 +35,10 @@ public class FmkAuthoritiesPopulator implements LdapAuthoritiesPopulator {
     @Autowired
     private RoleService roleService;
 
+
+    @Autowired
+    private MessageManager messageManager;
+
     /**
      * Association des rôles entre l'utilisateur récupérer du LDAP et celui persisté en base de données
      *
@@ -57,6 +63,7 @@ public class FmkAuthoritiesPopulator implements LdapAuthoritiesPopulator {
         for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getCode()));
         }
+        messageManager.logMessage("MSG00000", LogLevel.INFO, utilisateur.getNom());
         return authorities;
     }
 }

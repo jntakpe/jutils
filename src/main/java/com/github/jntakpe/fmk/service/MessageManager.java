@@ -35,8 +35,9 @@ public interface MessageManager {
      * @param codeMessage code du message
      * @param logLevel    niveau de log
      * @param args        paramètres du message
+     * @return le message completé
      */
-    void logMessage(String codeMessage, LogLevel logLevel, Object... args);
+    String logMessage(String codeMessage, LogLevel logLevel, Object... args);
 
     /**
      * Log un message d'erreur récupéré dans un des bundles de l'application
@@ -44,6 +45,7 @@ public interface MessageManager {
      * @param errorCode code du message correspondant à un code erreur
      * @param logLevel  niveau de log
      * @param args      paramètres du message
+     * @return le message completé
      */
-    void logMessage(ErrorCode errorCode, LogLevel logLevel, Object... args);
+    String logMessage(ErrorCode errorCode, LogLevel logLevel, Object... args);
 }

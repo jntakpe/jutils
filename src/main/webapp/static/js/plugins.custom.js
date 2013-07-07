@@ -432,4 +432,3 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
         return b - a;
     }
 });
-

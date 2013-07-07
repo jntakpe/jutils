@@ -2,6 +2,7 @@ package com.github.jntakpe.jutils.service;
 
 import com.github.jntakpe.fmk.service.GenericService;
 import com.github.jntakpe.jutils.domain.Commande;
+import com.github.jntakpe.jutils.domain.Rib;
 
 /**
  * Services associés à une {@link Commande}
@@ -16,4 +17,5 @@ public interface CommandeService extends GenericService<Commande> {
      * @return true si une commande existe déjà sur la plage actuelle
      */
     boolean isOpenCmd();
+
 }

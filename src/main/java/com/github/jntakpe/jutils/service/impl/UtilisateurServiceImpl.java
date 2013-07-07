@@ -5,7 +5,6 @@ import com.github.jntakpe.fmk.web.ConnexionController;
 import com.github.jntakpe.jutils.domain.Item;
 import com.github.jntakpe.jutils.domain.Utilisateur;
 import com.github.jntakpe.jutils.repository.UtilisateurRepository;
-import com.github.jntakpe.jutils.service.ItemService;
 import com.github.jntakpe.jutils.service.RoleService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
 import com.github.jntakpe.jutils.util.dto.UtilisateurRoleDTO;
@@ -15,6 +14,7 @@ import org.joda.time.Instant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.ldap.core.DirContextOperations;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,9 +34,6 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
 
     @Autowired
     private RoleService roleService;
-
-    @Autowired
-    private ItemService itemService;
 
     @Override
     public CrudRepository<Utilisateur, Long> getRepository() {
@@ -148,6 +145,15 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
         Hibernate.initialize(utilisateur.getRoles());
         Hibernate.initialize(utilisateur.getItems());
         return utilisateur;
+    }
+
+    /**
+     * @{inhericDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Utilisateur getCurrent() {
+        return findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     /**

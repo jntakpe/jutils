@@ -35,7 +35,7 @@ public class Commande extends GenericDomain {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    private Set<ModePaiement> modePaiement;
+    private Set<ModePaiement> modesPaiement;
 
     @OneToOne(optional = false)
     private Utilisateur responsable;
@@ -91,6 +91,14 @@ public class Commande extends GenericDomain {
         this.informations = informations;
     }
 
+    public Set<ModePaiement> getModesPaiement() {
+        return modesPaiement;
+    }
+
+    public void setModesPaiement(Set<ModePaiement> modesPaiement) {
+        this.modesPaiement = modesPaiement;
+    }
+
     public Utilisateur getResponsable() {
         return responsable;
     }
@@ -105,14 +113,6 @@ public class Commande extends GenericDomain {
 
     public void setDemandes(Set<Demande> demandes) {
         this.demandes = demandes;
-    }
-
-    public Set<ModePaiement> getModePaiement() {
-        return modePaiement;
-    }
-
-    public void setModePaiement(Set<ModePaiement> modePaiement) {
-        this.modePaiement = modePaiement;
     }
 
     @Override

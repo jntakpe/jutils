@@ -4,7 +4,10 @@ import com.github.jntakpe.fmk.service.MessageManager;
 import com.github.jntakpe.fmk.util.dto.ResponseMessage;
 import com.github.jntakpe.fmk.web.GenericController;
 import com.github.jntakpe.jutils.domain.Commande;
+import com.github.jntakpe.jutils.domain.Rib;
+import com.github.jntakpe.jutils.domain.Utilisateur;
 import com.github.jntakpe.jutils.service.CommandeService;
+import com.github.jntakpe.jutils.service.UtilisateurService;
 import com.github.jntakpe.jutils.util.constants.ModePaiement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,17 +31,22 @@ public class CommandeController {
     private CommandeService commandeService;
 
     @Autowired
+    private UtilisateurService utilisateurService;
+
+    @Autowired
     private MessageManager messageManager;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView displayForm() {
         if (commandeService.isOpenCmd()) {
             String msg = messageManager.getMessage("already.open.cmd");
-            //Débrancher sur écran de cloture directement
+            //TODO Débrancher sur écran de cloture directement
             return new ModelAndView("portal").addObject(ResponseMessage.getErrorMessage(msg));
         } else {
             ModelAndView mv = new ModelAndView("commande_form");
             mv.addObject("modes", ModePaiement.values());
+            Rib rib = utilisateurService.getCurrent().getRib();
+            mv.addObject(rib == null ? new Rib() : rib);
             return mv.addObject(new Commande());
         }
     }

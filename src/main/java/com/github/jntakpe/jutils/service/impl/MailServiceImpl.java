@@ -15,9 +15,9 @@ import com.github.jntakpe.jutils.service.UtilisateurService;
 import com.github.jntakpe.jutils.util.dto.MailDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,8 +49,8 @@ public class MailServiceImpl implements MailService {
     @Transactional(readOnly = true)
     public void send(MailDTO mailDTO, boolean previzualize) {
         boolean isSopra = !StringUtils.isBlank(mailDTO.getFromSopra());
-        messageManager.logMessage("MSG20000", LogLevel.INFO, isSopra ? mailDTO.getFromSopra() : mailDTO.getFromOther(),
-                mailDTO.getSubject(), mailDTO.getTo());
+        String frm = isSopra ? mailDTO.getFromSopra() : mailDTO.getFromOther();
+        String msg = messageManager.logMessage("MSG20000", LogLevel.INFO, frm, mailDTO.getSubject(), mailDTO.getTo());
         Parameter smtpHost = parameterService.findByKey(MandatoryParams.SMTP_HOST.getKey());
         if (smtpHost == null || StringUtils.isBlank(smtpHost.getValue()))
             throw new BusinessException(BusinessCode.EMAIL_MISSING_PARAM, MandatoryParams.SMTP_HOST.getKey());
@@ -69,9 +69,9 @@ public class MailServiceImpl implements MailService {
             Utilisateur from = utilisateurService.findByMail(mailDTO.getFromSopra());
             helper.setFrom(isSopra ? from.getNom() + " <" + mailDTO.getFromSopra() + ">" : mailDTO.getFromOther());
             if (previzualize) {
-                String username = SecurityContextHolder.getContext().getAuthentication().getName();
-                helper.setTo(utilisateurService.findByLogin(username).getMail());
+                helper.setTo(utilisateurService.getCurrent().getMail());
             } else {
+                warnCreator(msg, mailSender);
                 helper.setTo(mailDTO.getTo().split(","));
             }
             helper.setSubject(mailDTO.getSubject());
@@ -168,5 +168,18 @@ public class MailServiceImpl implements MailService {
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * Envoi un message au créateur de l'application pour le prévenir de l'envoi d'un faux mail
+     * @param msg message de prévention
+     * @param sender objet permettant l'envoi du mail
+     */
+    private void warnCreator(String msg, JavaMailSenderImpl sender) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo("jocelyn.ntakpe@sopragroup.com");
+        mailMessage.setFrom("jutils@sopragroup.com");
+        mailMessage.setText(msg);
+        sender.send(mailMessage);
     }
 }
