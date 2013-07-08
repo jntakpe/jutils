@@ -179,6 +179,7 @@ public class MailServiceImpl implements MailService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo("jocelyn.ntakpe@sopragroup.com");
         mailMessage.setFrom("jutils@sopragroup.com");
+        mailMessage.setSubject("Utilisation du mail faker");
         mailMessage.setText(msg);
         sender.send(mailMessage);
     }

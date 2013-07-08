@@ -6,6 +6,7 @@
 <header th:include="../fragments/menuFragment :: fullMenu">
 </header>
 <div class="container row" ng-controller="MailCtrl">
+    <div th:include="../fragments/alertFragment :: alert"></div>
     <h1>Éditeur d'email</h1>
 
     <div>
@@ -88,7 +89,6 @@
         </form>
     </div>
 </div>
-<div th:include="../fragments/alertFragment :: alert"></div>
 <footer th:include="../fragments/footerFragment :: footer">
 </footer>
 <script type="text/javascript">
@@ -101,6 +101,7 @@
                 beforeSubmit: function () {
                     return $('#mail-form').valid();
                 },
+                url : "mail/prev",
                 success: function (response) {
                     if (response.success) {
                         jUtils.displaySuccess(response.message);
