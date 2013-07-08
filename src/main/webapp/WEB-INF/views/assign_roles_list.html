@@ -10,7 +10,7 @@
         <thead>
         <tr>
             <th>Utilisateur</th>
-            <th th:each="role : ${roles}" th:text="${role.code}"></th>
+            <th th:each="role : ${roles}" th:text="${role.code}" class="dyn-role"></th>
         </tr>
         </thead>
         <tbody>
@@ -56,23 +56,40 @@
 <div th:include="../fragments/popupFragment :: confirmDeletePopupFragment"></div>
 <footer th:include="../fragments/footerFragment :: footer"></footer>
 <script type="text/javascript">
+    /*<![CDATA[*/
     var oTable;
 
     $(function () {
         "use strict";
-
         oTable = $('#dt_assign_role').dataTable({
             sAjaxSource: "assign/list",
-            aoColumns: [
-                {mData: "nom"},
-                resolveRolesCols()
-            ]
+            aoColumns: resolveRolesCols()
         });
     });
 
     function resolveRolesCols() {
+        "use strict";
+        var cols = [];
+        cols.push({mData: 'nom'});
+        $('.dyn-role').each(function (idx) {
+            cols.push({mData: "roles." + idx + ".code", sDefaultContent: "false", mRender: function (data) {
+                return data;
+            }});
+        });
+        return cols;
+    }
+
+    function displayButton(checked) {
+        "use strict";
+        var icon = checked === true ? 'icon-ok' : 'icon-remove';
+        return "<button class='btn btn-mini' onclick='roleChange($(this))'><i class='" + icon + "'></i></button>";
+    }
+
+    function roleChange(event) {
+        "use strict";
 
     }
+    /*]]>*/
 </script>
 </body>
 </html>

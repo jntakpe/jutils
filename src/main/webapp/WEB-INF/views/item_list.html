@@ -42,15 +42,15 @@
                 {mData: "creation", sWidth: 200, sType: "date-euro", mRender: function (data) {
                     return moment(new Date(data)).format("DD/MM/YYYY HH:mm:ss");
                 }},
-                {mData : "utilisateur", sWidth: 300, mRender: function (data) {
-                    return data ?  data.nom: "-";
+                {mData: "utilisateur", sWidth: 300, mRender: function (data) {
+                    return data ? data.nom : "-";
                 }}
             ]
         }).columnFilter({
                     sPlaceHolder: "head:before"
                 });
 
-    })
+    });
     /*]]>*/
 </script>
 </body>
