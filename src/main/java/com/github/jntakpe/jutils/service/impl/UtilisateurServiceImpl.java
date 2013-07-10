@@ -1,6 +1,7 @@
 package com.github.jntakpe.jutils.service.impl;
 
 import com.github.jntakpe.fmk.service.impl.GenericServiceImpl;
+import com.github.jntakpe.fmk.util.FmkUtils;
 import com.github.jntakpe.fmk.web.ConnexionController;
 import com.github.jntakpe.jutils.domain.Item;
 import com.github.jntakpe.jutils.domain.Utilisateur;
@@ -14,7 +15,6 @@ import org.joda.time.Instant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.ldap.core.DirContextOperations;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -128,6 +128,7 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
         for (Utilisateur utilisateur : utilisateurs) {
             Hibernate.initialize(utilisateur.getRoles());
             UtilisateurRoleDTO utilisateurRoleDTO = new UtilisateurRoleDTO();
+            utilisateurRoleDTO.setId(utilisateur.getId());
             utilisateurRoleDTO.setNom(utilisateur.getNom());
             utilisateurRoleDTO.setRoles(utilisateur.getRoles());
             utilisateurRoleDTOs.add(utilisateurRoleDTO);
@@ -153,7 +154,7 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     @Override
     @Transactional(readOnly = true)
     public Utilisateur getCurrent() {
-        return findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        return findByLogin(FmkUtils.getCurrentUsername());
     }
 
     /**

@@ -12,9 +12,19 @@ import java.util.Set;
  */
 public class UtilisateurRoleDTO {
 
+    private Long id;
+
     private String nom;
 
     private Set<Role> roles = new HashSet<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getNom() {
         return nom;

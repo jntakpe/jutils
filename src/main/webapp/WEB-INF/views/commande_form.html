@@ -18,38 +18,74 @@
                     <input type="hidden" id="version" th:field="*{version}"/>
 
                     <div class="input-append control-group">
-                        <label class="control-label" for="fermeture">Date de fermeture</label>
+                        <label class="control-label" for="cloture">Date de clôture</label>
 
                         <div class="controls date datepicker">
-                            <input type="text" id="fermeture" th:field="*{fermeture}" class="input-medium"/>
+                            <input type="text" id="cloture" th:field="*{cloture}" class="input-medium"/>
                             <span class="add-on"><i class="icon-calendar"></i></span>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="modePaiement">Modes de paiement acceptés</label>
+                        <label class="control-label" for="cloture">Informations complémentaires</label>
 
                         <div class="controls">
-                            <select id="modePaiement" th:field="*{modePaiement}" multiple="multiple">
-                                <option th:each="mode : ${modes}" th:text="${mode.description}" th:value="${mode}"/>
-                            </select>
+                            <textarea id="informations" rows="5" th:field="*{informations}" class="input-xlarge">
+                            </textarea>
                         </div>
                     </div>
 
-                    <div class="control-group ">
+                    <div class="control-group">
+                        <label class="radio inline">
+                            Liquide avec appoint uniquement
+                            <input type="radio" id="avecAppoint" name="accepteLiquideSansAppoint"
+                                   value="false" th:checked="!${accepteLiquideSansAppoint}"/>
+                        </label>
+                        <label class="radio inline">
+                            Liquide sans appoint accepté
+                            <input type="radio" id="sansAppoint" name="accepteLiquideSansAppoint"
+                                   value="true" th:checked="${accepteLiquideSansAppoint}"/>
+                        </label>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="accepteCheque">Chèques acceptés</label>
+
+                        <div class="controls">
+                            <input type="checkbox" id="accepteCheque" th:field="*{accepteCheque}"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="accepteVirement">Virement acceptés</label>
+
+                        <div class="controls">
+                            <input type="checkbox" id="accepteVirement" th:field="*{accepteVirement}"/>
+                        </div>
+                    </div>
+
+                    <div th:class="${accepteVirement == true} ? 'control-group vir' : 'control-group vir hide'">
                         <label class="control-label" for="titulaire">Titulaire du compte</label>
 
                         <div class="controls">
-                            <input type="text" id="titulaire" th:field="*{utilisateur.}" class="input-medium"/>
-                            <span class="add-on"><i class="icon-calendar"></i></span>
+                            <input type="text" id="titulaire" name="titulaire" th:value="${rib.titulaire}"
+                                   class="input-medium"/>
                         </div>
                     </div>
 
-                    <div class="control-group">
-                        <label class="control-label" for="fermeture">Informations complémentaires</label>
+                    <div th:class="${accepteVirement == true} ? 'control-group vir' : 'control-group vir hide'">
+                        <label class="control-label" for="iban">Numéro IBAN</label>
 
                         <div class="controls">
-                            <textarea id="informations" rows="5" th:field="*{informations}"></textarea>
+                            <input type="text" id="iban" name="iban" th:value="${rib.iban}" class="input-medium"/>
+                        </div>
+                    </div>
+
+                    <div th:class="${accepteVirement == true} ? 'control-group vir' : 'control-group vir hide'">
+                        <label class="control-label" for="bic">Numéro BIC</label>
+
+                        <div class="controls">
+                            <input type="text" id="bic" name="bic" th:value="${rib.bic}" class="input-medium"/>
                         </div>
                     </div>
 
@@ -72,7 +108,33 @@
         "use strict";
 
         $('.datepicker').datepicker({
-            format: 'dd/mm/yyyy'
+            format: 'dd/mm/yyyy',
+            startDate: new Date()
+        });
+
+        $('#accepteVirement').click(function () {
+            if ($('#accepteVirement').is(':checked')) {
+                $('.vir').removeClass('hide');
+            } else {
+                $('.vir').addClass('hide');
+            }
+        });
+
+        $("#commande-form").validate({
+            rules: {
+                cloture: {
+                    required: true
+                },
+                titulaire: {
+                    required: true
+                },
+                iban: {
+                    required: true
+                },
+                bic: {
+                    required: true
+                }
+            }
         });
     });
 </script>

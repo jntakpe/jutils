@@ -50,6 +50,7 @@ public class Utilisateur extends GenericDomain {
     @JoinTable(name = "utilisateur_role", joinColumns = {
             @JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)})
+    @OrderBy("id asc")
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "utilisateur")

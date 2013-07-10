@@ -29,7 +29,7 @@
         <version.hibernate-jpa>1.0.1.Final</version.hibernate-jpa>
 
         <!-- Hibernate version -->
-        <version.hibernate>4.2.0.Final</version.hibernate>
+        <version.hibernate>4.2.3.Final</version.hibernate>
         <version.hibernate-validator>4.3.1.Final</version.hibernate-validator>
         <version.hibernate-annotations>3.5.6-Final</version.hibernate-annotations>
 

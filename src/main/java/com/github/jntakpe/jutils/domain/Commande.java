@@ -1,7 +1,6 @@
 package com.github.jntakpe.jutils.domain;
 
 import com.github.jntakpe.fmk.domain.GenericDomain;
-import com.github.jntakpe.jutils.util.constants.ModePaiement;
 import org.joda.time.Instant;
 
 import javax.persistence.*;
@@ -16,14 +15,14 @@ import java.util.Set;
  */
 @Entity
 @SequenceGenerator(name = "SG", sequenceName = "SEQ_COMMANDE")
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"ouverture", "fermeture"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"ouverture", "cloture"})})
 public class Commande extends GenericDomain {
 
     @Column(nullable = false)
     private Date ouverture = Instant.now().toDate();
 
     @Column(nullable = false)
-    private Date fermeture;
+    private Date cloture;
 
     private Float montantTotal;
 
@@ -33,9 +32,11 @@ public class Commande extends GenericDomain {
 
     private String informations;
 
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
-    private Set<ModePaiement> modesPaiement;
+    private boolean accepteLiquideSansAppoint = false;
+
+    private boolean accepteCheque = false;
+
+    private boolean accepteVirement = false;
 
     @OneToOne(optional = false)
     private Utilisateur responsable;
@@ -51,12 +52,12 @@ public class Commande extends GenericDomain {
         this.ouverture = ouverture;
     }
 
-    public Date getFermeture() {
-        return fermeture;
+    public Date getCloture() {
+        return cloture;
     }
 
-    public void setFermeture(Date fermeture) {
-        this.fermeture = fermeture;
+    public void setCloture(Date cloture) {
+        this.cloture = cloture;
     }
 
     public Float getMontantTotal() {
@@ -91,12 +92,28 @@ public class Commande extends GenericDomain {
         this.informations = informations;
     }
 
-    public Set<ModePaiement> getModesPaiement() {
-        return modesPaiement;
+    public boolean isAccepteLiquideSansAppoint() {
+        return accepteLiquideSansAppoint;
     }
 
-    public void setModesPaiement(Set<ModePaiement> modesPaiement) {
-        this.modesPaiement = modesPaiement;
+    public void setAccepteLiquideSansAppoint(boolean accepteLiquideSansAppoint) {
+        this.accepteLiquideSansAppoint = accepteLiquideSansAppoint;
+    }
+
+    public boolean isAccepteCheque() {
+        return accepteCheque;
+    }
+
+    public void setAccepteCheque(boolean accepteCheque) {
+        this.accepteCheque = accepteCheque;
+    }
+
+    public boolean isAccepteVirement() {
+        return accepteVirement;
+    }
+
+    public void setAccepteVirement(boolean accepteVirement) {
+        this.accepteVirement = accepteVirement;
     }
 
     public Utilisateur getResponsable() {
@@ -122,7 +139,7 @@ public class Commande extends GenericDomain {
 
         Commande commande = (Commande) o;
 
-        if (fermeture != null ? !fermeture.equals(commande.fermeture) : commande.fermeture != null) return false;
+        if (cloture != null ? !cloture.equals(commande.cloture) : commande.cloture != null) return false;
         if (ouverture != null ? !ouverture.equals(commande.ouverture) : commande.ouverture != null) return false;
 
         return true;
@@ -131,7 +148,7 @@ public class Commande extends GenericDomain {
     @Override
     public int hashCode() {
         int result = ouverture != null ? ouverture.hashCode() : 0;
-        result = 31 * result + (fermeture != null ? fermeture.hashCode() : 0);
+        result = 31 * result + (cloture != null ? cloture.hashCode() : 0);
         return result;
     }
 }

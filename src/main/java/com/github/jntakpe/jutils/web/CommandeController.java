@@ -52,7 +52,7 @@ public class CommandeController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView save(@ModelAttribute Commande commande) {
+    public ModelAndView save(@ModelAttribute Commande commande, @ModelAttribute Rib rib) {
         return new ModelAndView("portal");
     }
 }

@@ -7,6 +7,7 @@ import com.github.jntakpe.fmk.exception.TechCode;
 import com.github.jntakpe.fmk.exception.TechException;
 import com.github.jntakpe.fmk.service.MessageManager;
 import com.github.jntakpe.fmk.service.ParameterService;
+import com.github.jntakpe.fmk.util.FmkUtils;
 import com.github.jntakpe.fmk.util.constant.LogLevel;
 import com.github.jntakpe.fmk.util.constant.MandatoryParams;
 import com.github.jntakpe.jutils.domain.Utilisateur;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,8 +49,8 @@ public class MailServiceImpl implements MailService {
     @Transactional(readOnly = true)
     public void send(MailDTO mailDTO, boolean previzualize) {
         boolean isSopra = !StringUtils.isBlank(mailDTO.getFromSopra());
-        String frm = isSopra ? mailDTO.getFromSopra() : mailDTO.getFromOther();
-        String msg = messageManager.logMessage("MSG20000", LogLevel.INFO, frm, mailDTO.getSubject(), mailDTO.getTo());
+        String msg = messageManager.logMessage("MSG20000", LogLevel.INFO, FmkUtils.getCurrentUsername(),
+                mailDTO.getSubject(), mailDTO.getTo(), isSopra ? mailDTO.getFromSopra() : mailDTO.getFromOther());
         Parameter smtpHost = parameterService.findByKey(MandatoryParams.SMTP_HOST.getKey());
         if (smtpHost == null || StringUtils.isBlank(smtpHost.getValue()))
             throw new BusinessException(BusinessCode.EMAIL_MISSING_PARAM, MandatoryParams.SMTP_HOST.getKey());
@@ -172,7 +172,8 @@ public class MailServiceImpl implements MailService {
 
     /**
      * Envoi un message au créateur de l'application pour le prévenir de l'envoi d'un faux mail
-     * @param msg message de prévention
+     *
+     * @param msg    message de prévention
      * @param sender objet permettant l'envoi du mail
      */
     private void warnCreator(String msg, JavaMailSenderImpl sender) {

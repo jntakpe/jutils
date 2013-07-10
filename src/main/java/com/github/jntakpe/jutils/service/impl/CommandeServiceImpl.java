@@ -36,7 +36,7 @@ public class CommandeServiceImpl extends GenericServiceImpl<Commande> implements
     @Transactional
     public boolean isOpenCmd() {
         Date now = Instant.now().toDate();
-        return commandeRepository.findByFermetureAfter(now) != null;
+        return commandeRepository.findByClotureAfter(now) != null;
     }
 
     @Override

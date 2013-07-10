@@ -3,12 +3,12 @@ package com.github.jntakpe.fmk.web;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 import com.github.jntakpe.fmk.service.GenericService;
 import com.github.jntakpe.fmk.service.MessageManager;
+import com.github.jntakpe.fmk.util.FmkUtils;
 import com.github.jntakpe.fmk.util.constant.LogLevel;
 import com.github.jntakpe.fmk.util.dto.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -61,7 +61,7 @@ public abstract class GenericController<T extends GenericDomain> {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView display() {
         String screenName = constructNomPageHTMLList();
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = FmkUtils.getCurrentUsername();
         logger.info("{} a affiché l'écran {}", username, screenName);
         return new ModelAndView(screenName);
     }
@@ -86,7 +86,7 @@ public abstract class GenericController<T extends GenericDomain> {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseMessage delete(@PathVariable Long id) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = FmkUtils.getCurrentUsername();
         T entity = getService().findOne(id);
         getService().delete(id);
         messageManager.logMessage("MSG00003", LogLevel.INFO, username, entity);
@@ -150,7 +150,7 @@ public abstract class GenericController<T extends GenericDomain> {
         T entity = getService().save(domain);
         String msg = messageManager.getMessage(domain.getId() == null ? "create.success" : "update.success", entity);
         redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(msg));
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = FmkUtils.getCurrentUsername();
         messageManager.logMessage(domain.getId() == null ? "MSG00001" : "MSG00002", LogLevel.INFO, username, entity);
         return new ModelAndView(getRedirectListView());
     }
@@ -165,7 +165,7 @@ public abstract class GenericController<T extends GenericDomain> {
     @ResponseBody
     public ResponseMessage ajaxSave(@ModelAttribute T domain) {
         T entity = getService().save(domain);
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = FmkUtils.getCurrentUsername();
         String msg = messageManager.getMessage(domain.getId() == null ? "create.success" : "update.success", entity);
         messageManager.logMessage(domain.getId() == null ? "MSG00001" : "MSG00002", LogLevel.INFO, username, entity);
         return ResponseMessage.getSuccessMessage(msg, entity);

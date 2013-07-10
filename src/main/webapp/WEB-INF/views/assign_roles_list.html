@@ -70,24 +70,46 @@
     function resolveRolesCols() {
         "use strict";
         var cols = [];
-        cols.push({mData: 'nom'});
-        $('.dyn-role').each(function (idx) {
-            cols.push({mData: "roles." + idx + ".code", sDefaultContent: "false", mRender: function (data) {
-                return data;
-            }});
+        cols.push({mData: 'nom', sWidth: 225});
+        $('.dyn-role').each(function () {
+            var lib = $(this).text();
+            cols.push({sClass: "center", sDefaultContent: "false",
+                mData: function (source) {
+                    return resolveData(source, lib);
+                },
+                mRender: function (data) {
+                    return displayButton(data);
+                }});
         });
         return cols;
     }
 
-    function displayButton(checked) {
+    function resolveData(data, lib) {
         "use strict";
-        var icon = checked === true ? 'icon-ok' : 'icon-remove';
-        return "<button class='btn btn-mini' onclick='roleChange($(this))'><i class='" + icon + "'></i></button>";
+        var cellData = {}, l = data.roles.length, i;
+        cellData.id = data.id;
+        if (l !== 0) {
+            for (i = 0; i < l; i++) {
+                if (data.roles[i].code === lib) {
+                    cellData.role = true;
+                    return cellData;
+                }
+            }
+        }
+        cellData.role = false;
+        return cellData;
+    }
+
+    function displayButton(data) {
+        "use strict";
+        var icon = data.role === true ? 'icon-ok' : 'icon-remove';
+        return "<button idline='" + data.id + "' hasrole='" + data.role + "' class='btn btn-mini'" +
+                " onclick='roleChange($(this))'><i class='" + icon + "'></i></button>";
     }
 
     function roleChange(event) {
         "use strict";
-
+        console.log()
     }
     /*]]>*/
 </script>
