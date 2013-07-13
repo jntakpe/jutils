@@ -1,6 +1,5 @@
 package com.github.jntakpe.fmk.web;
 
-import com.github.jntakpe.fmk.exception.BusinessException;
 import com.github.jntakpe.fmk.exception.ErrorCode;
 import com.github.jntakpe.fmk.exception.FrameworkException;
 import com.github.jntakpe.fmk.exception.TechException;

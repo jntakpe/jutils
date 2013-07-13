@@ -8,12 +8,10 @@ import com.github.jntakpe.fmk.util.constant.LogLevel;
 import com.github.jntakpe.fmk.util.dto.ResponseMessage;
 import com.github.jntakpe.fmk.web.GenericController;
 import com.github.jntakpe.jutils.domain.Role;
-import com.github.jntakpe.jutils.domain.Utilisateur;
 import com.github.jntakpe.jutils.service.RoleService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
 import com.github.jntakpe.jutils.util.dto.UtilisateurRoleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +28,6 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping("/admin/role")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class RoleController extends GenericController<Role> {
 
     @Autowired

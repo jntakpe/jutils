@@ -34,6 +34,15 @@
                                 <li><a th:href="@{/item}"><i class="icon-laptop"></i> Items</a></li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle"
+                               data-toggle="dropdown" href="#"><i class="icon-book"></i>
+                                Annuaires<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a th:href="@{/utilisateur}"><i class="icon-male"></i> Collaborateurs</a></li>
+                                <li><a th:href="@{/item}"><i class="icon-laptop"></i> Items</a></li>
+                            </ul>
+                        </li>
                         <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MAIL')">
                             <a th:href="@{/mail}"><i class="icon-envelope"></i> Mail</a>
                         </li>

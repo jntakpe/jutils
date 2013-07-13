@@ -6,6 +6,7 @@ import com.github.jntakpe.jutils.service.MailService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
 import com.github.jntakpe.jutils.util.dto.MailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 @Controller
 @RequestMapping("/mail")
+@Secured("ROLE_ADMIN ,ROLE_MAIL")
 public class MailController {
 
     @Autowired
