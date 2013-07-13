@@ -109,7 +109,33 @@
 
     function roleChange(event) {
         "use strict";
-        console.log()
+        $.ajax({
+            type: 'post',
+            data : {
+                role : $('#dt_assign_role').find("th").eq(event.parent("td").index()).text(),
+                id : event.attr('idline'),
+                hasRole : event.attr('hasrole')
+            }
+        })
+                .done(function (response) {
+                    var icon;
+                    if (response.success) {
+                        jUtils.displaySuccess(response.message);
+                        icon = event.children('i');
+                        if (event.attr('hasrole') === "true") {
+                            icon.removeClass('icon-ok');
+                            icon.addClass('icon-remove');
+                        } else {
+                            icon.removeClass('icon-remove');
+                            icon.addClass('icon-ok');
+                        }
+                    } else {
+                        jUtils.displayError(response.message);
+                    }
+                })
+                .error(function () {
+                    jUtils.displayError();
+                });
     }
     /*]]>*/
 </script>

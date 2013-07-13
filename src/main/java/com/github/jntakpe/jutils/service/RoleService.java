@@ -18,4 +18,13 @@ public interface RoleService extends GenericService<Role> {
      */
     Role findByCode(String code);
 
+    /**
+     * Assignation ou destitution d'un rôle à un utilisateur
+     *
+     * @param utilisateurId identifiant de l'utilisateur
+     * @param roleName      nom du rôle
+     * @param hasRole       true si l'utilisateur a déjà le rôle dans ce cas on doit lui enlever
+     * @return le nom de l'utilisateur modifié
+     */
+    String assignRole(Long utilisateurId, String roleName, boolean hasRole);
 }
