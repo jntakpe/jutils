@@ -25,8 +25,8 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3 id="popupTitle"></h3>
-        <input id="newTitle" type="hidden" value=""/>
-        <input id="editTitle" type="hidden" value=""/>
+        <input id="newTitle" type="hidden" value="¤"/>
+        <input id="editTitle" type="hidden" value="¤"/>
     </div>
     <div class="modal-body">
         <form id="popupForm" th:action="@{¤}" method="post">
@@ -57,6 +57,25 @@
     $(function () {
         "use strict";
 
+        oTable = $('#dt_¤').dataTable({
+            sAjaxSource: "¤/list",
+            aoColumns: [
+                {mData: "¤"},
+                jUtils.actionPopup()
+            ]
+        });
+
+        popupForm = $('#popupForm').validate({
+            submitHandler: function (form) {
+                jUtils.saveRow(form, oTable);
+            },
+            rules: {
+                ¤: {
+                    required: true,
+                    unicity: true
+                }
+            }
+        });
     });
 </script>
 </body>

@@ -2,6 +2,7 @@ package com.github.jntakpe.jutils.domain;
 
 import com.github.jntakpe.fmk.domain.GenericDomain;
 import com.github.jntakpe.jutils.util.constants.ModeDegustation;
+import com.github.jntakpe.jutils.util.constants.ProfilAromatique;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,7 +21,7 @@ public class Cafe extends GenericDomain {
     private String nom;
 
     @Column(nullable = false)
-    private String origine;
+    private String description;
 
     @Column(nullable = false)
     private Integer intensite;
@@ -28,15 +29,16 @@ public class Cafe extends GenericDomain {
     @Column(nullable = false)
     private Float prix;
 
-    @Column(nullable = false)
-    private String torrefaction;
-
-    @Column(nullable = false)
-    private String notesAromatiques;
+    @Lob
+    private byte[] image;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ModeDegustation modeDegustation;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ProfilAromatique profilAromatique;
 
     @OneToMany(mappedBy = "demandeCafeId.cafe", cascade = CascadeType.REMOVE)
     private Set<DemandeCafe> demandeCafes = new HashSet<>();
@@ -49,12 +51,12 @@ public class Cafe extends GenericDomain {
         this.nom = nom;
     }
 
-    public String getOrigine() {
-        return origine;
+    public String getDescription() {
+        return description;
     }
 
-    public void setOrigine(String origine) {
-        this.origine = origine;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getIntensite() {
@@ -73,20 +75,12 @@ public class Cafe extends GenericDomain {
         this.prix = prix;
     }
 
-    public String getTorrefaction() {
-        return torrefaction;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setTorrefaction(String torrefaction) {
-        this.torrefaction = torrefaction;
-    }
-
-    public String getNotesAromatiques() {
-        return notesAromatiques;
-    }
-
-    public void setNotesAromatiques(String notesAromatiques) {
-        this.notesAromatiques = notesAromatiques;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public ModeDegustation getModeDegustation() {
@@ -95,6 +89,14 @@ public class Cafe extends GenericDomain {
 
     public void setModeDegustation(ModeDegustation modeDegustation) {
         this.modeDegustation = modeDegustation;
+    }
+
+    public ProfilAromatique getProfilAromatique() {
+        return profilAromatique;
+    }
+
+    public void setProfilAromatique(ProfilAromatique profilAromatique) {
+        this.profilAromatique = profilAromatique;
     }
 
     public Set<DemandeCafe> getDemandeCafes() {
@@ -112,14 +114,14 @@ public class Cafe extends GenericDomain {
 
         Cafe cafe = (Cafe) o;
 
-        if (nom != null ? !nom.equals(cafe.nom) : cafe.nom != null) return false;
+        if (!nom.equals(cafe.nom)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return nom != null ? nom.hashCode() : 0;
+        return nom.hashCode();
     }
 
     @Override
