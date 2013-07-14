@@ -2,7 +2,6 @@ package com.github.jntakpe.jutils.domain;
 
 import com.github.jntakpe.fmk.domain.GenericDomain;
 import com.github.jntakpe.jutils.util.constants.ModeDegustation;
-import com.github.jntakpe.jutils.util.constants.ProfilAromatique;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -21,18 +20,23 @@ public class Cafe extends GenericDomain {
     private String nom;
 
     @Column(nullable = false)
-    private String description;
+    private String origine;
 
     @Column(nullable = false)
     private Integer intensite;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ModeDegustation modeDegustation;
+    private Float prix;
+
+    @Column(nullable = false)
+    private String torrefaction;
+
+    @Column(nullable = false)
+    private String notesAromatiques;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ProfilAromatique profilAromatique;
+    private ModeDegustation modeDegustation;
 
     @OneToMany(mappedBy = "demandeCafeId.cafe", cascade = CascadeType.REMOVE)
     private Set<DemandeCafe> demandeCafes = new HashSet<>();
@@ -45,12 +49,12 @@ public class Cafe extends GenericDomain {
         this.nom = nom;
     }
 
-    public String getDescription() {
-        return description;
+    public String getOrigine() {
+        return origine;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setOrigine(String origine) {
+        this.origine = origine;
     }
 
     public Integer getIntensite() {
@@ -61,20 +65,36 @@ public class Cafe extends GenericDomain {
         this.intensite = intensite;
     }
 
+    public Float getPrix() {
+        return prix;
+    }
+
+    public void setPrix(Float prix) {
+        this.prix = prix;
+    }
+
+    public String getTorrefaction() {
+        return torrefaction;
+    }
+
+    public void setTorrefaction(String torrefaction) {
+        this.torrefaction = torrefaction;
+    }
+
+    public String getNotesAromatiques() {
+        return notesAromatiques;
+    }
+
+    public void setNotesAromatiques(String notesAromatiques) {
+        this.notesAromatiques = notesAromatiques;
+    }
+
     public ModeDegustation getModeDegustation() {
         return modeDegustation;
     }
 
     public void setModeDegustation(ModeDegustation modeDegustation) {
         this.modeDegustation = modeDegustation;
-    }
-
-    public ProfilAromatique getProfilAromatique() {
-        return profilAromatique;
-    }
-
-    public void setProfilAromatique(ProfilAromatique profilAromatique) {
-        this.profilAromatique = profilAromatique;
     }
 
     public Set<DemandeCafe> getDemandeCafes() {
