@@ -73,7 +73,7 @@
         cols.push({mData: 'nom', sWidth: 225});
         $('.dyn-role').each(function () {
             var lib = $(this).text();
-            cols.push({sClass: "center", sDefaultContent: "false",
+            cols.push({sClass: "center", sDefaultContent: "false", sType: "btn-cb",
                 mData: function (source) {
                     return resolveData(source, lib);
                 },

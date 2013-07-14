@@ -383,7 +383,7 @@ $.fn.dataTableExt.oApi.fnGetColumnData = function (oSettings, iColumn, bUnique, 
 };
 
 /**
- * Formatage date fr pour datatables
+ * Tri des date fr pour datatables
  */
 jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     "date-euro-pre": function (a) {
@@ -430,5 +430,29 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
 
     "date-euro-simple-desc": function (a, b) {
         return b - a;
+    }
+});
+
+/**
+ * Tri des colonnes avec btn ok/remove
+ */
+jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+    "btn-cb-pre": function (a) {
+        "use strict";
+        if (a.indexOf("icon-ok") !== -1) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    "btn-cb-asc": function (a, b) {
+        "use strict";
+        return b - a;
+    },
+
+    "btn-cb-desc": function (a, b) {
+        "use strict";
+        return a - b;
     }
 });

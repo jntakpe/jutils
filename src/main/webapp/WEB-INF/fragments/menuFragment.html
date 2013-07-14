@@ -36,10 +36,12 @@
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle"
-                               data-toggle="dropdown" href="#"><i class="icon-book"></i>
-                                Annuaires<b class="caret"></b></a>
+                               data-toggle="dropdown" href="#"><i class="icon-beer"></i>
+                                Café<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a th:href="@{/utilisateur}"><i class="icon-male"></i> Collaborateurs</a></li>
+                                <li sec:authorize="hasAnyRole('ROLE_ADMIN','RESP_CAFE')">
+                                    <a th:href="@{/commande/new}"><i class="icon-plus-sign-alt"></i> Créer</a>
+                                </li>
                                 <li><a th:href="@{/item}"><i class="icon-laptop"></i> Items</a></li>
                             </ul>
                         </li>

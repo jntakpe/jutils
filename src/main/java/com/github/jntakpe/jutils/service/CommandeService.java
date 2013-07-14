@@ -18,4 +18,12 @@ public interface CommandeService extends GenericService<Commande> {
      */
     boolean isOpenCmd();
 
+    /**
+     * Créé une commande
+     * @param commande commande a créer
+     * @param rib rib du créateur si nécessaire
+     * @return la commandé créée
+     */
+    Commande create(Commande commande, Rib rib);
+
 }

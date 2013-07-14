@@ -12,7 +12,7 @@ INSERT INTO public.parameter (id, version, key, value) VALUES (nextval('seq_para
 INSERT INTO public.role (id, version, code, description) VALUES (nextval('seq_role'), 0, 'ROLE_USER', 'Rôle par défaut des utilisateurs enregistrés');
 INSERT INTO public.role (id, version, code, description) VALUES (nextval('seq_role'), 0, 'ROLE_ADMIN', 'Rôle d''aministrateur de l''application. Accès à toutes les opérations disponnibles.');
 INSERT INTO public.role (id, version, code, description) VALUES (nextval('seq_role'), 0, 'ROLE_MAIL', 'Rôle donnant accès à l''éditeur de mails');
-INSERT INTO public.role (id, version, code, description) VALUES (nextval('seq_role'), 0, 'ROLE_RESP_CAFE', 'Rôle permettant de créer et gérer des commandes de Nespresso');
+INSERT INTO public.role (id, version, code, description) VALUES (nextval('seq_role'), 0, 'RESP_CAFE', 'Rôle permettant de créer et gérer des commandes de Nespresso');
 
 -- Table des utilisateurs
 INSERT INTO public.utilisateur (id, version, dernieracces, login, mail, matricule, nom, nombreacces, premieracces, telephone) VALUES (50, 0, null, 'mtricot', 'mathieu.tricot@sopragroup.com', 'm041664', 'Tricot Mathieu', 0, null, '52780');

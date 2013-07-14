@@ -39,6 +39,18 @@ public class CommandeServiceImpl extends GenericServiceImpl<Commande> implements
         return commandeRepository.findByClotureAfter(now) != null;
     }
 
+    /**
+     * @{inhericDoc}
+     */
+    @Override
+    @Transactional
+    public Commande create(Commande commande, Rib rib) {
+        Utilisateur creator = utilisateurService.getCurrent();
+        creator.setRib(rib);
+        commande.setResponsable(creator);
+        return commande;
+    }
+
     @Override
     public CrudRepository<Commande, Long> getRepository() {
         return commandeRepository;
