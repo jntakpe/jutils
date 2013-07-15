@@ -7,7 +7,17 @@ package com.github.jntakpe.jutils.util.constants;
  */
 public enum ProfilAromatique {
 
-    INTENSE,
-    BALANCED,
-    FRUITY
+    INTENSE("Intense"),
+    EQUILIBRE("Équilibré"),
+    FRUITE("Fruité");
+    
+    private final String text;
+
+    private ProfilAromatique(String text) {
+        this.text = text;
+    }
+
+    public String getText() {
+        return text;
+    }
 }

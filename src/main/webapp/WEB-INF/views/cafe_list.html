@@ -11,7 +11,6 @@
         <tr>
             <th>Nom</th>
             <th>Prix</th>
-            <th>Description</th>
             <th>Intensité</th>
             <th>Mode de dégustation</th>
             <th>Profil aromatique</th>
@@ -20,29 +19,29 @@
         </thead>
         <tbody>
         <tr>
-            <td colspan="7" class="dataTables_empty">Chargement des données</td>
+            <td colspan="6" class="dataTables_empty">Chargement des données</td>
         </tr>
         </tbody>
     </table>
     <div th:include="../fragments/buttonFragment :: newDetailFragment"></div>
 </div>
+<div th:include="../fragments/popupFragment :: confirmDeletePopupFragment"></div>
 <footer th:include="../fragments/footerFragment :: footer">
 </footer>
 
 <script type="text/javascript">
-
+var oTable;
     $(function () {
         "use strict";
-        $('#dt_cafe').dataTable({
+        oTable = $('#dt_cafe').dataTable({
             sAjaxSource: "cafe/list",
             aoColumns: [
                 {mData: "nom"},
                 {mData: "prix"},
-                {mData: "description"},
                 {mData: "intensite"},
-                {mData: "modeDegustation"},
+                {mData: "categorie"},
                 {mData: "profilAromatique"},
-                jUtils.actionPopup()
+                jUtils.actionEdit()
             ]
         });
     });

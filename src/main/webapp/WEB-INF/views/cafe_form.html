@@ -10,7 +10,7 @@
     <h1 th:text="${domain.id == null} ? 'Ajout d\'un café' : 'Modification d\'un café'"></h1>
 
     <div class="offset2">
-        <form id="cafe-form" class="form-horizontal" th:action="@{/cafe}" method="post">
+        <form id="cafe-form" class="form-horizontal" th:action="@{/cafe}" th:object="${domain}" method="post">
             <fieldset>
                 <input type="hidden" id="id" name="id"/>
                 <input type="hidden" id="version" name="version"/>
@@ -19,44 +19,60 @@
                     <label class="control-label" for="nom">Nom</label>
 
                     <div class="controls">
-                        <input type="text" id="nom" name="nom"/>
+                        <input type="text" id="nom" class="input-medium" th:field="*{nom}"/>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="prix">Prix</label>
 
                     <div class="controls">
-                        <input type="text" id="prix" name="prix"/>
+                        <input type="text" id="prix" class="input-mini" th:field="*{prix}"/>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="description">Description</label>
 
                     <div class="controls">
-                        <input type="text" id="description" name="description"/>
+                        <input type="text" id="description" class="input-xlarge" th:field="*{description}"/>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="intensite">Intensité</label>
 
                     <div class="controls">
-                        <input type="text" id="intensite" name="intensite"/>
+                        <select id="intensite" th:field="*{intensite}" class="input-mini">
+                            <option th:each="number : ${numbers}" th:text="${number}" th:value="${number}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="modeDegustation">Mode de dégustation</label>
+                    <label class="control-label" for="categorie">Mode de dégustation</label>
 
                     <div class="controls">
-                        <input type="text" id="modeDegustation" name="modeDegustation"/>
+                        <select id="categorie" th:field="*{categorie}" class="input-medium">
+                            <option th:each="categorie : ${categories}" th:text="${categorie.text}"
+                                    th:value="${categorie}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="profilAromatique">Profil aromatique</label>
 
                     <div class="controls">
-                        <input type="text" id="profilAromatique" name="profilAromatique"/>
+                        <select id="profilAromatique" th:field="*{profilAromatique}" class="input-medium">
+                            <option th:each="profil : ${profils}" th:text="${profil.text}"
+                                    th:value="${profil}"></option>
+                        </select>
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label" for="image">Image capsule</label>
+
+                    <div class="controls">
+                        <input type="file" id="image" name="image" th:field="*{image}" />
+                    </div>
+                </div>
+                <div th:include="../fragments/buttonFragment :: formButtonsFragment"></div>
             </fieldset>
         </form>
     </div>
@@ -73,7 +89,8 @@
                     unicity: true
                 },
                 prix: {
-                    required: true
+                    required: true,
+                    number: true
                 },
                 description: {
                     required: true
@@ -81,7 +98,7 @@
                 intensite: {
                     required: true
                 },
-                modeDegustation: {
+                categorie: {
                     required: true
                 },
                 profilAromatique: {

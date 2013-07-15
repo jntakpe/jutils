@@ -147,11 +147,12 @@ public abstract class GenericController<T extends GenericDomain> {
      */
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView save(@ModelAttribute T domain, RedirectAttributes redirectAttributes) {
+        boolean isNew = domain.getId() == null;
         T entity = getService().save(domain);
         String msg = messageManager.getMessage(domain.getId() == null ? "create.success" : "update.success", entity);
         redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(msg));
         String username = FmkUtils.getCurrentUsername();
-        messageManager.logMessage(domain.getId() == null ? "MSG00001" : "MSG00002", LogLevel.INFO, username, entity);
+        messageManager.logMessage(isNew ? "MSG00001" : "MSG00002", LogLevel.INFO, username, entity);
         return new ModelAndView(getRedirectListView());
     }
 
@@ -164,10 +165,11 @@ public abstract class GenericController<T extends GenericDomain> {
     @RequestMapping(value = "/ajax", method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessage ajaxSave(@ModelAttribute T domain) {
+        boolean isNew = domain.getId() == null;
         T entity = getService().save(domain);
         String username = FmkUtils.getCurrentUsername();
         String msg = messageManager.getMessage(domain.getId() == null ? "create.success" : "update.success", entity);
-        messageManager.logMessage(domain.getId() == null ? "MSG00001" : "MSG00002", LogLevel.INFO, username, entity);
+        messageManager.logMessage(isNew ? "MSG00001" : "MSG00002", LogLevel.INFO, username, entity);
         return ResponseMessage.getSuccessMessage(msg, entity);
     }
 
@@ -179,7 +181,7 @@ public abstract class GenericController<T extends GenericDomain> {
      * @param value   valeur du champ
      * @return true si cette valeur de champ est disponnible
      */
-    @RequestMapping(value = "/control*")
+    @RequestMapping(value = {"/control*", "/new/control*"})
     @ResponseBody
     public boolean control(HttpServletRequest request, @RequestParam(required = false) Long id,
                            @RequestParam Object value) {

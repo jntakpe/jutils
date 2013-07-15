@@ -5,18 +5,19 @@
 
 <!-- form -->
 <div th:fragment="formButtonsFragment">
-    <div class="form-button clear">
-        <button type="button" class="btn btn-primary" onclick="jUtils.back()">
-            <i class="icon-arrow-left"></i>
-            <span th:text="#{layout.return}"></span>
-        </button>
-        <button type="reset" class="btn pull-right">
-            <i class="icon-undo"></i>
-            <span th:text="#{layout.reset}"></span>
-        </button>
-        <button type="submit" class="btn btn-success pull-right">
+    <div class="form-actions clear">
+        <button type="submit" class="btn btn-success">
             <i class="icon-ok"></i>
-            <span th:text="#{layout.submit}"></span>
+            <span> Valider</span>
+        </button>
+        <button type="reset" class="btn">
+            <i class="icon-undo"></i>
+            <span> Reset</span>
+        </button>
+
+        <button type="button" class="btn btn-primary pull-right" onclick="jUtils.back()">
+            <span>Retour </span>
+            <i class="icon-arrow-right"></i>
         </button>
     </div>
 </div>

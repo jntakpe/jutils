@@ -1,7 +1,8 @@
 package com.github.jntakpe.jutils.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jntakpe.fmk.domain.GenericDomain;
-import com.github.jntakpe.jutils.util.constants.ModeDegustation;
+import com.github.jntakpe.jutils.util.constants.Categorie;
 import com.github.jntakpe.jutils.util.constants.ProfilAromatique;
 
 import javax.persistence.*;
@@ -34,12 +35,13 @@ public class Cafe extends GenericDomain {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ModeDegustation modeDegustation;
+    private Categorie categorie;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProfilAromatique profilAromatique;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "demandeCafeId.cafe", cascade = CascadeType.REMOVE)
     private Set<DemandeCafe> demandeCafes = new HashSet<>();
 
@@ -83,12 +85,12 @@ public class Cafe extends GenericDomain {
         this.image = image;
     }
 
-    public ModeDegustation getModeDegustation() {
-        return modeDegustation;
+    public Categorie getCategorie() {
+        return categorie;
     }
 
-    public void setModeDegustation(ModeDegustation modeDegustation) {
-        this.modeDegustation = modeDegustation;
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
     }
 
     public ProfilAromatique getProfilAromatique() {

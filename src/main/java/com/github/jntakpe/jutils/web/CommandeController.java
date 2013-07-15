@@ -8,7 +8,6 @@ import com.github.jntakpe.jutils.domain.Commande;
 import com.github.jntakpe.jutils.domain.Rib;
 import com.github.jntakpe.jutils.service.CommandeService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
-import com.github.jntakpe.jutils.util.constants.ModePaiement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -52,7 +51,6 @@ public class CommandeController {
             return new ModelAndView("portal").addObject(ResponseMessage.getErrorMessage(msg));
         } else {
             ModelAndView mv = new ModelAndView("commande_form");
-            mv.addObject("modes", ModePaiement.values());
             Rib rib = utilisateurService.getCurrent().getRib();
             mv.addObject(rib == null ? new Rib() : rib);
             return mv.addObject(new Commande());
