@@ -181,7 +181,7 @@ public abstract class GenericController<T extends GenericDomain> {
      * @param value   valeur du champ
      * @return true si cette valeur de champ est disponnible
      */
-    @RequestMapping(value = {"/control*", "/new/control*"})
+    @RequestMapping(value = {"/control*", "/*/control*"})
     @ResponseBody
     public boolean control(HttpServletRequest request, @RequestParam(required = false) Long id,
                            @RequestParam Object value) {

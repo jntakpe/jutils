@@ -30,13 +30,13 @@
 </footer>
 
 <script type="text/javascript">
-var oTable;
+    var oTable;
     $(function () {
         "use strict";
         oTable = $('#dt_cafe').dataTable({
             sAjaxSource: "cafe/list",
             aoColumns: [
-                {mData: "nom"},
+                {mData: "nom", sWidth: 200},
                 {mData: "prix"},
                 {mData: "intensite"},
                 {mData: "categorie"},

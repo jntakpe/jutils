@@ -6,6 +6,7 @@ import com.github.jntakpe.jutils.util.constants.Categorie;
 import com.github.jntakpe.jutils.util.constants.ProfilAromatique;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class Cafe extends GenericDomain {
     private Integer intensite;
 
     @Column(nullable = false)
-    private Float prix;
+    private BigDecimal prix;
 
     @Lob
     private byte[] image;
@@ -37,7 +38,6 @@ public class Cafe extends GenericDomain {
     @Enumerated(EnumType.STRING)
     private Categorie categorie;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProfilAromatique profilAromatique;
 
@@ -69,11 +69,11 @@ public class Cafe extends GenericDomain {
         this.intensite = intensite;
     }
 
-    public Float getPrix() {
+    public BigDecimal getPrix() {
         return prix;
     }
 
-    public void setPrix(Float prix) {
+    public void setPrix(BigDecimal prix) {
         this.prix = prix;
     }
 

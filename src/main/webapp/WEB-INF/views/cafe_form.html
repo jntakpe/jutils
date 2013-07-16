@@ -12,8 +12,8 @@
     <div class="offset2">
         <form id="cafe-form" class="form-horizontal" th:action="@{/cafe}" th:object="${domain}" method="post">
             <fieldset>
-                <input type="hidden" id="id" name="id"/>
-                <input type="hidden" id="version" name="version"/>
+                <input type="hidden" id="id" th:field="*{id}"/>
+                <input type="hidden" id="version" th:field="*{version}"/>
 
                 <div class="control-group">
                     <label class="control-label" for="nom">Nom</label>
@@ -60,6 +60,7 @@
 
                     <div class="controls">
                         <select id="profilAromatique" th:field="*{profilAromatique}" class="input-medium">
+                            <option value="">Choix d'un profil</option>
                             <option th:each="profil : ${profils}" th:text="${profil.text}"
                                     th:value="${profil}"></option>
                         </select>
@@ -69,7 +70,7 @@
                     <label class="control-label" for="image">Image capsule</label>
 
                     <div class="controls">
-                        <input type="file" id="image" name="image" th:field="*{image}" />
+                        <input type="file" id="image" th:field="*{image}"/>
                     </div>
                 </div>
                 <div th:include="../fragments/buttonFragment :: formButtonsFragment"></div>
@@ -99,9 +100,6 @@
                     required: true
                 },
                 categorie: {
-                    required: true
-                },
-                profilAromatique: {
                     required: true
                 }
             }
