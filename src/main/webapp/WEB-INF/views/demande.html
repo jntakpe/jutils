@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../fragments/headFragment :: head">
+</head>
+<body>
+<header th:include="../fragments/menuFragment :: fullMenu"></header>
+<div id="mainContainer" class="container">
+    <div th:include="../fragments/alertFragment :: alert"></div>
+    <div class="container row">
+        <h1>Saisie d'une commande de café</h1>
+
+        <div th:each="cafe : ${cafes}">
+            <p th:text="${cafe.nom}"></p>
+            <img th:src="@{${'/demande/image/' + cafe.id}}"/>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

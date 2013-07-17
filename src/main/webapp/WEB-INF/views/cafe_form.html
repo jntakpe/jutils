@@ -10,7 +10,8 @@
     <h1 th:text="${domain.id == null} ? 'Ajout d\'un café' : 'Modification d\'un café'"></h1>
 
     <div class="offset2">
-        <form id="cafe-form" class="form-horizontal" th:action="@{/cafe}" th:object="${domain}" method="post">
+        <form id="cafe-form" class="form-horizontal" th:action="@{/cafe}" th:object="${domain}" method="post"
+              enctype="multipart/form-data">
             <fieldset>
                 <input type="hidden" id="id" th:field="*{id}"/>
                 <input type="hidden" id="version" th:field="*{version}"/>
@@ -70,7 +71,7 @@
                     <label class="control-label" for="image">Image capsule</label>
 
                     <div class="controls">
-                        <input type="file" id="image" th:field="*{image}"/>
+                        <input type="file" id="image" name="image"/>
                     </div>
                 </div>
                 <div th:include="../fragments/buttonFragment :: formButtonsFragment"></div>

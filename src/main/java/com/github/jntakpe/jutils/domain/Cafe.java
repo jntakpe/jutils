@@ -31,7 +31,6 @@ public class Cafe extends GenericDomain {
     @Column(nullable = false)
     private BigDecimal prix;
 
-    @Lob
     private byte[] image;
 
     @Column(nullable = false)

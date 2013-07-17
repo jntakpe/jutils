@@ -3,6 +3,7 @@ package com.github.jntakpe.jutils.domain;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,10 +17,10 @@ import java.util.Set;
 public class Demande extends GenericDomain {
 
     @Column(nullable = false)
-    private Float montantTotal;
+    private BigDecimal montantTotal;
 
     @Column(nullable = false)
-    private Float montantPaye;
+    private BigDecimal montantPaye;
 
     @Column(nullable = false)
     private Integer nombreBoites;
@@ -33,19 +34,19 @@ public class Demande extends GenericDomain {
     @OneToMany(mappedBy = "demandeCafeId.demande", cascade = CascadeType.REMOVE)
     private Set<DemandeCafe> demandeCafes = new HashSet<>();
 
-    public Float getMontantTotal() {
+    public BigDecimal getMontantTotal() {
         return montantTotal;
     }
 
-    public void setMontantTotal(Float montantTotal) {
+    public void setMontantTotal(BigDecimal montantTotal) {
         this.montantTotal = montantTotal;
     }
 
-    public Float getMontantPaye() {
+    public BigDecimal getMontantPaye() {
         return montantPaye;
     }
 
-    public void setMontantPaye(Float montantPaye) {
+    public void setMontantPaye(BigDecimal montantPaye) {
         this.montantPaye = montantPaye;
     }
 

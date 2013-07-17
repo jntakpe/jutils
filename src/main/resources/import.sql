@@ -22,44 +22,44 @@ INSERT INTO public.role (id, version, code, description) VALUES (nextval(
                                                                      'seq_role'), 0, 'RESP_CAFE', 'Rôle permettant de créer et gérer des commandes de Nespresso');
 
 -- Table des cafés
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'ESPRESSO', 'Riche et singulier', 207569, 5, 'Capriccio', 0.35, 'EQUILIBRE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'ESPRESSO', 'Léger et raffraichissant', 207570, 3, 'Cosi', 0.35, 'FRUITE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'ESPRESSO', 'Intense et crémeux', 207571, 9, 'Arpeggio', 0.35, 'INTENSE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'ESPRESSO', 'Equilibré et harmonieux', 207572, 6, 'Livanto', 0.35, 'EQUILIBRE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'ESPRESSO', 'Complexe et équilibré', 207573, 8, 'Roma', 0.35, 'INTENSE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'ESPRESSO', 'Doux et fruité', 207574, 4, 'Volluto', 0.35, 'EQUILIBRE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'DECAFFEINATO', 'Fruité et délicat', 207575, 2, 'Decaffeinato', 0.35, 'FRUITE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'DECAFFEINATO', 'Dense et puissant', 207576, 7, 'Decaffeinato intenso', 0.35, 'INTENSE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'DECAFFEINATO', 'Léger et savoureux', 207577, 3, 'Decaffeinato lungo', 0.37, 'EQUILIBRE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'LUNGO', 'Riche et intense', 207578, 7, 'Fortissio Lungo', 0.37, 'INTENSE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'LUNGO', 'Complexe et équilibré', 207579, 4, 'Vivalto Lungo', 0.37, 'FRUITE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'LUNGO', 'Doux et soyeux', 207580, 4, 'Linizio Lungo', 0.37, 'EQUILIBRE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'ESPRESSO', 'Doux et moelleux', 207581, 4, 'Dulsao do Brasil', 0.39, 'EQUILIBRE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'ESPRESSO', 'Puissant et épicé', 207582, 10, 'Indriya from India', 0.39, 'INTENSE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'ESPRESSO', 'Fruité et équilibré', 207583, 6, 'Rosabaya de Colombia', 0.39, 'FRUITE');
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'VARIATIONS', 'Tendre et gourmand', 207584, 6, 'Caramelito', 0.42, null);
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'VARIATIONS', 'Doux et soyeux', 207585, 6, 'Vanilio', 0.42, null);
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'VARIATIONS', 'Chocolaté', 207586, 6, 'Ciocattino', 0.42, null);
-INSERT INTO public.cafe (id, version, categorie, description, image, intensite, nom, prix, profilaromatique) VALUES (nextval(
-                                                                                                                         'seq_cafe'), 0, 'ESPRESSO', 'Puissant et contrasté', 207542, 10, 'Ristretto', 0.35, 'INTENSE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'ESPRESSO', 'Riche et singulier', 5, 'Capriccio', 0.35, 'EQUILIBRE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'ESPRESSO', 'Léger et raffraichissant', 3, 'Cosi', 0.35, 'FRUITE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'ESPRESSO', 'Intense et crémeux', 9, 'Arpeggio', 0.35, 'INTENSE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'ESPRESSO', 'Equilibré et harmonieux', 6, 'Livanto', 0.35, 'EQUILIBRE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'ESPRESSO', 'Complexe et équilibré', 8, 'Roma', 0.35, 'INTENSE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'ESPRESSO', 'Doux et fruité', 4, 'Volluto', 0.35, 'EQUILIBRE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'DECAFFEINATO', 'Fruité et délicat', 2, 'Decaffeinato', 0.35, 'FRUITE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'DECAFFEINATO', 'Dense et puissant', 7, 'Decaffeinato intenso', 0.35, 'INTENSE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'DECAFFEINATO', 'Léger et savoureux', 3, 'Decaffeinato lungo', 0.37, 'EQUILIBRE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'LUNGO', 'Riche et intense', 7, 'Fortissio Lungo', 0.37, 'INTENSE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'LUNGO', 'Complexe et équilibré', 4, 'Vivalto Lungo', 0.37, 'FRUITE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'LUNGO', 'Doux et soyeux', 4, 'Linizio Lungo', 0.37, 'EQUILIBRE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'ESPRESSO', 'Doux et moelleux', 4, 'Dulsao do Brasil', 0.39, 'EQUILIBRE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'ESPRESSO', 'Puissant et épicé', 10, 'Indriya from India', 0.39, 'INTENSE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'ESPRESSO', 'Fruité et équilibré', 6, 'Rosabaya de Colombia', 0.39, 'FRUITE');
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'VARIATIONS', 'Tendre et gourmand', 6, 'Caramelito', 0042, null);
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'VARIATIONS', 'Doux et soyeux', 6, 'Vanilio', 0.42, null);
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'VARIATIONS', 'Chocolaté', 6, 'Ciocattino', 0.42, null);
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (nextval(
+                                                                                                                  'seq_cafe'), 0, 'ESPRESSO', 'Puissant et contrasté', 10, 'Ristretto', 0.35, 'INTENSE');
 
 -- Table des utilisateurs
 INSERT INTO public.utilisateur (id, version, dernieracces, login, mail, matricule, nom, nombreacces, premieracces, telephone) VALUES (50, 0, null, 'mtricot', 'mathieu.tricot@sopragroup.com', 'm041664', 'Tricot Mathieu', 0, null, '52780');
