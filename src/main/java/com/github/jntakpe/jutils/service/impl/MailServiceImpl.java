@@ -49,8 +49,8 @@ public class MailServiceImpl implements MailService {
     @Transactional(readOnly = true)
     public void send(MailDTO mailDTO, boolean previzualize) {
         boolean isSopra = !StringUtils.isBlank(mailDTO.getFromSopra());
-        String msg = messageManager.logMessage("MSG20000", LogLevel.INFO, FmkUtils.getCurrentUsername(),
-                mailDTO.getSubject(), mailDTO.getTo(), isSopra ? mailDTO.getFromSopra() : mailDTO.getFromOther());
+        String msg = messageManager.logMessage("MSG20000", LogLevel.INFO, FmkUtils.getCurrentUsername(), mailDTO.getSubject(),
+                mailDTO.getTo(), isSopra ? mailDTO.getFromSopra() : mailDTO.getFromOther());
         Parameter smtpHost = parameterService.findByKey(MandatoryParams.SMTP_HOST.getKey());
         if (smtpHost == null || StringUtils.isBlank(smtpHost.getValue()))
             throw new BusinessException(BusinessCode.EMAIL_MISSING_PARAM, MandatoryParams.SMTP_HOST.getKey());
@@ -76,10 +76,8 @@ public class MailServiceImpl implements MailService {
             }
             helper.setSubject(mailDTO.getSubject());
             if (isSopra)
-                helper.setText(sopraMailBuilder(from, mailDTO.getBody(),
-                        from.getMail().trim().endsWith("soprabanking.com")), true);
-            else
-                helper.setText(mailDTO.getBody());
+                helper.setText(sopraMailBuilder(from, mailDTO.getBody(), from.getMail().trim().endsWith("soprabanking.com")), true);
+            else helper.setText(mailDTO.getBody());
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

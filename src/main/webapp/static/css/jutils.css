@@ -1,4 +1,4 @@
-/**
+/*!
 * La taille des champs de recherche dépend du conteneur
 */
 .text_filter {
@@ -8,3 +8,18 @@
 .text_filter:focus {
     width: 100%;
 }
+
+/*!
+* Ecran de gestion des commandes de café
+*/
+div.inline {
+    display: inline-block;
+}
+
+.img-text {
+    vertical-align: top;
+    text-align: center;
+    width: 100px;
+    margin: 15px;
+}
+

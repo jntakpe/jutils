@@ -33,8 +33,7 @@ public class WebExceptionTranslator {
      * @return L'objet normalement retourné par la méthode appelée
      * @throws Throwable rethrow les exceptions
      */
-    @Around("execution(* com.github.jntakpe.*.web..*.*(..))" +
-            "&& @annotation(org.springframework.web.bind.annotation.ResponseBody)")
+    @Around("execution(* com.github.jntakpe.*.web..*.*(..))" + "&& @annotation(org.springframework.web.bind.annotation.ResponseBody)")
     public Object catchExceptions(ProceedingJoinPoint joinPoint) throws Throwable {
         Object result;
         try {
@@ -51,8 +50,7 @@ public class WebExceptionTranslator {
                         return ResponseMessage.getErrorMessage(msg);
                     }
                 } else {
-                    return ResponseMessage.getErrorMessage(messageManager.getMessage("unknown.error"),
-                            e.getStackTrace());
+                    return ResponseMessage.getErrorMessage(messageManager.getMessage("unknown.error"), e.getStackTrace());
                 }
             }
             throw e;

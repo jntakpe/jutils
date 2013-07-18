@@ -33,7 +33,8 @@
 
         var oFunctionTimeout = null;
 
-        var fnOnFiltered = function () { };
+        var fnOnFiltered = function () {
+        };
 
         function _fnGetColumnValues(oSettings, iColumn, bUnique, bFiltered, bIgnoreEmpty) {
             ///<summary>
@@ -190,7 +191,6 @@
             aiCustomSearch_Indexes.push(i);
 
 
-
             //------------start range filtering function
 
 
@@ -224,7 +224,6 @@
                 }
             );
             //------------end range filtering function
-
 
 
             $('#' + sFromId + ',#' + sToId, th).keyup(function () {
@@ -447,7 +446,8 @@
             var numCol = Math.floor(iLen / numRow);
             if (iLen % numRow > 0) {
                 numCol = numCol + 1;
-            };
+            }
+            ;
 
             //count how many column should be generated and split the div size
             var divWidth = 100 / numCol - 2;
@@ -527,22 +527,25 @@
                 autoOpen: false,
                 //show: "blind",
                 hide: "blind",
-                buttons: [{
-                    text: "Reset",
-                    click: function () {
-                        //$('#'+buttonId).removeClass("filter_selected"); //LM remove border if filter selected
-                        $('input:checkbox[name="' + localLabel + '"]:checked').each(function (index3) {
-                            $(this).attr('checked', false);
-                            $(this).addClass("search_init");
-                        });
-                        oTable.fnFilter('', index, true, false);
-                        fnOnFiltered();
-                        return false;
-                    }
-                },
+                buttons: [
+                    {
+                        text: "Reset",
+                        click: function () {
+                            //$('#'+buttonId).removeClass("filter_selected"); //LM remove border if filter selected
+                            $('input:checkbox[name="' + localLabel + '"]:checked').each(function (index3) {
+                                $(this).attr('checked', false);
+                                $(this).addClass("search_init");
+                            });
+                            oTable.fnFilter('', index, true, false);
+                            fnOnFiltered();
+                            return false;
+                        }
+                    },
                     {
                         text: "Close",
-                        click: function () { $(this).dialog("close"); }
+                        click: function () {
+                            $(this).dialog("close");
+                        }
                     }
                 ]
             });
@@ -586,8 +589,6 @@
         }
 
 
-
-
         function _fnRangeLabelPart(iPlace) {
             switch (iPlace) {
                 case 0:
@@ -598,8 +599,6 @@
                     return sRangeFormat.substring(sRangeFormat.indexOf("{to}") + 4);
             }
         }
-
-
 
 
         var oTable = this;
@@ -775,8 +774,6 @@
         });
 
     };
-
-
 
 
 })(jQuery);

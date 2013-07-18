@@ -120,10 +120,8 @@ public abstract class GenericController<T extends GenericDomain> {
     @ResponseBody
     public ResponseMessage populate(@PathVariable Long id) {
         T entity = getService().findOne(id);
-        if (entity == null)
-            return ResponseMessage.getErrorMessage(messageManager.getMessage("access.notexist"));
-        else
-            return ResponseMessage.getSuccessMessage(entity);
+        if (entity == null) return ResponseMessage.getErrorMessage(messageManager.getMessage("access.notexist"));
+        else return ResponseMessage.getSuccessMessage(entity);
     }
 
     /**
@@ -183,8 +181,7 @@ public abstract class GenericController<T extends GenericDomain> {
      */
     @RequestMapping(value = {"/control*", "/*/control*"})
     @ResponseBody
-    public boolean control(HttpServletRequest request, @RequestParam(required = false) Long id,
-                           @RequestParam Object value) {
+    public boolean control(HttpServletRequest request, @RequestParam(required = false) Long id, @RequestParam Object value) {
         String uri = request.getRequestURI();
         String fieldName = uri.substring(uri.lastIndexOf(PREFIX_CONTROL) + PREFIX_CONTROL.length());
         return getService().isAvaillable(fieldName, id, value);
@@ -197,8 +194,7 @@ public abstract class GenericController<T extends GenericDomain> {
      */
     private RedirectView getRedirectListView() {
         String nomPage = pageName();
-        if (pageName().charAt(0) != '/')
-            nomPage = "/" + nomPage;
+        if (pageName().charAt(0) != '/') nomPage = "/" + nomPage;
         return new RedirectView(nomPage, true);
     }
 

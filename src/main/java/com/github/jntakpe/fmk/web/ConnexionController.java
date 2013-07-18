@@ -28,10 +28,8 @@ public class ConnexionController {
      */
     @RequestMapping(value = "/connexion", method = RequestMethod.GET)
     public ModelAndView connexion(HttpServletRequest request, @RequestParam(required = false) String authentication) {
-        if (request.isUserInRole(BASIC_ROLE))
-            return new ModelAndView("redirect:/portal");
-        else
-            return new ModelAndView("connexion").addObject("authentication", authentication);
+        if (request.isUserInRole(BASIC_ROLE)) return new ModelAndView("redirect:/portal");
+        else return new ModelAndView("connexion").addObject("authentication", authentication);
 
     }
 

@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 public class ServiceExceptionTranslator {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     /**
      * Méthode interceptant les exceptions lancées par la couche service/business lors d'une interaction avec
      * une source de données

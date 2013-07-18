@@ -10,11 +10,9 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "demande_cafe")
-@AssociationOverrides({
-        @AssociationOverride(name = "demandeCafeId.demande"
-                , joinColumns = @JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)),
-        @AssociationOverride(name = "demandeCafeId.cafe"
-                , joinColumns = @JoinColumn(referencedColumnName = "id", nullable = false, updatable = false))})
+@AssociationOverrides({@AssociationOverride(name = "demandeCafeId.demande", joinColumns = @JoinColumn(referencedColumnName = "id",
+        nullable = false, updatable = false)), @AssociationOverride(name = "demandeCafeId.cafe",
+        joinColumns = @JoinColumn(referencedColumnName = "id", nullable = false, updatable = false))})
 public class DemandeCafe implements Serializable {
 
     @EmbeddedId
@@ -56,8 +54,7 @@ public class DemandeCafe implements Serializable {
 
         DemandeCafe that = (DemandeCafe) o;
 
-        if (demandeCafeId != null ? !demandeCafeId.equals(that.demandeCafeId) : that.demandeCafeId != null)
-            return false;
+        if (demandeCafeId != null ? !demandeCafeId.equals(that.demandeCafeId) : that.demandeCafeId != null) return false;
 
         return true;
     }

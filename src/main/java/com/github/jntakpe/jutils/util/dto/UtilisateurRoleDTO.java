@@ -49,8 +49,7 @@ public class UtilisateurRoleDTO {
 
         UtilisateurRoleDTO that = (UtilisateurRoleDTO) o;
 
-        if (nom != null ? !nom.equals(that.nom) : that.nom != null)
-            return false;
+        if (nom != null ? !nom.equals(that.nom) : that.nom != null) return false;
 
         return true;
     }

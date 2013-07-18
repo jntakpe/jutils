@@ -10,7 +10,7 @@ public enum ProfilAromatique {
     INTENSE("Intense"),
     EQUILIBRE("Équilibré"),
     FRUITE("Fruité");
-    
+
     private final String text;
 
     private ProfilAromatique(String text) {

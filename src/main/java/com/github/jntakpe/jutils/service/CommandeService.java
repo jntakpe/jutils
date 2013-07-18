@@ -20,8 +20,9 @@ public interface CommandeService extends GenericService<Commande> {
 
     /**
      * Créé une commande
+     *
      * @param commande commande a créer
-     * @param rib rib du créateur si nécessaire
+     * @param rib      rib du créateur si nécessaire
      * @return la commandé créée
      */
     Commande create(Commande commande, Rib rib);

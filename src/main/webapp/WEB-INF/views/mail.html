@@ -101,7 +101,7 @@
                 beforeSubmit: function () {
                     return $('#mail-form').valid();
                 },
-                url : "mail/prev",
+                url: "mail/prev",
                 success: function (response) {
                     if (response.success) {
                         jUtils.displaySuccess(response.message);

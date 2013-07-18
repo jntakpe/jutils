@@ -2,8 +2,8 @@
 
 <configuration>
 
-    <property name="LOGS_FOLDER" value="C:/AppEnv/jutils/log" />
-    <property name="SAVE_FOLDER" value="${LOGS_FOLDER}/collect" />
+    <property name="LOGS_FOLDER" value="C:/AppEnv/jutils/log"/>
+    <property name="SAVE_FOLDER" value="${LOGS_FOLDER}/collect"/>
 
     <!--<logger name="org.hibernate.type" level="ALL"/>-->
 
@@ -55,13 +55,13 @@
     </appender>
 
     <logger name="com.github.jntakpe" additivity="false" level="TRACE">
-        <appender-ref ref="audit-file" />
-        <appender-ref ref="console" />
+        <appender-ref ref="audit-file"/>
+        <appender-ref ref="console"/>
     </logger>
 
     <root level="WARN">
-        <appender-ref ref="log-file" />
-        <appender-ref ref="troubleshooting-file" />
+        <appender-ref ref="log-file"/>
+        <appender-ref ref="troubleshooting-file"/>
     </root>
 
 </configuration>

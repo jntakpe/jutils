@@ -7,9 +7,9 @@ package com.github.jntakpe.jutils.util.constants;
  */
 public enum Categorie {
 
-    DECAFFEINATO("Decaffeinato"),
     ESPRESSO("Espresso"),
     LUNGO("Lungo"),
+    DECAFFEINATO("Decaffeinato"),
     VARIATIONS("Variations");
 
     private final String text;

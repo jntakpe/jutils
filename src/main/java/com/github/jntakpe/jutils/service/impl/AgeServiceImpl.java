@@ -21,8 +21,7 @@ public class AgeServiceImpl implements AgeService {
     public Age calcAge(Date birthdate) {
         DateTime birthdateDT = new DateTime(birthdate);
         DateTime now = DateTime.now();
-        if (now.isBefore(birthdateDT))
-            throw new BusinessException(BusinessCode.FUTURE_BIRTHDATE);
+        if (now.isBefore(birthdateDT)) throw new BusinessException(BusinessCode.FUTURE_BIRTHDATE);
         Interval interval = new Interval(birthdateDT, now);
         Age age = new Age();
         age.setMonth(Months.monthsIn(interval).getMonths());

@@ -102,8 +102,7 @@ public abstract class GenericServiceImpl<T extends GenericDomain> implements Gen
         Method method;
         if ((method = ReflectionUtils.findMethod(repoClass, methodName, fieldClass)) == null)
             if ((method = ReflectionUtils.findMethod(repoClass, methodNameIC, fieldClass)) == null)
-                throw new BusinessException(BusinessCode.REPOSITORY_METHOD_MISSING, fieldClass, methodName,
-                        methodNameIC, repoClass);
+                throw new BusinessException(BusinessCode.REPOSITORY_METHOD_MISSING, fieldClass, methodName, methodNameIC, repoClass);
         T entity = (T) ReflectionUtils.invokeMethod(method, getRepository(), value);
         return entity == null || entity.getId().equals(id);
     }

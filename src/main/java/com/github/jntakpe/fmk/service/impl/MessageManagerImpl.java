@@ -52,7 +52,8 @@ public class MessageManagerImpl implements MessageManager {
 
     /**
      * Log le message avec le bon niveau
-     * @param msg message a logger
+     *
+     * @param msg      message a logger
      * @param logLevel niveau souhaité
      */
     private void resolveLevelAndLog(String msg, LogLevel logLevel) {

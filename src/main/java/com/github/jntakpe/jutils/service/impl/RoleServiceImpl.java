@@ -1,6 +1,5 @@
 package com.github.jntakpe.jutils.service.impl;
 
-import com.github.jntakpe.fmk.service.MessageManager;
 import com.github.jntakpe.fmk.service.impl.GenericServiceImpl;
 import com.github.jntakpe.jutils.domain.Role;
 import com.github.jntakpe.jutils.domain.Utilisateur;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 /**
  * Implémentation des services associés à l'entité {@link Role}
@@ -26,7 +24,6 @@ public class RoleServiceImpl extends GenericServiceImpl<Role> implements RoleSer
 
     @Autowired
     private UtilisateurService utilisateurService;
-
 
 
     @Override
@@ -51,10 +48,8 @@ public class RoleServiceImpl extends GenericServiceImpl<Role> implements RoleSer
     public String assignRole(Long utilisateurId, String roleName, boolean hasRole) {
         Utilisateur utilisateur = utilisateurService.findOne(utilisateurId);
         Role role = findByCode(roleName);
-        if (hasRole)
-            utilisateur.removeRole(role);
-        else
-            utilisateur.addRole(role);
+        if (hasRole) utilisateur.removeRole(role);
+        else utilisateur.addRole(role);
         return utilisateur.getNom();
     }
 }

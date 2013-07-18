@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * Contrôleur gérant les écrans relatifs à une demande de café
@@ -31,14 +29,12 @@ public class DemandeController {
     public ModelAndView display() {
         ModelAndView mv = new ModelAndView("demande");
         mv.addObject(new Demande());
-        return mv.addObject("cafes", cafeService.findAll());
+        return mv.addObject("cafes", cafeService.categorize());
     }
 
     @RequestMapping(value = "/image/{id}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public byte[] displayImage(@PathVariable Long id) throws IOException {
-        byte[] image = cafeService.findOne(id).getImage();
-        byte[] image2 = Files.readAllBytes(Paths.get("C:/servers/nespresso-arpegio.jpg"));
-        return image;
+        return cafeService.findOne(id).getImage();
     }
 }

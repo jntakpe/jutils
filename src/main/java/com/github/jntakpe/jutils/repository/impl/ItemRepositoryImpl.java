@@ -36,8 +36,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     public List<Item> findAllLdapItems() {
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectClass", "computer")).and(new LikeFilter("name", "ITEM-*"));
-        return ldapTemplate.search("OU=Toulouse Colomiers 2,OU=FR,OU=Workstations", filter.encode(),
-                new ItemAttributeMapper());
+        return ldapTemplate.search("OU=Toulouse Colomiers 2,OU=FR,OU=Workstations", filter.encode(), new ItemAttributeMapper());
     }
 
     /**

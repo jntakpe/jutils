@@ -47,8 +47,7 @@ public class Utilisateur extends GenericDomain {
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "utilisateur_role", joinColumns = {
-            @JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)},
+    @JoinTable(name = "utilisateur_role", joinColumns = {@JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)})
     @OrderBy("id asc")
     private Set<Role> roles = new HashSet<>();

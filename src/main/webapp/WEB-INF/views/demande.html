@@ -9,10 +9,13 @@
     <div class="container row">
         <h1>Saisie d'une commande de café</h1>
 
-        <div th:each="cafe : ${cafes}">
-            <p th:text="${cafe.nom}"></p>
-            <img th:src="@{${'/demande/image/' + cafe.id}}"/>
+        <form th:action="@{/demande}" method="post"></form>
+
+        <div th:each="cafe : ${cafes}" class="inline img-text">
+            <img th:src="@{${'/demande/image/' + cafe.id}}" class="cafe-img"/>
+            <i th:text="${cafe.nom}"></i>
         </div>
+
 
     </div>
 </div>

@@ -43,7 +43,7 @@ public class CommandeController {
     private MessageManager messageManager;
 
     @PreAuthorize("hasAnyRole('RESP_CAFE', 'ROLE_ADMIN')")
-    @RequestMapping(value="/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView displayForm() {
         if (commandeService.isOpenCmd()) {
             String msg = messageManager.getMessage("already.open.cmd");

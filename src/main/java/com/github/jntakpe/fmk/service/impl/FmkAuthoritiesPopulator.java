@@ -42,7 +42,7 @@ public class FmkAuthoritiesPopulator implements LdapAuthoritiesPopulator {
     /**
      * Association des rôles entre l'utilisateur récupérer du LDAP et celui persisté en base de données
      *
-     * @param ldapCtx données récupérées du LDAP
+     * @param ldapCtx  données récupérées du LDAP
      * @param username login
      * @return les rôles associés à l'utilisateur
      */
@@ -51,15 +51,12 @@ public class FmkAuthoritiesPopulator implements LdapAuthoritiesPopulator {
     public Collection<? extends GrantedAuthority> getGrantedAuthorities(DirContextOperations ldapCtx, String username) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         Utilisateur utilisateur = utilisateurService.findByLogin(username);
-        if (utilisateur == null)
-            utilisateur = utilisateurService.create(ldapCtx);
-        else if (utilisateur.getPremierAcces() == null)
-            utilisateur.setPremierAcces(Instant.now().toDate());
+        if (utilisateur == null) utilisateur = utilisateurService.create(ldapCtx);
+        else if (utilisateur.getPremierAcces() == null) utilisateur.setPremierAcces(Instant.now().toDate());
         utilisateur.setDernierAcces(Instant.now().toDate());
         utilisateur.incrementNombreAcces();
         Set<Role> roles = utilisateur.getRoles();
-        if (roles.isEmpty())
-            roles.add(roleService.findByCode("ROLE_USER"));
+        if (roles.isEmpty()) roles.add(roleService.findByCode("ROLE_USER"));
         for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getCode()));
         }

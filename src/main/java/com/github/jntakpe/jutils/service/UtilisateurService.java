@@ -72,6 +72,7 @@ public interface UtilisateurService extends GenericService<Utilisateur> {
 
     /**
      * Renvoi l'utilisateur actuellement connecté
+     *
      * @return utilisateur connecté
      */
     Utilisateur getCurrent();

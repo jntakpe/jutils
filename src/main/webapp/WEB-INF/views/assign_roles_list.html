@@ -111,10 +111,10 @@
         "use strict";
         $.ajax({
             type: 'post',
-            data : {
-                role : $('#dt_assign_role').find("th").eq(event.parent("td").index()).text(),
-                id : event.attr('idline'),
-                hasRole : event.attr('hasrole')
+            data: {
+                role: $('#dt_assign_role').find("th").eq(event.parent("td").index()).text(),
+                id: event.attr('idline'),
+                hasRole: event.attr('hasrole')
             }
         })
                 .done(function (response) {
