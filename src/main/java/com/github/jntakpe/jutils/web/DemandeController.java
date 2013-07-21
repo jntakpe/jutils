@@ -1,5 +1,6 @@
 package com.github.jntakpe.jutils.web;
 
+import com.github.jntakpe.jutils.domain.Cafe;
 import com.github.jntakpe.jutils.domain.Demande;
 import com.github.jntakpe.jutils.service.CafeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Contrôleur gérant les écrans relatifs à une demande de café
@@ -36,5 +38,11 @@ public class DemandeController {
     @ResponseBody
     public byte[] displayImage(@PathVariable Long id) throws IOException {
         return cafeService.findOne(id).getImage();
+    }
+
+    @RequestMapping(value = "/cafes", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Cafe> findAllCafes() {
+        return cafeService.categorize();
     }
 }

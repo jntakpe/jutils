@@ -11,9 +11,16 @@
 
         <form th:action="@{/demande}" method="post"></form>
 
-        <div th:each="cafe : ${cafes}" class="inline img-text">
-            <img th:src="@{${'/demande/image/' + cafe.id}}" class="cafe-img"/>
-            <i th:text="${cafe.nom}"></i>
+        <div th:each="cafe : ${cafes}" class="inline cafe-frame">
+            <div class="img-text">
+                <img th:src="@{${'/demande/image/' + cafe.id}}" class="cafe-img"/>
+                <i th:text="${cafe.nom}"></i>
+            </div>
+            <div class="signs">
+                <div class="minus pull-left"><i class="icon-minus icon-large"></i></div>
+                <div class="plus pull-right"><i class="icon-plus icon-large"></i></div>
+                <div class="coffee-count">152</div>
+            </div>
         </div>
 
 
