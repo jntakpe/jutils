@@ -9,7 +9,7 @@ cafeApp.factory('CafesFactory', function ($http) {
     };
 });
 
-function CafeCtrl($scope, CafesFactory) {
+cafeApp.controller('CafeCtrl', function ($scope, CafesFactory) {
     "use strict";
     $scope.cafes = [];
     CafesFactory.findAll().success(function (data) {
@@ -23,4 +23,16 @@ function CafeCtrl($scope, CafesFactory) {
         }
         $scope.cafes = data;
     });
-}
+
+    $scope.increment = function (cafe) {
+        cafe.nb = cafe.nb + 1;
+    };
+
+    $scope.decrement = function (cafe) {
+        if (cafe.nb !== 0) {
+            cafe.nb = cafe.nb - 1;
+        }
+    };
+
+});
+

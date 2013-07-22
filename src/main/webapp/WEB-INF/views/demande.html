@@ -9,21 +9,23 @@
     <div class="container row" ng-controller="CafeCtrl">
         <h1>Saisie d'une commande de café</h1>
 
-        <form th:action="@{/demande}" method="post">
-            <div>
-                <div ng-repeat="cafe in cafes" class="inline cafe-frame">
-                    <div class="img-text">
-                        <img src="data:image/jpg;base64,{{ cafe.image }}" class="cafe-img"/>
-                        <i>{{ cafe.nom }}</i>
+        <div>
+            <div ng-repeat="cafe in cafes" class="inline cafe-frame">
+                <div class="img-text">
+                    <img src="data:image/jpg;base64,{{ cafe.image }}" class="cafe-img"/>
+                    <i>{{ cafe.nom }}</i>
+                </div>
+                <div class="signs">
+                    <div class="minus pull-left" ng-click="decrement(cafe)">
+                        <i class="icon-minus icon-large"></i>
                     </div>
-                    <div class="signs">
-                        <div class="minus pull-left"><i class="icon-minus icon-large"></i></div>
-                        <div class="plus pull-right"><i class="icon-plus icon-large"></i></div>
-                        <div class="coffee-count">{{ cafe.nb }}</div>
+                    <div class="plus pull-right" ng-click="increment(cafe)">
+                        <i class="icon-plus icon-large"></i>
                     </div>
+                    <div class="coffee-count">{{ cafe.nb }}</div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 <script type="text/javascript" th:src="@{/static/js/angular/cafe/cafe.js}"></script>
