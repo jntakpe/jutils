@@ -11,7 +11,9 @@ public enum MandatoryParams {
     SMTP_PORT("smtp.port"),
     SMTP_FROM("smtp.from"),
     SOPRA_MAIL_FRAME("sopra.mail.frame"),
-    SBS_MAIL_FRAME("sbs.mail.frame");
+    SBS_MAIL_FRAME("sbs.mail.frame"),
+    SOPRA_LDAP_BASEDN("sopra.colo.basedn"),
+    SBS_LDAP_BASEDN("sbs.basedn");
 
     private final String key;
 

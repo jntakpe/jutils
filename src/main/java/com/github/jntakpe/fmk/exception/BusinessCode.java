@@ -13,6 +13,7 @@ public enum BusinessCode implements ErrorCode {
     LDAP_USER_MISSING,
     LDAP_NO_SINGLE_RESULT,
     FUTURE_BIRTHDATE,
-    EMAIL_MISSING_PARAM
+    EMAIL_MISSING_PARAM,
+    LDAP_MISSING_PARAM
 
 }
