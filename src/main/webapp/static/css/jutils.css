@@ -64,3 +64,11 @@ div.coffee-icon {
 div.darken {
     opacity: 0.1;
 }
+
+.filter-block {
+    margin-right: 15px;
+}
+
+#recap-table {
+    margin-top: 20px;
+}

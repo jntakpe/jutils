@@ -7,8 +7,8 @@
 <div id="mainContainer" class="container">
     <div th:include="../fragments/alertFragment :: alert"></div>
     <div class="container row">
-        <h1 th:text="${commande.id == null} ? 'Création d\'une nouvelle commande de café' :
-        'Modification d\'une nouvelle commande de café'"></h1>
+        <h2 th:text="${commande.id == null} ? 'Création d\'une nouvelle commande de café' :
+        'Modification d\'une nouvelle commande de café'"></h2>
 
         <div class="offset2">
             <form id="commande-form" class="form-horizontal" th:object="${commande}" method="post"

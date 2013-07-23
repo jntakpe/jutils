@@ -1,7 +1,11 @@
 /*Général*/
 body {
-    margin-top: 90px;
+    margin-top: 60px;
     margin-bottom: 80px;
+}
+
+#mainContainer {
+    padding-top: 30px;
 }
 
 fieldset {
@@ -26,7 +30,7 @@ fieldset {
 /*Connexion*/
 
 #connexion-container {
-    margin-top: 200px;
+    margin-top: 230px;
     width: 300px;
 }
 

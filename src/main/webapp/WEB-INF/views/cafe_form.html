@@ -7,7 +7,7 @@
 </header>
 <div class="container row">
     <div th:include="../fragments/alertFragment :: alert"></div>
-    <h1 th:text="${domain.id == null} ? 'Ajout d\'un café' : 'Modification d\'un café'"></h1>
+    <h2 th:text="${domain.id == null} ? 'Ajout d\'un café' : 'Modification d\'un café'"></h2>
 
     <div class="offset2">
         <form id="cafe-form" class="form-horizontal" th:action="@{/cafe}" th:object="${domain}" method="post"

@@ -4,51 +4,55 @@
 </head>
 <body>
 <header th:include="../fragments/menuFragment :: fullMenu"></header>
-<div id="mainContainer" class="container" ng-app="cafeApp">
-    <div th:include="../fragments/alertFragment :: alert"></div>
+<div class="container" ng-app="cafeApp">
     <div class="container row" ng-controller="CafeCtrl">
         <h2>Saisie d'une commande de café</h2>
 
-        <div class="span12 well">
-            <div class="span4">
-                <div>
-                    <div ng-repeat="filter in filters.int" class="inline coffee-icon" ng-click="switchFilterInt(filter)">
-                        <i class="icon-coffee" style="{{ resolveColor(filter)}}"></i>
+        <div id="coffee-filter" class="well">
+            <div class="inline filter-block">
+                <div ng-repeat="filter in filters.int" class="inline coffee-icon" ng-click="switchFilterInt(filter)">
+                    <i class="icon-coffee" style="{{ resolveColor(filter)}}"></i>
 
-                        <div>{{ filter.force }}</div>
-                    </div>
+                    <div>{{ filter.force }}</div>
                 </div>
             </div>
-            <div class="span4">
+            <div class="inline filter-block">
                 <div class="inline">
                     <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.espresso]" type="button"
-                            ng-click="switchMode('espresso')">Espresso</button>
+                            ng-click="switchMode('espresso')">Espresso
+                    </button>
                 </div>
                 <div class="inline">
                     <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.lungo]" type="button"
-                            ng-click="switchMode('lungo')">Lungo</button>
+                            ng-click="switchMode('lungo')">Lungo
+                    </button>
                 </div>
                 <div class="inline">
                     <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.decaffeinato]" type="button"
-                            ng-click="switchMode('decaffeinato')">Decaffeinato</button>
+                            ng-click="switchMode('decaffeinato')">Decaffeinato
+                    </button>
                 </div>
                 <div class="inline">
                     <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.variations]" type="button"
-                            ng-click="switchMode('variations')">Variations</button>
+                            ng-click="switchMode('variations')">Variations
+                    </button>
                 </div>
             </div>
-            <div>
+            <div class="inline">
                 <div class="inline">
                     <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.profil.intense]" type="button"
-                            ng-click="filters.profil.intense = !filters.profil.intense">Intense</button>
+                            ng-click="switchProfil('intense')">Intense
+                    </button>
                 </div>
                 <div class="inline">
                     <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.profil.equilibre]" type="button"
-                            ng-click="filters.profil.equilibre = !filters.profil.equilibre">Equilibré</button>
+                            ng-click="switchProfil('equilibre')">Equilibré
+                    </button>
                 </div>
                 <div class="inline">
                     <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.profil.fruite]" type="button"
-                            ng-click="filters.profil.fruite = !filters.profil.fruite">Fruité</button>
+                            ng-click="switchProfil('fruite')">Fruité
+                    </button>
                 </div>
             </div>
         </div>
@@ -71,18 +75,25 @@
             </div>
         </div>
 
-
-        <table class="table table-striped table-bordered">
+        <table id="recap-table" class="table table-striped table-bordered">
             <thead>
             <tr>
                 <th>Nom</th>
                 <th>Nombre de boites</th>
+                <th>Prix</th>
+                <th>Intensité</th>
+                <th>Catégorie</th>
+                <th>Profil aromatique</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="cafe in cafes | filter:recapFilter">
-                <td>{{cafe.nom}}</td>
-                <td>{{cafe.nb}}</td>
+            <tr ng-repeat="cafe in cafes | filter:recapFilter | orderBy:'-nb'">
+                <td>{{ cafe.nom }}</td>
+                <td>{{ cafe.nb }}</td>
+                <td>{{ cafe.prix * cafe.nb * 10 | number:2}}</td>
+                <td>{{ cafe.intensite }}</td>
+                <td>{{ cafe.categorie }}</td>
+                <td>{{ cafe.profilAromatique }}</td>
             </tr>
             </tbody>
         </table>

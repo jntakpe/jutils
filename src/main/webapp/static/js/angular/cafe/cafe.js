@@ -11,10 +11,9 @@ cafeApp.factory('CafesFactory', function ($http) {
 
 cafeApp.factory('FiltersFactory', function () {
     "use strict";
-    var filters = {};
+    var filters = {}, i = 0, colors = ['98E9B0', '7ADF98', '34C84D', 'DFCA3F', 'DFAA3F', 'DF843F', 'CA4C1F', 'CD252B', '820005', '000000'];
     filters.int = [];
-    var colors = ['98E9B0', '7ADF98', '34C84D', 'DFCA3F', 'DFAA3F', 'DF843F', 'CA4C1F', 'CD252B', '820005', '000000'];
-    for (var i = 0; i < 10; i++) {
+    for (i; i < 10; i++) {
         filters.int[i] = {
             color: 'color:#' + colors[i],
             force: i + 1,
@@ -26,20 +25,26 @@ cafeApp.factory('FiltersFactory', function () {
         decaffeinato: true,
         espresso: true,
         lungo: true,
-        variations :true
-    }
+        variations: true
+    };
 
     filters.profil = {
         intense: true,
         equilibre: true,
         fruite: true
-    }
+    };
 
     return filters;
 });
 
 cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
     "use strict";
+
+
+    function isActive(cafe) {
+        return cafe.activeInt && cafe.activeMode && cafe.activeProfil;
+    }
+
     $scope.cafes = [];
     $scope.activeInt = [];
 
@@ -59,12 +64,16 @@ cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
     });
 
     $scope.increment = function (cafe) {
-        cafe.nb = cafe.nb + 1;
+        if (isActive(cafe)) {
+            cafe.nb = cafe.nb + 1;
+        }
     };
 
     $scope.decrement = function (cafe) {
-        if (cafe.nb !== 0) {
-            cafe.nb = cafe.nb - 1;
+        if (isActive(cafe)) {
+            if (cafe.nb !== 0) {
+                cafe.nb = cafe.nb - 1;
+            }
         }
     };
 
@@ -75,18 +84,20 @@ cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
     $scope.filters = FiltersFactory;
 
     $scope.switchFilterInt = function (filter) {
-        var isEmpty;
+        var isEmpty, idx;
         if (filter.dis) {
             $scope.activeInt.push(filter.force);
         } else {
             $scope.activeInt.splice($scope.activeInt.indexOf(filter.force), 1);
         }
         isEmpty = $scope.activeInt.length === 0;
-        for (var idx in $scope.cafes) {
-            if ($scope.activeInt.indexOf($scope.cafes[idx].intensite) === -1 && !isEmpty) {
-                $scope.cafes[idx].activeInt = false;
-            } else {
-                $scope.cafes[idx].activeInt = true;
+        for (idx in $scope.cafes) {
+            if ($scope.cafes.hasOwnProperty(idx)) {
+                if ($scope.activeInt.indexOf($scope.cafes[idx].intensite) === -1 && !isEmpty) {
+                    $scope.cafes[idx].activeInt = false;
+                } else {
+                    $scope.cafes[idx].activeInt = true;
+                }
             }
         }
         filter.dis = !filter.dis;
@@ -127,8 +138,35 @@ cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
         }
     }
 
+    $scope.switchProfil = function (profil) {
+        if ($scope.filters.profil[profil]) {
+            switch (profil) {
+                case 'intense' :
+                    $scope.filters.profil.equilibre = true;
+                    $scope.filters.profil.fruite = true;
+                    break;
+                case 'equilibre' :
+                    $scope.filters.profil.intense = true;
+                    $scope.filters.profil.fruite = true;
+                    break;
+                case 'fruite' :
+                    $scope.filters.profil.equilibre = true;
+                    $scope.filters.profil.intense = true;
+                    break;
+            }
+        }
+        $scope.filters.profil[profil] = !$scope.filters.profil[profil];
+        for (var idx in $scope.cafes) {
+            if ($scope.filters.profil[profil]) {
+                $scope.cafes[idx].activeProfil = true;
+            } else {
+                $scope.cafes[idx].activeProfil = $scope.cafes[idx].profilAromatique === profil.toUpperCase() ? true : false;
+            }
+        }
+    }
+
     $scope.resolveCoffeeClass = function (cafe) {
-        return cafe.activeInt && cafe.activeMode && cafe.activeProfil ? 'active' : 'darken';
+        return isActive(cafe) ? 'active' : 'darken';
     }
 
     $scope.resolveColor = function (filter) {
@@ -138,5 +176,6 @@ cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
     $scope.resolveBtn = function (btn) {
         return btn ? 'btn' : 'btn btn-inverse';
     }
+
 });
 
