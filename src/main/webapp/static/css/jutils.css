@@ -9,6 +9,16 @@
     width: 100%;
 }
 
+div.coffee-icon {
+    text-align: center;
+    margin-left: 5px;
+}
+
+.icon-coffee:hover {
+    cursor: pointer;
+    color: #808681 !important;
+}
+
 /*!
 * Ecran de gestion des commandes de café
 */

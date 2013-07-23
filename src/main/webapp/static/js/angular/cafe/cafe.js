@@ -9,6 +9,11 @@ cafeApp.factory('CafesFactory', function ($http) {
     };
 });
 
+cafeApp.factory('IntensiteFactory', function ($scope) {
+    "use strict";
+    var intensites = [{},{}];
+});
+
 cafeApp.controller('CafeCtrl', function ($scope, CafesFactory) {
     "use strict";
     $scope.cafes = [];
