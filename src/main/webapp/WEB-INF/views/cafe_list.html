@@ -35,6 +35,7 @@
         "use strict";
         oTable = $('#dt_cafe').dataTable({
             sAjaxSource: "cafe/list",
+            iDisplayLength : 15,
             aoColumns: [
                 {mData: "nom", sWidth: 200},
                 {mData: "prix"},

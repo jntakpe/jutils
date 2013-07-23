@@ -18,6 +18,7 @@ cafeApp.controller('CafeCtrl', function ($scope, CafesFactory) {
             for (cafe in data) {
                 if (data.hasOwnProperty(cafe)) {
                     data[cafe].nb = 0;
+                    data[cafe].active = true;
                 }
             }
         }
@@ -32,6 +33,10 @@ cafeApp.controller('CafeCtrl', function ($scope, CafesFactory) {
         if (cafe.nb !== 0) {
             cafe.nb = cafe.nb - 1;
         }
+    };
+
+    $scope.recapFilter = function (cafe) {
+        return cafe.nb !== 0;
     };
 
 });
