@@ -9,49 +9,13 @@
     <div class="container row" ng-controller="CafeCtrl">
         <h2>Saisie d'une commande de café</h2>
 
-
         <div class="span12 well">
             <div class="span5">
                 <div>
-                    <div class="inline coffee-icon">
-                        <i style="color:#98E9B0;" class="icon-coffee"></i>
-                        <div class="">1</div>
-                    </div>
-                    <div class="inline coffee-icon">
-                        <i style="color:#7ADF98;" class="icon-coffee"></i>
-                        <div class="">2</div>
-                    </div>
-                    <div class="inline coffee-icon">
-                        <i style="color:#34C84D;" class="icon-coffee"></i>
-                        <div class="">3</div>
-                    </div>
-                    <div class="inline coffee-icon">
-                        <i style="color:#DFCA3F;" class="icon-coffee"></i>
-                        <div class="">4</div>
-                    </div>
-                    <div class="inline coffee-icon">
-                        <i style="color:#DFAA3F;" class="icon-coffee"></i>
-                        <div class="">5</div>
-                    </div>
-                    <div class="inline coffee-icon">
-                        <i style="color:#DF843F;" class="icon-coffee"></i>
-                        <div class="">6</div>
-                    </div>
-                    <div class="inline coffee-icon">
-                        <i style="color:#CA4C1F;" class="icon-coffee"></i>
-                        <div class="">7</div>
-                    </div>
-                    <div class="inline coffee-icon">
-                        <i style="color:#CD252B;" class="icon-coffee"></i>
-                        <div class="">8</div>
-                    </div>
-                    <div class="inline coffee-icon">
-                        <i style="color:#820005;" class="icon-coffee"></i>
-                        <div class="">9</div>
-                    </div>
-                    <div class="inline coffee-icon">
-                        <i style="color:#000000;" class="icon-coffee"></i>
-                        <div class="">10</div>
+                    <div ng-repeat="filter in filters" class="inline coffee-icon" ng-click="switchFilter(filter)">
+                        <i class="icon-coffee" style="{{ resolveColor(filter)}}"></i>
+
+                        <div>{{ filter.force }}</div>
                     </div>
                 </div>
             </div>
