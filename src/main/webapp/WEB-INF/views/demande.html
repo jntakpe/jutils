@@ -12,7 +12,7 @@
         <div class="span12 well">
             <div class="span4">
                 <div>
-                    <div ng-repeat="filter in filters.int" class="inline coffee-icon" ng-click="switchFilter(filter)">
+                    <div ng-repeat="filter in filters.int" class="inline coffee-icon" ng-click="switchFilterInt(filter)">
                         <i class="icon-coffee" style="{{ resolveColor(filter)}}"></i>
 
                         <div>{{ filter.force }}</div>
@@ -21,47 +21,53 @@
             </div>
             <div class="span4">
                 <div class="inline">
-                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.ristretto]"  type="button"
-                            ng-click="filters.mode.ristretto = !filters.mode.ristretto">Ristretto</button>
+                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.espresso]" type="button"
+                            ng-click="switchMode('espresso')">Espresso</button>
                 </div>
                 <div class="inline">
-                    <button  ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.espresso]"  type="button"
-                             ng-click="filters.mode.espresso = !filters.mode.espresso">Espresso</button>
+                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.lungo]" type="button"
+                            ng-click="switchMode('lungo')">Lungo</button>
                 </div>
                 <div class="inline">
-                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.lungo]"  type="button"
-                            ng-click="filters.mode.lungo = !filters.mode.lungo">Lungo</button>
+                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.decaffeinato]" type="button"
+                            ng-click="switchMode('decaffeinato')">Decaffeinato</button>
+                </div>
+                <div class="inline">
+                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.mode.variations]" type="button"
+                            ng-click="switchMode('variations')">Variations</button>
                 </div>
             </div>
             <div>
                 <div class="inline">
-                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.profil.intense]"  type="button"
+                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.profil.intense]" type="button"
                             ng-click="filters.profil.intense = !filters.profil.intense">Intense</button>
                 </div>
                 <div class="inline">
-                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.profil.equilibre]"  type="button"
+                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.profil.equilibre]" type="button"
                             ng-click="filters.profil.equilibre = !filters.profil.equilibre">Equilibré</button>
                 </div>
                 <div class="inline">
-                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.profil.fruite]"  type="button"
+                    <button ng-class="{true : 'btn', false: 'btn btn-inverse'}[filters.profil.fruite]" type="button"
                             ng-click="filters.profil.fruite = !filters.profil.fruite">Fruité</button>
                 </div>
             </div>
         </div>
 
         <div ng-repeat="cafe in cafes" class="inline cafe-frame">
-            <div class="img-text">
-                <img src="data:image/jpg;base64,{{ cafe.image }}" class="cafe-img"/>
-                <i>{{ cafe.nom }}</i>
-            </div>
-            <div class="signs">
-                <div class="minus pull-left" ng-click="decrement(cafe)">
-                    <i class="icon-minus icon-large"></i>
+            <div class="{{ resolveCoffeeClass(cafe) }}">
+                <div class="img-text">
+                    <img src="data:image/jpg;base64,{{ cafe.image }}" class="cafe-img"/>
+                    <i>{{ cafe.nom }}</i>
                 </div>
-                <div class="plus pull-right" ng-click="increment(cafe)">
-                    <i class="icon-plus icon-large"></i>
+                <div class="signs">
+                    <div class="minus pull-left" ng-click="decrement(cafe)">
+                        <i class="icon-minus icon-large"></i>
+                    </div>
+                    <div class="plus pull-right" ng-click="increment(cafe)">
+                        <i class="icon-plus icon-large"></i>
+                    </div>
+                    <div class="coffee-count">{{ cafe.nb }}</div>
                 </div>
-                <div class="coffee-count">{{ cafe.nb }}</div>
             </div>
         </div>
 

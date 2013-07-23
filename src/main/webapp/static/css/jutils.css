@@ -60,3 +60,7 @@ div.coffee-icon {
     margin-left: 8px;
     cursor: pointer;
 }
+
+div.darken {
+    opacity: 0.1;
+}

@@ -23,14 +23,15 @@ cafeApp.factory('FiltersFactory', function () {
     }
 
     filters.mode = {
-        ristretto : true,
-        espresso : true,
-        lungo: true
+        decaffeinato: true,
+        espresso: true,
+        lungo: true,
+        variations :true
     }
 
     filters.profil = {
-        intense : true,
-        equilibre : true,
+        intense: true,
+        equilibre: true,
         fruite: true
     }
 
@@ -40,13 +41,17 @@ cafeApp.factory('FiltersFactory', function () {
 cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
     "use strict";
     $scope.cafes = [];
+    $scope.activeInt = [];
+
     CafesFactory.findAll().success(function (data) {
         var cafe;
         if (data) {
             for (cafe in data) {
                 if (data.hasOwnProperty(cafe)) {
                     data[cafe].nb = 0;
-                    data[cafe].active = true;
+                    data[cafe].activeInt = true;
+                    data[cafe].activeMode = true;
+                    data[cafe].activeProfil = true;
                 }
             }
         }
@@ -69,15 +74,68 @@ cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
 
     $scope.filters = FiltersFactory;
 
-    $scope.switchFilter = function (filter) {
+    $scope.switchFilterInt = function (filter) {
+        var isEmpty;
+        if (filter.dis) {
+            $scope.activeInt.push(filter.force);
+        } else {
+            $scope.activeInt.splice($scope.activeInt.indexOf(filter.force), 1);
+        }
+        isEmpty = $scope.activeInt.length === 0;
+        for (var idx in $scope.cafes) {
+            if ($scope.activeInt.indexOf($scope.cafes[idx].intensite) === -1 && !isEmpty) {
+                $scope.cafes[idx].activeInt = false;
+            } else {
+                $scope.cafes[idx].activeInt = true;
+            }
+        }
         filter.dis = !filter.dis;
     }
 
-    $scope.resolveColor= function (filter){
-        return filter.dis ? 'color:#808681' : filter.color;
+    $scope.switchMode = function (mode) {
+        if ($scope.filters.mode[mode]) {
+            switch (mode) {
+                case 'decaffeinato' :
+                    $scope.filters.mode.espresso = true;
+                    $scope.filters.mode.lungo = true;
+                    $scope.filters.mode.variations = true;
+                    break;
+                case 'espresso' :
+                    $scope.filters.mode.decaffeinato = true;
+                    $scope.filters.mode.lungo = true;
+                    $scope.filters.mode.variations = true;
+                    break;
+                case 'lungo' :
+                    $scope.filters.mode.decaffeinato = true;
+                    $scope.filters.mode.espresso = true;
+                    $scope.filters.mode.variations = true;
+                    break;
+                case 'variations' :
+                    $scope.filters.mode.decaffeinato = true;
+                    $scope.filters.mode.espresso = true;
+                    $scope.filters.mode.lungo = true;
+                    break;
+            }
+        }
+        $scope.filters.mode[mode] = !$scope.filters.mode[mode];
+        for (var idx in $scope.cafes) {
+            if ($scope.filters.mode[mode]) {
+                $scope.cafes[idx].activeMode = true;
+            } else {
+                $scope.cafes[idx].activeMode = $scope.cafes[idx].categorie === mode.toUpperCase() ? true : false;
+            }
+        }
     }
 
-    $scope.resolveBtn= function (btn){
+    $scope.resolveCoffeeClass = function (cafe) {
+        return cafe.activeInt && cafe.activeMode && cafe.activeProfil ? 'active' : 'darken';
+    }
+
+    $scope.resolveColor = function (filter) {
+        return filter.dis ? 'color:#808681' : filter.color;
+    };
+
+    $scope.resolveBtn = function (btn) {
         return btn ? 'btn' : 'btn btn-inverse';
     }
 });
