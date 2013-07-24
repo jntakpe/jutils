@@ -31,7 +31,7 @@ INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, pr
 INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (13, 0, 'ESPRESSO', 'Doux et moelleux', 4, 'Dulsao do Brasil', 0.39, 'EQUILIBRE');
 INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (14, 0, 'ESPRESSO', 'Puissant et épicé', 10, 'Indriya from India', 0.39, 'INTENSE');
 INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (15, 0, 'ESPRESSO', 'Fruité et équilibré', 6, 'Rosabaya de Colombia', 0.39, 'FRUITE');
-INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (16, 0, 'VARIATIONS', 'Tendre et gourmand', 6, 'Caramelito', 0042, null);
+INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (16, 0, 'VARIATIONS', 'Tendre et gourmand', 6, 'Caramelito', 0.42, null);
 INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (17, 0, 'VARIATIONS', 'Doux et soyeux', 6, 'Vanilio', 0.42, null);
 INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (18, 0, 'VARIATIONS', 'Chocolaté', 6, 'Ciocattino', 0.42, null);
 INSERT INTO public.cafe (id, version, categorie, description, intensite, nom, prix, profilaromatique) VALUES (19, 0, 'ESPRESSO', 'Puissant et contrasté', 10, 'Ristretto', 0.35, 'INTENSE');

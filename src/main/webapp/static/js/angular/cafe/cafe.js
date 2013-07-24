@@ -1,43 +1,39 @@
 var cafeApp = angular.module('cafeApp', []);
 
-cafeApp.factory('CafesFactory', function ($http) {
+cafeApp.service('InitService', function ($http) {
     "use strict";
-    return {
-        findAll: function () {
-            return $http.get('demande/cafes');
+    this.filter = function () {
+        var filters = {}, i = 0, colors = ['98E9B0', '7ADF98', '34C84D', 'DFCA3F', 'DFAA3F', 'DF843F', 'CA4C1F', 'CD252B', '820005', '000000'];
+        filters.int = [];
+        for (i; i < 10; i++) {
+            filters.int[i] = {
+                color: 'color:#' + colors[i],
+                force: i + 1,
+                dis: true
+            };
         }
-    };
-});
 
-cafeApp.factory('FiltersFactory', function () {
-    "use strict";
-    var filters = {}, i = 0, colors = ['98E9B0', '7ADF98', '34C84D', 'DFCA3F', 'DFAA3F', 'DF843F', 'CA4C1F', 'CD252B', '820005', '000000'];
-    filters.int = [];
-    for (i; i < 10; i++) {
-        filters.int[i] = {
-            color: 'color:#' + colors[i],
-            force: i + 1,
-            dis: true
+        filters.mode = {
+            decaffeinato: true,
+            espresso: true,
+            lungo: true,
+            variations: true
         };
+
+        filters.profil = {
+            intense: true,
+            equilibre: true,
+            fruite: true
+        };
+        return filters;
     }
 
-    filters.mode = {
-        decaffeinato: true,
-        espresso: true,
-        lungo: true,
-        variations: true
-    };
-
-    filters.profil = {
-        intense: true,
-        equilibre: true,
-        fruite: true
-    };
-
-    return filters;
+    this.findCafesList = function (){
+        return $http.get('demande/cafes');
+    }
 });
 
-cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
+cafeApp.controller('CafeCtrl', function ($scope, InitService) {
     "use strict";
 
 
@@ -48,31 +44,39 @@ cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
     $scope.cafes = [];
     $scope.activeInt = [];
 
-    CafesFactory.findAll().success(function (data) {
-        var cafe;
+    InitService.findCafesList().success(function (data) {
+        var cafe, newDemande;
         if (data) {
-            for (cafe in data) {
-                if (data.hasOwnProperty(cafe)) {
-                    data[cafe].nb = 0;
-                    data[cafe].activeInt = true;
-                    data[cafe].activeMode = true;
-                    data[cafe].activeProfil = true;
+            newDemande = data.demande.id ? false : true;
+            for (cafe in data.cafes) {
+                if (data.cafes.hasOwnProperty(cafe)) {
+                    if (newDemande) {
+                        data.cafes[cafe].nb = 0;
+                    }
+                    data.cafes[cafe].activeInt = true;
+                    data.cafes[cafe].activeMode = true;
+                    data.cafes[cafe].activeProfil = true;
                 }
             }
+            $scope.cafes = data.cafes;
+            $scope.demande = data.demande;
         }
-        $scope.cafes = data;
     });
 
     $scope.increment = function (cafe) {
         if (isActive(cafe)) {
-            cafe.nb = cafe.nb + 1;
+            cafe.nb++;
+            $scope.demande.nombreBoites++;
+            $scope.demande.montantTotal = $scope.demande.montantTotal + (cafe.prix * 10);
         }
     };
 
     $scope.decrement = function (cafe) {
         if (isActive(cafe)) {
             if (cafe.nb !== 0) {
-                cafe.nb = cafe.nb - 1;
+                cafe.nb--;
+                $scope.demande.nombreBoites--;
+                $scope.demande.montantTotal = $scope.demande.montantTotal - (cafe.prix * 10);
             }
         }
     };
@@ -81,7 +85,7 @@ cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
         return cafe.nb !== 0;
     };
 
-    $scope.filters = FiltersFactory;
+    $scope.filters = InitService.filter();
 
     $scope.switchFilterInt = function (filter) {
         var isEmpty, idx;
@@ -176,6 +180,16 @@ cafeApp.controller('CafeCtrl', function ($scope, CafesFactory, FiltersFactory) {
     $scope.resolveBtn = function (btn) {
         return btn ? 'btn' : 'btn btn-inverse';
     }
+
+    $scope.resetFilters = function () {
+        for (var cafe in $scope.cafes) {
+            $scope.cafes[cafe].activeInt = true;
+            $scope.cafes[cafe].activeMode = true;
+            $scope.cafes[cafe].activeProfil = true;
+        }
+        $scope.filters = InitService.filter();
+        console.log();
+    };
 
 });
 

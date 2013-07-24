@@ -2,6 +2,7 @@ package com.github.jntakpe.jutils.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Vector;
 
 /**
  * Table de jointure représentant la demande d'un café pour un utilisateur

@@ -72,3 +72,17 @@ div.darken {
 #recap-table {
     margin-top: 20px;
 }
+
+.filter-label {
+    text-align: center;
+}
+
+#coffee-filter {
+    padding: 10px;
+}
+
+#remove-filter {
+    text-align: center;
+    padding-top: 6px;
+    cursor: pointer;
+}
