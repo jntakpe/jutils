@@ -187,21 +187,25 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
                 <version>${version.hibernate}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-c3p0</artifactId>
                 <version>${version.hibernate}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>${version.hibernate}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${version.hibernate-validator}</version>
+                <scope>provided</scope>
             </dependency>
 
             <!-- Templating -->
