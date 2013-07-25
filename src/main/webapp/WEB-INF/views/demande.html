@@ -69,7 +69,7 @@
         <div ng-repeat="cafe in cafes" class="inline cafe-frame">
             <div class="{{ resolveCoffeeClass(cafe) }}">
                 <div class="img-text">
-                    <img src="data:image/jpg;base64,{{ cafe.image }}" class="cafe-img"/>
+                    <img ng-src="cafe/image/{{ cafe.id }}" class="cafe-img"/>
                     <i>{{ cafe.nom }}</i>
                 </div>
                 <div class="signs">
@@ -116,6 +116,21 @@
             </tr>
             </tfoot>
         </table>
+
+        <div class="well">
+            <button type="button" class="btn btn-success">
+                <i class="icon-ok"></i>
+                 Valider la commande
+            </button>
+            <button type="button" class="btn" ng-click="resetCmd()">
+                <i class="icon-undo"></i>
+                 Annuler la saisie
+            </button>
+            <button type="button" class="btn btn-primary pull-right">
+                Retour
+                <i class="icon-arrow-right"></i>
+            </button>
+        </div>
     </div>
 </div>
 <script type="text/javascript" th:src="@{/static/js/angular/cafe/cafe.js}"></script>

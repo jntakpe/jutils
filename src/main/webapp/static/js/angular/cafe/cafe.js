@@ -2,6 +2,7 @@ var cafeApp = angular.module('cafeApp', []);
 
 cafeApp.service('InitService', function ($http) {
     "use strict";
+
     this.filter = function () {
         var filters = {}, i = 0, colors = ['98E9B0', '7ADF98', '34C84D', 'DFCA3F', 'DFAA3F', 'DF843F', 'CA4C1F', 'CD252B', '820005', '000000'];
         filters.int = [];
@@ -25,43 +26,50 @@ cafeApp.service('InitService', function ($http) {
             equilibre: true,
             fruite: true
         };
+
         return filters;
     }
 
-    this.findCafesList = function (){
+    this.findCafesList = function () {
         return $http.get('demande/cafes');
     }
+
 });
 
 cafeApp.controller('CafeCtrl', function ($scope, InitService) {
     "use strict";
+    var activeInt = [], initial = {};
 
 
     function isActive(cafe) {
         return cafe.activeInt && cafe.activeMode && cafe.activeProfil;
     }
 
-    $scope.cafes = [];
-    $scope.activeInt = [];
-
-    InitService.findCafesList().success(function (data) {
-        var cafe, newDemande;
-        if (data) {
-            newDemande = data.demande.id ? false : true;
-            for (cafe in data.cafes) {
-                if (data.cafes.hasOwnProperty(cafe)) {
-                    if (newDemande) {
-                        data.cafes[cafe].nb = 0;
-                    }
-                    data.cafes[cafe].activeInt = true;
-                    data.cafes[cafe].activeMode = true;
-                    data.cafes[cafe].activeProfil = true;
+    function initCafes(cafes, isNew) {
+        for (var cafe in cafes) {
+            if (cafes.hasOwnProperty(cafe)) {
+                if (isNew) {
+                    cafes[cafe].nb = 0;
                 }
+                cafes[cafe].activeInt = true;
+                cafes[cafe].activeMode = true;
+                cafes[cafe].activeProfil = true;
             }
-            $scope.cafes = data.cafes;
-            $scope.demande = data.demande;
         }
-    });
+        return cafes;
+    }
+
+    function init() {
+        InitService.findCafesList().success(function (data) {
+            initial.cafes = initCafes(data.cafes, data.demande.id ? false : true);
+            initial.demande = data.demande;
+            $scope.cafes = angular.copy(initial.cafes);
+            $scope.demande = angular.copy(initial.demande);
+        });
+    }
+
+    init();
+    $scope.filters = InitService.filter();
 
     $scope.increment = function (cafe) {
         if (isActive(cafe)) {
@@ -85,23 +93,13 @@ cafeApp.controller('CafeCtrl', function ($scope, InitService) {
         return cafe.nb !== 0;
     };
 
-    $scope.filters = InitService.filter();
-
     $scope.switchFilterInt = function (filter) {
         var isEmpty, idx;
-        if (filter.dis) {
-            $scope.activeInt.push(filter.force);
-        } else {
-            $scope.activeInt.splice($scope.activeInt.indexOf(filter.force), 1);
-        }
-        isEmpty = $scope.activeInt.length === 0;
+        filter.dis ?  activeInt.push(filter.force) :  activeInt.splice(activeInt.indexOf(filter.force), 1);
+        isEmpty = activeInt.length === 0;
         for (idx in $scope.cafes) {
             if ($scope.cafes.hasOwnProperty(idx)) {
-                if ($scope.activeInt.indexOf($scope.cafes[idx].intensite) === -1 && !isEmpty) {
-                    $scope.cafes[idx].activeInt = false;
-                } else {
-                    $scope.cafes[idx].activeInt = true;
-                }
+                $scope.cafes[idx].activeInt = activeInt.indexOf($scope.cafes[idx].intensite) !== -1 || isEmpty;
             }
         }
         filter.dis = !filter.dis;
@@ -182,14 +180,14 @@ cafeApp.controller('CafeCtrl', function ($scope, InitService) {
     }
 
     $scope.resetFilters = function () {
-        for (var cafe in $scope.cafes) {
-            $scope.cafes[cafe].activeInt = true;
-            $scope.cafes[cafe].activeMode = true;
-            $scope.cafes[cafe].activeProfil = true;
-        }
+        $scope.cafes = initCafes($scope.cafes, false);
         $scope.filters = InitService.filter();
-        console.log();
     };
 
+    $scope.resetCmd = function () {
+        $scope.cafes = angular.copy(initial.cafes);
+        $scope.demande = angular.copy(initial.demande);
+        $scope.filters = InitService.filter();
+    };
 });
 

@@ -1,5 +1,6 @@
 package com.github.jntakpe.jutils.util.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.jntakpe.jutils.domain.Cafe;
 import com.github.jntakpe.jutils.domain.Demande;
 
@@ -10,6 +11,7 @@ import java.util.List;
  */
 public class DemandeDTO {
 
+    @JsonIgnoreProperties({"image"})
     private List<Cafe> cafes;
 
     private Demande demande;
