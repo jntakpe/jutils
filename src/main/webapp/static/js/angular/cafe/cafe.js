@@ -36,7 +36,9 @@ cafeApp.service('InitService', function ($http) {
 
 });
 
-cafeApp.controller('CafeCtrl', function ($scope, InitService) {
+cafeApp.ser
+
+cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
     "use strict";
     var activeInt = [], initial = {};
 
@@ -48,9 +50,6 @@ cafeApp.controller('CafeCtrl', function ($scope, InitService) {
     function initCafes(cafes, isNew) {
         for (var cafe in cafes) {
             if (cafes.hasOwnProperty(cafe)) {
-                if (isNew) {
-                    cafes[cafe].nb = 0;
-                }
                 cafes[cafe].activeInt = true;
                 cafes[cafe].activeMode = true;
                 cafes[cafe].activeProfil = true;
@@ -95,7 +94,7 @@ cafeApp.controller('CafeCtrl', function ($scope, InitService) {
 
     $scope.switchFilterInt = function (filter) {
         var isEmpty, idx;
-        filter.dis ?  activeInt.push(filter.force) :  activeInt.splice(activeInt.indexOf(filter.force), 1);
+        filter.dis ? activeInt.push(filter.force) : activeInt.splice(activeInt.indexOf(filter.force), 1);
         isEmpty = activeInt.length === 0;
         for (idx in $scope.cafes) {
             if ($scope.cafes.hasOwnProperty(idx)) {
@@ -189,5 +188,30 @@ cafeApp.controller('CafeCtrl', function ($scope, InitService) {
         $scope.demande = angular.copy(initial.demande);
         $scope.filters = InitService.filter();
     };
+
+    $scope.submitCmd = function () {
+        var cafe, cafesDTO = [], demandeDTO = {};
+        if ($scope.demande.nombreBoites !== 0) {
+            for (cafe in $scope.cafes) {
+                if ($scope.cafes.hasOwnProperty(cafe) && $scope.cafes[cafe].nb !== 0) {
+                    var cafeDTO = {};
+                    cafeDTO.id = $scope.cafes[cafe].id;
+                    cafeDTO.nb = $scope.cafes[cafe].nb;
+                    cafesDTO.push(cafeDTO);
+                }
+            }
+            demandeDTO.demande = $scope.demande;
+            demandeDTO.cafes = cafesDTO;
+            $http.post('demande', {demandeDTO : demandeDTO}).
+                success(function (data) {
+                    alert('YES');
+                }).
+                error(function (data) {
+                    alert('NO');
+                });
+        } else {
+            jUtils.displayError('Veuillez sélectionner au moins un café.')
+        }
+    }
 });
 

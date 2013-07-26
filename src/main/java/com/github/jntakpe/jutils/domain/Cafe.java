@@ -44,6 +44,9 @@ public class Cafe extends GenericDomain {
     @OneToMany(mappedBy = "demandeCafeId.cafe", cascade = CascadeType.REMOVE)
     private Set<DemandeCafe> demandeCafes = new HashSet<>();
 
+    @Transient
+    private Integer nb = 0;
+
     public String getNom() {
         return nom;
     }
@@ -106,6 +109,14 @@ public class Cafe extends GenericDomain {
 
     public void setDemandeCafes(Set<DemandeCafe> demandeCafes) {
         this.demandeCafes = demandeCafes;
+    }
+
+    public Integer getNb() {
+        return nb;
+    }
+
+    public void setNb(Integer nb) {
+        this.nb = nb;
     }
 
     @Override
