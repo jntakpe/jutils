@@ -1387,7 +1387,7 @@
     }
     /*global ender:false */
     if (typeof ender === 'undefined') {
-        // here, `this` means `window` in the browser, or `global` on the server
+        // here, `this` means `window` in the browser, or `global` on the filter
         // add `moment` as a global object via a string identifier,
         // for Closure Compiler "advanced" mode
         this['moment'] = moment;

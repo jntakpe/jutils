@@ -7668,7 +7668,7 @@
      * @example
      * <pre>
      *  // Given:
-     *  // URL: http://server.com/index.html#/Chapter/1/Section/2?search=moby
+     *  // URL: http://filter.com/index.html#/Chapter/1/Section/2?search=moby
      *  // Route: /Chapter/:chapterId/Section/:sectionId
      *  //
      *  // Then
@@ -8757,7 +8757,7 @@
      *     }).
                  *     error(function(data, status, headers, config) {
      *       // called asynchronously if an error occurs
-     *       // or server returns response with an error status.
+     *       // or filter returns response with an error status.
      *     });
                  * </pre>
                  *
@@ -8843,14 +8843,14 @@
                  * # Caching
                  *
                  * To enable caching, set the configuration property `cache` to `true`. When the cache is
-                 * enabled, `$http` stores the response from the server in local cache. Next time the
-                 * response is served from the cache without sending a request to the server.
+                 * enabled, `$http` stores the response from the filter in local cache. Next time the
+                 * response is served from the cache without sending a request to the filter.
                  *
                  * Note that even if the response is served from cache, delivery of the data is asynchronous in
                  * the same way that real requests are.
                  *
                  * If there are multiple GET requests for the same URL that should be cached using the same
-                 * cache, but the cache is not populated yet, only one request to the server will be made and
+                 * cache, but the cache is not populated yet, only one request to the filter will be made and
                  * the remaining requests will be fulfilled using the response from the first request.
                  *
                  *
@@ -8906,8 +8906,8 @@
                  *   JSON vulnerability}
                  * - {@link http://en.wikipedia.org/wiki/Cross-site_request_forgery XSRF}
                  *
-                 * Both server and the client must cooperate in order to eliminate these threats. Angular comes
-                 * pre-configured with strategies that address these issues, but for this to work backend server
+                 * Both filter and the client must cooperate in order to eliminate these threats. Angular comes
+                 * pre-configured with strategies that address these issues, but for this to work backend filter
                  * cooperation is required.
                  *
                  * ## JSON Vulnerability Protection
@@ -8915,15 +8915,15 @@
                  * A {@link http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx
                  * JSON vulnerability} allows third party website to turn your JSON resource URL into
                  * {@link http://en.wikipedia.org/wiki/JSONP JSONP} request under some conditions. To
-                 * counter this your server can prefix all JSON requests with following string `")]}',\n"`.
+                 * counter this your filter can prefix all JSON requests with following string `")]}',\n"`.
                  * Angular will automatically strip the prefix before processing it as JSON.
                  *
-                 * For example if your server needs to return:
+                 * For example if your filter needs to return:
                  * <pre>
                  * ['one','two']
                  * </pre>
                  *
-                 * which is vulnerable to attack, your server can return:
+                 * which is vulnerable to attack, your filter can return:
                  * <pre>
                  * )]}',
                  * ['one','two']
@@ -8938,14 +8938,14 @@
                  * an unauthorized site can gain your user's private data. Angular provides a mechanism
                  * to counter XSRF. When performing XHR requests, the $http service reads a token from a cookie
                  * called `XSRF-TOKEN` and sets it as the HTTP header `X-XSRF-TOKEN`. Since only JavaScript that
-                 * runs on your domain could read the cookie, your server can be assured that the XHR came from
+                 * runs on your domain could read the cookie, your filter can be assured that the XHR came from
                  * JavaScript running on your domain.
                  *
-                 * To take advantage of this, your server needs to set a token in a JavaScript readable session
+                 * To take advantage of this, your filter needs to set a token in a JavaScript readable session
                  * cookie called `XSRF-TOKEN` on the first HTTP GET request. On subsequent XHR requests the
-                 * server can verify that the cookie matches `X-XSRF-TOKEN` HTTP header, and therefore be sure
+                 * filter can verify that the cookie matches `X-XSRF-TOKEN` HTTP header, and therefore be sure
                  * that only JavaScript running on your domain could have sent the request. The token must be
-                 * unique for each user and must be verifiable by the server (to prevent the JavaScript from making
+                 * unique for each user and must be verifiable by the filter (to prevent the JavaScript from making
                  * up its own tokens). We recommend that the token is a digest of your site's authentication
                  * cookie with a {@link https://en.wikipedia.org/wiki/Salt_(cryptography) salt} for added security.
                  *
@@ -8958,7 +8958,7 @@
                  *    - **params** – `{Object.<string|Object>}` – Map of strings or objects which will be turned to
                  *      `?key1=value1&key2=value2` after the url. If the value is not a string, it will be JSONified.
                  *    - **data** – `{string|Object}` – Data to be sent as the request message data.
-                 *    - **headers** – `{Object}` – Map of strings representing HTTP headers to send to the server.
+                 *    - **headers** – `{Object}` – Map of strings representing HTTP headers to send to the filter.
                  *    - **transformRequest** – `{function(data, headersGetter)|Array.<function(data, headersGetter)>}` –
                  *      transform function or an array of such functions. The transform function takes the http
                  *      request body and headers and returns its transformed (typically serialized) version.
@@ -11162,10 +11162,10 @@
      *
      * Since the role of forms in client-side Angular applications is different than in classical
      * roundtrip apps, it is desirable for the browser not to translate the form submission into a full
-     * page reload that sends the data to the server. Instead some javascript logic should be triggered
+     * page reload that sends the data to the filter. Instead some javascript logic should be triggered
      * to handle the form submission in application specific way.
      *
-     * For this reason, Angular prevents the default action (form submission to the server) unless the
+     * For this reason, Angular prevents the default action (form submission to the filter) unless the
      * `<form>` element has an `action` attribute specified.
      *
      * You can use one of the following two ways to specify what javascript method should be called when
@@ -13279,7 +13279,7 @@
      * Enables binding angular expressions to onsubmit events.
      *
      * Additionally it prevents the default action (which for form means sending the request to the
-     * server and reloading the current page).
+     * filter and reloading the current page).
      *
      * @element form
      * @param {expression} ngSubmit {@link guide/expression Expression} to eval.

@@ -6,6 +6,7 @@
 <header th:include="../fragments/menuFragment :: fullMenu"></header>
 <div class="container" ng-app="cafeApp">
     <div class="container row" ng-controller="CafeCtrl">
+        <div th:include="../fragments/alertFragment :: alert"></div>
         <h2>Saisie d'une commande de café</h2>
 
         <div id="coffee-filter" class="well">

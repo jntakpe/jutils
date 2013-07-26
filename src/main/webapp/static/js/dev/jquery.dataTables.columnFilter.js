@@ -135,7 +135,7 @@
             } else {
                 input.keyup(function () {
                     if (oTable.fnSettings().oFeatures.bServerSide && iFilterLength != 0) {
-                        //If filter length is set in the server-side processing mode
+                        //If filter length is set in the filter-side processing mode
                         //Check has the user entered at least iFilterLength new characters
 
                         var currentFilter = oTable.fnSettings().aoPreSearchCols[index].sSearch;

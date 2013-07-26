@@ -11,6 +11,7 @@
 
         <!-- Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <env>tomcat</env>
 
         <!-- JEE API (JBoss specs) -->
         <version.jboss.javaee>3.0.2.Final</version.jboss.javaee>
@@ -70,7 +71,7 @@
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-all-6.0</artifactId>
                 <version>${version.jboss.javaee}</version>
-                <scope>provided</scope>
+                <scope>${hibernate.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>javax.mail</groupId>
@@ -187,25 +188,25 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
                 <version>${version.hibernate}</version>
-                <scope>provided</scope>
+                <scope>${hibernate.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-c3p0</artifactId>
                 <version>${version.hibernate}</version>
-                <scope>provided</scope>
+                <scope>${hibernate.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>${version.hibernate}</version>
-                <scope>provided</scope>
+                <scope>${hibernate.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${version.hibernate-validator}</version>
-                <scope>provided</scope>
+                <scope>${hibernate.scope}</scope>
             </dependency>
 
             <!-- Templating -->
@@ -554,6 +555,19 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+            <!-- Maven resources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+            </plugin>
+
+            <!-- Maven War -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
             <!-- Génération du meta-model JPA -->
             <plugin>
                 <groupId>org.bsc.maven</groupId>
@@ -577,5 +591,28 @@
                 </dependencies>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
+    <profiles>
+        <profile>
+            <id>tomcat</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <hibernate.scope>compile</hibernate.scope>
+            </properties>
+        </profile>
+        <profile>
+            <id>jboss</id>
+            <properties>
+                <hibernate.scope>provided</hibernate.scope>
+            </properties>
+        </profile>
+    </profiles>
 </project>

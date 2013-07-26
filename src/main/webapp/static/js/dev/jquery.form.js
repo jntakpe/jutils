@@ -505,7 +505,7 @@
                     }, s.timeout);
                 }
 
-                // look for server aborts
+                // look for filter aborts
                 function checkState() {
                     try {
                         var state = getDoc(io).readyState;
@@ -597,8 +597,8 @@
                     return;
                 }
                 else if (e == SERVER_ABORT && xhr) {
-                    xhr.abort('server abort');
-                    deferred.reject(xhr, 'error', 'server abort');
+                    xhr.abort('filter abort');
+                    deferred.reject(xhr, 'error', 'filter abort');
                     return;
                 }
 
@@ -628,7 +628,7 @@
                             setTimeout(cb, 250);
                             return;
                         }
-                        // let this fall through because server response could be an empty document
+                        // let this fall through because filter response could be an empty document
                         //log('Could not access iframe DOM after mutiple tries.');
                         //throw 'DOMException: not available';
                     }
