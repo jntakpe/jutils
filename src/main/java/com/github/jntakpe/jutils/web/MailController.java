@@ -1,6 +1,7 @@
 package com.github.jntakpe.jutils.web;
 
 import com.github.jntakpe.fmk.service.MessageManager;
+import com.github.jntakpe.fmk.util.FmkUtils;
 import com.github.jntakpe.fmk.util.dto.ResponseMessage;
 import com.github.jntakpe.jutils.service.MailService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
@@ -45,7 +46,7 @@ public class MailController {
     public ModelAndView send(@ModelAttribute MailDTO mailDTO, RedirectAttributes redirectAttributes) {
         mailService.send(mailDTO, false);
         redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("mail.send")));
-        return new ModelAndView(new RedirectView("portal"));
+        return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
     }
 
     @RequestMapping(value = "/prev", method = RequestMethod.POST)

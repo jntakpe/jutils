@@ -40,10 +40,10 @@ public class Commande extends GenericDomain {
 
     private boolean cloturee = false;
 
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private Utilisateur responsable;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commande")
     private Set<Demande> demandes = new HashSet<>();
 
     public Date getOuverture() {

@@ -15,9 +15,10 @@ public interface CommandeRepository extends CrudRepository<Commande, Long> {
     /**
      * Récupère la commande ouverture avant la date de fermetture
      *
-     * @param cloture date du jour
+     * @param cloture  date du jour
+     * @param cloturee indique si la commande est cloturée
      * @return la commande ouverte sur cette plage ou null si aucune commande n'est ouverte
      */
-    Commande findByClotureAfter(Date cloture);
+    Commande findByClotureAfterAndCloturee(Date cloture, boolean cloturee);
 
 }

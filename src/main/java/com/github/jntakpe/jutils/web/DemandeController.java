@@ -5,6 +5,7 @@ import com.github.jntakpe.fmk.util.FmkUtils;
 import com.github.jntakpe.fmk.util.constant.LogLevel;
 import com.github.jntakpe.fmk.util.dto.ResponseMessage;
 import com.github.jntakpe.jutils.domain.Commande;
+import com.github.jntakpe.jutils.domain.Demande;
 import com.github.jntakpe.jutils.service.CommandeService;
 import com.github.jntakpe.jutils.service.DemandeService;
 import com.github.jntakpe.jutils.util.dto.DemandeDTO;
@@ -44,7 +45,7 @@ public class DemandeController {
             mv = new ModelAndView("demande");
         } else {
             redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
-            mv = new ModelAndView(new RedirectView("portal"));
+            mv = new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
         }
         return mv;
     }
@@ -58,9 +59,9 @@ public class DemandeController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessage save(@RequestBody DemandeDTO demandeDTO) {
-        demandeService.saveDemandeAndCafes(demandeDTO);
+        Demande demande = demandeService.saveDemandeAndCafes(demandeDTO);
         messageManager.logMessage("MSG50000", LogLevel.INFO, FmkUtils.getCurrentUsername(), demandeDTO.getDemande().getNombreBoites());
-        //TODO redirect recap
-        return ResponseMessage.getSuccessMessage("toto");
+        String redirUrl = FmkUtils.CONTEXT_ROOT + "/demande/" + demande.getId();
+        return ResponseMessage.getSuccessMessage(messageManager.getMessage("demande.saved"), redirUrl);
     }
 }

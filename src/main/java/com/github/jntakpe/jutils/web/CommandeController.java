@@ -13,10 +13,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -59,7 +56,16 @@ public class CommandeController {
         messageManager.logMessage("MSG40000", LogLevel.INFO, FmkUtils.getCurrentUsername(), commande.getCloture());
         redirAttr.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("commande.create")));
         //TODO redirect vers la commande
-        return new ModelAndView(new RedirectView("portal"));
+        return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
+    }
+
+    @RequestMapping(value = "/cloture/{id}", method = RequestMethod.GET)
+    public ModelAndView cloture(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        //TODO redirect vers recap
+        Commande commande = commandeService.cloture(id);
+        messageManager.logMessage("MSG40001", LogLevel.INFO, FmkUtils.getCurrentUsername(), commandeService);
+        redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("commande.close", commande)));
+        return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
     }
 
     @InitBinder

@@ -9,6 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public final class FmkUtils {
 
+    public static final String CONTEXT_ROOT = "/jutils";
+
+    public static final String PORTAL_VIEW = CONTEXT_ROOT + "/portal";
+
     private FmkUtils() {
     }
 

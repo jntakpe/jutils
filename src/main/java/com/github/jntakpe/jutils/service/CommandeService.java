@@ -26,4 +26,13 @@ public interface CommandeService extends GenericService<Commande> {
      * @return la commande actuelement ouverte
      */
     Commande findOpenCmd();
+
+    /**
+     * Clôture la commande courante
+     *
+     * @param id identifiant de la commande courante
+     * @return la commande clôturée
+     */
+    Commande cloture(Long id);
+
 }

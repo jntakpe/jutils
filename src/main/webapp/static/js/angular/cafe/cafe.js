@@ -210,11 +210,14 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
                 }
             }
             $http.post('demande', {demande: $scope.demande, cafes: cafesDTO}).
-                success(function (data) {
-                    alert('YES');
+                success(function (response) {
+                    jUtils.displaySuccess(response.message);
+                    setTimeout(function () {
+                        window.location = response.data;
+                    }, 5000);
                 }).
-                error(function (data) {
-                    alert('NO');
+                error(function (response) {
+                    jUtils.displayError(response && response.message ? response.message : null);
                 });
         } else {
             jUtils.displayError('Veuillez sélectionner au moins un café.');

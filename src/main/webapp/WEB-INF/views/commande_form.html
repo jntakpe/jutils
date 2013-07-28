@@ -8,7 +8,7 @@
     <div th:include="../fragments/alertFragment :: alert"></div>
     <div class="container row">
         <h2 th:text="${commande.id == null} ? 'Création d\'une nouvelle commande de café' :
-        'Modification d\'une nouvelle commande de café'"></h2>
+        'Modification d\'une commande de café'"></h2>
 
         <div class="offset2">
             <form id="commande-form" class="form-horizontal" th:object="${commande}" method="post"
@@ -96,9 +96,9 @@
                         <button type="reset" class="btn">
                             <i class="icon-undo"></i> Reset
                         </button>
-                        <button th:if="${commande.id != null}" type="submit" class="btn btn-warning">
+                        <a th:if="${commande.id != null}" class="btn btn-warning" th:href="@{/commande/cloture/} + ${commande.id}">
                             <i class="icon-bell"></i> Clôturer
-                        </button>
+                        </a>
                     </div>
                 </fieldset>
             </form>

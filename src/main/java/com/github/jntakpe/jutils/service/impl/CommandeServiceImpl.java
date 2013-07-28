@@ -32,7 +32,7 @@ public class CommandeServiceImpl extends GenericServiceImpl<Commande> implements
      */
     @Override
     public Commande findOpenCmd() {
-        return commandeRepository.findByClotureAfter(Instant.now().toDate());
+        return commandeRepository.findByClotureAfterAndCloturee(Instant.now().toDate(), false);
     }
 
     /**
@@ -45,6 +45,17 @@ public class CommandeServiceImpl extends GenericServiceImpl<Commande> implements
         creator.setRib(rib);
         commande.setResponsable(creator);
         return save(commande);
+    }
+
+    /**
+     * @{inhericDoc}
+     */
+    @Override
+    @Transactional
+    public Commande cloture(Long id) {
+        Commande commande = findOne(id);
+        commande.setCloturee(true);
+        return commande;
     }
 
     @Override
