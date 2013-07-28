@@ -1,5 +1,6 @@
 package com.github.jntakpe.jutils.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
@@ -17,21 +18,24 @@ import java.util.Set;
 public class Demande extends GenericDomain {
 
     @Column(nullable = false)
-    private BigDecimal montantTotal;
+    private BigDecimal montantTotal = new BigDecimal(0);
 
     @Column(nullable = false)
-    private BigDecimal montantPaye;
+    private BigDecimal montantPaye = new BigDecimal(0);
 
     @Column(nullable = false)
-    private Integer nombreBoites;
+    private Integer nombreBoites = 0;
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Commande commande;
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Utilisateur utilisateur;
 
     @OneToMany(mappedBy = "demandeCafeId.demande", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private Set<DemandeCafe> demandeCafes = new HashSet<>();
 
     public BigDecimal getMontantTotal() {

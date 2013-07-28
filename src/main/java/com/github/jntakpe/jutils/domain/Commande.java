@@ -38,6 +38,8 @@ public class Commande extends GenericDomain {
 
     private boolean accepteVirement = false;
 
+    private boolean cloturee = false;
+
     @OneToOne(optional = false)
     private Utilisateur responsable;
 
@@ -114,6 +116,14 @@ public class Commande extends GenericDomain {
 
     public void setAccepteVirement(boolean accepteVirement) {
         this.accepteVirement = accepteVirement;
+    }
+
+    public boolean isCloturee() {
+        return cloturee;
+    }
+
+    public void setCloturee(boolean cloturee) {
+        this.cloturee = cloturee;
     }
 
     public Utilisateur getResponsable() {

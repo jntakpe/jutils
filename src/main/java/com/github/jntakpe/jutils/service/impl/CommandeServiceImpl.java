@@ -13,8 +13,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-
 /**
  * Implémentation des services associés à l'entité {@link Commande}
  *
@@ -33,10 +31,8 @@ public class CommandeServiceImpl extends GenericServiceImpl<Commande> implements
      * @{inhericDoc}
      */
     @Override
-    @Transactional
-    public boolean isOpenCmd() {
-        Date now = Instant.now().toDate();
-        return commandeRepository.findByClotureAfter(now) != null;
+    public Commande findOpenCmd() {
+        return commandeRepository.findByClotureAfter(Instant.now().toDate());
     }
 
     /**
@@ -48,7 +44,7 @@ public class CommandeServiceImpl extends GenericServiceImpl<Commande> implements
         Utilisateur creator = utilisateurService.getCurrent();
         creator.setRib(rib);
         commande.setResponsable(creator);
-        return commande;
+        return save(commande);
     }
 
     @Override

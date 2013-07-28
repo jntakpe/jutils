@@ -12,13 +12,6 @@ import com.github.jntakpe.jutils.domain.Rib;
 public interface CommandeService extends GenericService<Commande> {
 
     /**
-     * Recherche des commandes ouvertes sur la plage actuelle
-     *
-     * @return true si une commande existe déjà sur la plage actuelle
-     */
-    boolean isOpenCmd();
-
-    /**
      * Créé une commande
      *
      * @param commande commande a créer
@@ -27,4 +20,10 @@ public interface CommandeService extends GenericService<Commande> {
      */
     Commande create(Commande commande, Rib rib);
 
+    /**
+     * Recupère la commande ouverte
+     *
+     * @return la commande actuelement ouverte
+     */
+    Commande findOpenCmd();
 }

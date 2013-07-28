@@ -91,10 +91,13 @@
 
                     <div class="form-actions">
                         <button type="submit" class="btn btn-success">
-                            <i class="icon-ok"></i> Créer commande
+                            <i class="icon-ok"></i> Valider
                         </button>
                         <button type="reset" class="btn">
                             <i class="icon-undo"></i> Reset
+                        </button>
+                        <button th:if="${commande.id != null}" type="submit" class="btn btn-warning">
+                            <i class="icon-bell"></i> Clôturer
                         </button>
                     </div>
                 </fieldset>

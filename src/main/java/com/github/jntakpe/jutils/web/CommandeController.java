@@ -45,16 +45,12 @@ public class CommandeController {
     @PreAuthorize("hasAnyRole('RESP_CAFE', 'ROLE_ADMIN')")
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView displayForm() {
-        if (commandeService.isOpenCmd()) {
-            String msg = messageManager.getMessage("already.open.cmd");
-            //TODO Débrancher sur écran de cloture directement
-            return new ModelAndView("portal").addObject(ResponseMessage.getErrorMessage(msg));
-        } else {
-            ModelAndView mv = new ModelAndView("commande_form");
-            Rib rib = utilisateurService.getCurrent().getRib();
-            mv.addObject(rib == null ? new Rib() : rib);
-            return mv.addObject(new Commande());
-        }
+        ModelAndView mv = new ModelAndView("commande_form");
+        Commande commande = commandeService.findOpenCmd();
+        Rib rib = utilisateurService.getCurrent().getRib();
+        mv.addObject(rib == null ? new Rib() : rib);
+        if (commande != null) return mv.addObject(commande);
+        else return mv.addObject(new Commande());
     }
 
     @RequestMapping(method = RequestMethod.POST)

@@ -13,9 +13,17 @@ public interface DemandeService extends GenericService<Demande> {
 
     /**
      * Récupère la demande si elle existe et la liste triée des cafés
-     * @param demandeId identifiant de la demande
+     *
      * @return un objet contenant la demande courante et les cafés
      */
-    DemandeDTO findDemandeAndCafes(Long demandeId);
+    DemandeDTO findDemandeAndCafes();
+
+    /**
+     * Sauvegarde une demande et les cafés asociés
+     *
+     * @param demandeDTO objet contenant la demande et les cafés
+     * @return la demande persistée
+     */
+    Demande saveDemandeAndCafes(DemandeDTO demandeDTO);
 
 }

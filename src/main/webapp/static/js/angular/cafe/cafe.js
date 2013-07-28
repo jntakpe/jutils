@@ -28,15 +28,13 @@ cafeApp.service('InitService', function ($http) {
         };
 
         return filters;
-    }
+    };
 
     this.findCafesList = function () {
         return $http.get('demande/cafes');
-    }
+    };
 
 });
-
-cafeApp.ser
 
 cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
     "use strict";
@@ -47,8 +45,9 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
         return cafe.activeInt && cafe.activeMode && cafe.activeProfil;
     }
 
-    function initCafes(cafes, isNew) {
-        for (var cafe in cafes) {
+    function initCafes(cafes) {
+        var cafe;
+        for (cafe in cafes) {
             if (cafes.hasOwnProperty(cafe)) {
                 cafes[cafe].activeInt = true;
                 cafes[cafe].activeMode = true;
@@ -60,7 +59,7 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
 
     function init() {
         InitService.findCafesList().success(function (data) {
-            initial.cafes = initCafes(data.cafes, data.demande.id ? false : true);
+            initial.cafes = initCafes(data.cafes);
             initial.demande = data.demande;
             $scope.cafes = angular.copy(initial.cafes);
             $scope.demande = angular.copy(initial.demande);
@@ -94,7 +93,11 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
 
     $scope.switchFilterInt = function (filter) {
         var isEmpty, idx;
-        filter.dis ? activeInt.push(filter.force) : activeInt.splice(activeInt.indexOf(filter.force), 1);
+        if (filter.dis) {
+            activeInt.push(filter.force);
+        } else {
+            activeInt.splice(activeInt.indexOf(filter.force), 1);
+        }
         isEmpty = activeInt.length === 0;
         for (idx in $scope.cafes) {
             if ($scope.cafes.hasOwnProperty(idx)) {
@@ -102,9 +105,10 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
             }
         }
         filter.dis = !filter.dis;
-    }
+    };
 
     $scope.switchMode = function (mode) {
+        var idx;
         if ($scope.filters.mode[mode]) {
             switch (mode) {
                 case 'decaffeinato' :
@@ -130,16 +134,19 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
             }
         }
         $scope.filters.mode[mode] = !$scope.filters.mode[mode];
-        for (var idx in $scope.cafes) {
-            if ($scope.filters.mode[mode]) {
-                $scope.cafes[idx].activeMode = true;
-            } else {
-                $scope.cafes[idx].activeMode = $scope.cafes[idx].categorie === mode.toUpperCase() ? true : false;
+        for (idx in $scope.cafes) {
+            if ($scope.cafes.hasOwnProperty(idx)) {
+                if ($scope.filters.mode[mode]) {
+                    $scope.cafes[idx].activeMode = true;
+                } else {
+                    $scope.cafes[idx].activeMode = $scope.cafes[idx].categorie === mode.toUpperCase() ? true : false;
+                }
             }
         }
-    }
+    };
 
     $scope.switchProfil = function (profil) {
+        var idx;
         if ($scope.filters.profil[profil]) {
             switch (profil) {
                 case 'intense' :
@@ -157,18 +164,20 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
             }
         }
         $scope.filters.profil[profil] = !$scope.filters.profil[profil];
-        for (var idx in $scope.cafes) {
-            if ($scope.filters.profil[profil]) {
-                $scope.cafes[idx].activeProfil = true;
-            } else {
-                $scope.cafes[idx].activeProfil = $scope.cafes[idx].profilAromatique === profil.toUpperCase() ? true : false;
+        for (idx in $scope.cafes) {
+            if ($scope.cafes.hasOwnProperty(idx)) {
+                if ($scope.filters.profil[profil]) {
+                    $scope.cafes[idx].activeProfil = true;
+                } else {
+                    $scope.cafes[idx].activeProfil = $scope.cafes[idx].profilAromatique === profil.toUpperCase() ? true : false;
+                }
             }
         }
-    }
+    };
 
     $scope.resolveCoffeeClass = function (cafe) {
         return isActive(cafe) ? 'active' : 'darken';
-    }
+    };
 
     $scope.resolveColor = function (filter) {
         return filter.dis ? 'color:#808681' : filter.color;
@@ -176,10 +185,10 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
 
     $scope.resolveBtn = function (btn) {
         return btn ? 'btn' : 'btn btn-inverse';
-    }
+    };
 
     $scope.resetFilters = function () {
-        $scope.cafes = initCafes($scope.cafes, false);
+        $scope.cafes = initCafes($scope.cafes);
         $scope.filters = InitService.filter();
     };
 
@@ -190,19 +199,17 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
     };
 
     $scope.submitCmd = function () {
-        var cafe, cafesDTO = [], demandeDTO = {};
+        var cafe, cafesDTO = [], cafeDTO;
         if ($scope.demande.nombreBoites !== 0) {
             for (cafe in $scope.cafes) {
                 if ($scope.cafes.hasOwnProperty(cafe) && $scope.cafes[cafe].nb !== 0) {
-                    var cafeDTO = {};
+                    cafeDTO = {};
                     cafeDTO.id = $scope.cafes[cafe].id;
                     cafeDTO.nb = $scope.cafes[cafe].nb;
                     cafesDTO.push(cafeDTO);
                 }
             }
-            demandeDTO.demande = $scope.demande;
-            demandeDTO.cafes = cafesDTO;
-            $http.post('demande', {demandeDTO : demandeDTO}).
+            $http.post('demande', {demande: $scope.demande, cafes: cafesDTO}).
                 success(function (data) {
                     alert('YES');
                 }).
@@ -210,8 +217,8 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
                     alert('NO');
                 });
         } else {
-            jUtils.displayError('Veuillez sélectionner au moins un café.')
+            jUtils.displayError('Veuillez sélectionner au moins un café.');
         }
-    }
+    };
 });
 

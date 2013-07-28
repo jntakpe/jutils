@@ -40,7 +40,7 @@
                                 Café<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN','RESP_CAFE')">
-                                    <a th:href="@{/commande/new}"><i class="icon-plus-sign-alt"></i> Créer commande</a>
+                                    <a th:href="@{/commande/new}"><i class="icon-book"></i> Gestion commande</a>
                                 </li>
                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN','RESP_CAFE')">
                                     <a th:href="@{/cafe}"><i class="icon-list"></i> Liste des cafés</a>

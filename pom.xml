@@ -606,12 +606,16 @@
             </activation>
             <properties>
                 <hibernate.scope>compile</hibernate.scope>
+                <persistence.prop.name>persistenceUnitName</persistence.prop.name>
+                <persistence.prop.value>jutilsPU</persistence.prop.value>
             </properties>
         </profile>
         <profile>
             <id>jboss</id>
             <properties>
                 <hibernate.scope>provided</hibernate.scope>
+                <persistence.prop.name>persistenceXmlLocation</persistence.prop.name>
+                <persistence.prop.value>classpath*:META-INF/persistence.xml</persistence.prop.value>
             </properties>
         </profile>
     </profiles>

@@ -2,7 +2,7 @@
 
 <configuration>
 
-    <property name="LOGS_FOLDER" value="C:/AppEnv/jutils/log"/>
+    <property name="LOGS_FOLDER" value="C:/AppEnv/jutils/target/log"/>
     <property name="SAVE_FOLDER" value="${LOGS_FOLDER}/collect"/>
 
     <!--<logger name="org.hibernate.type" level="ALL"/>-->
