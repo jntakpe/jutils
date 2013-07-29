@@ -19,4 +19,5 @@ public final class FmkUtils {
     public static String getCurrentUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
+
 }

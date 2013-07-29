@@ -2,7 +2,10 @@ package com.github.jntakpe.jutils.service;
 
 import com.github.jntakpe.fmk.service.GenericService;
 import com.github.jntakpe.jutils.domain.Commande;
+import com.github.jntakpe.jutils.domain.Demande;
 import com.github.jntakpe.jutils.domain.Rib;
+
+import java.util.Set;
 
 /**
  * Services associés à une {@link Commande}
@@ -34,5 +37,12 @@ public interface CommandeService extends GenericService<Commande> {
      * @return la commande clôturée
      */
     Commande cloture(Long id);
+
+    /**
+     * Récupère un set de demandes associées à une commande
+     *
+     * @return set de demande
+     */
+    Set<Demande> findDemandes();
 
 }

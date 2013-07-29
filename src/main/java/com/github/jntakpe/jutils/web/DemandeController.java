@@ -64,4 +64,5 @@ public class DemandeController {
         String redirUrl = FmkUtils.CONTEXT_ROOT + "/demande/" + demande.getId();
         return ResponseMessage.getSuccessMessage(messageManager.getMessage("demande.saved"), redirUrl);
     }
+
 }

@@ -78,4 +78,5 @@ public class DemandeServiceImpl extends GenericServiceImpl<Demande> implements D
         return demande;
     }
 
+
 }

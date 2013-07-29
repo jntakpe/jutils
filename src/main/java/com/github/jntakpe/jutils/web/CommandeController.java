@@ -5,6 +5,7 @@ import com.github.jntakpe.fmk.util.FmkUtils;
 import com.github.jntakpe.fmk.util.constant.LogLevel;
 import com.github.jntakpe.fmk.util.dto.ResponseMessage;
 import com.github.jntakpe.jutils.domain.Commande;
+import com.github.jntakpe.jutils.domain.Demande;
 import com.github.jntakpe.jutils.domain.Rib;
 import com.github.jntakpe.jutils.service.CommandeService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Contrôlleur gérant les écrans relatifs à une commande de café
@@ -55,17 +57,30 @@ public class CommandeController {
         commandeService.create(commande, rib);
         messageManager.logMessage("MSG40000", LogLevel.INFO, FmkUtils.getCurrentUsername(), commande.getCloture());
         redirAttr.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("commande.create")));
-        //TODO redirect vers la commande
-        return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
+        return new ModelAndView(new RedirectView(FmkUtils.CONTEXT_ROOT + "/commande"));
     }
 
     @RequestMapping(value = "/cloture/{id}", method = RequestMethod.GET)
     public ModelAndView cloture(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        //TODO redirect vers recap
         Commande commande = commandeService.cloture(id);
         messageManager.logMessage("MSG40001", LogLevel.INFO, FmkUtils.getCurrentUsername(), commandeService);
         redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("commande.close", commande)));
-        return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
+        return new ModelAndView(new RedirectView(FmkUtils.CONTEXT_ROOT + "/commande"));
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView display(RedirectAttributes redirectAttributes) {
+        if (commandeService.findOpenCmd() != null) return new ModelAndView("commande_list");
+        else {
+            redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
+            return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
+        }
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<Demande> list() {
+        return commandeService.findDemandes();
     }
 
     @InitBinder

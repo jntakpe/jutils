@@ -1,6 +1,7 @@
 package com.github.jntakpe.jutils.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.github.jntakpe.fmk.domain.GenericDomain;
 
 import javax.persistence.*;
@@ -31,7 +32,7 @@ public class Demande extends GenericDomain {
     private Commande commande;
 
     @ManyToOne(optional = false)
-    @JsonIgnore
+    @JsonIgnoreProperties({"items", "roles"})
     private Utilisateur utilisateur;
 
     @OneToMany(mappedBy = "demandeCafeId.demande", cascade = CascadeType.REMOVE)
