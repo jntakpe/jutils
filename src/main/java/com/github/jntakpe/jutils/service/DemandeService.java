@@ -26,4 +26,11 @@ public interface DemandeService extends GenericService<Demande> {
      */
     Demande saveDemandeAndCafes(DemandeDTO demandeDTO);
 
+    /**
+     * Récupère la demande actuellement de l'utilisateur
+     *
+     * @return la demande actuelle
+     */
+    Demande findByUtilisateur();
+
 }

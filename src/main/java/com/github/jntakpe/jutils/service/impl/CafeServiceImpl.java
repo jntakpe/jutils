@@ -31,11 +31,17 @@ public class CafeServiceImpl extends GenericServiceImpl<Cafe> implements CafeSer
     @Autowired
     private DemandeCafeRepository demandeCafeRepository;
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     public CrudRepository<Cafe, Long> getRepository() {
         return cafeRepository;
     }
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Cafe> initialize(Demande demande) {

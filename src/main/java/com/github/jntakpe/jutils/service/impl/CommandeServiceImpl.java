@@ -73,6 +73,9 @@ public class CommandeServiceImpl extends GenericServiceImpl<Commande> implements
         return demandes;
     }
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     public CrudRepository<Commande, Long> getRepository() {
         return commandeRepository;

@@ -17,6 +17,9 @@ import java.util.Date;
 @Service
 public class AgeServiceImpl implements AgeService {
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     public Age calcAge(Date birthdate) {
         DateTime birthdateDT = new DateTime(birthdate);

@@ -3,6 +3,8 @@ package com.github.jntakpe.jutils.service;
 import com.github.jntakpe.fmk.service.GenericService;
 import com.github.jntakpe.jutils.domain.Role;
 
+import java.util.Set;
+
 /**
  * Traitement métiers associés à l'entité {@link Role}
  *
@@ -27,4 +29,11 @@ public interface RoleService extends GenericService<Role> {
      * @return le nom de l'utilisateur modifié
      */
     String assignRole(Long utilisateurId, String roleName, boolean hasRole);
+
+    /**
+     * Récupère les rôles de l'utilisateur actuellement connecté
+     *
+     * @return set de rôles de l'utilisateur courant
+     */
+    Set<Role> getCurrent();
 }

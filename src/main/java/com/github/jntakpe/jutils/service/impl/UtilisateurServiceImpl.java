@@ -35,6 +35,9 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     @Autowired
     private RoleService roleService;
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     public CrudRepository<Utilisateur, Long> getRepository() {
         return utilisateurRepository;

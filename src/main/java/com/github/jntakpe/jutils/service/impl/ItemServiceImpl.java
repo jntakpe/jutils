@@ -31,6 +31,9 @@ public class ItemServiceImpl extends GenericServiceImpl<Item> implements ItemSer
     @Autowired
     private MessageManager messageManager;
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     public CrudRepository<Item, Long> getRepository() {
         return itemRepository;

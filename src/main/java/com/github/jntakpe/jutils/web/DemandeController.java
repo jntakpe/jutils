@@ -41,9 +41,8 @@ public class DemandeController {
     public ModelAndView display(RedirectAttributes redirectAttributes) {
         ModelAndView mv;
         Commande commande = commandeService.findOpenCmd();
-        if (commande != null) {
-            mv = new ModelAndView("demande");
-        } else {
+        if (commande != null) mv = new ModelAndView("demande");
+        else {
             redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
             mv = new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
         }

@@ -7,7 +7,10 @@ import com.github.jntakpe.fmk.util.dto.ResponseMessage;
 import com.github.jntakpe.jutils.domain.Commande;
 import com.github.jntakpe.jutils.domain.Demande;
 import com.github.jntakpe.jutils.domain.Rib;
+import com.github.jntakpe.jutils.domain.Role;
 import com.github.jntakpe.jutils.service.CommandeService;
+import com.github.jntakpe.jutils.service.DemandeService;
+import com.github.jntakpe.jutils.service.RoleService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -37,6 +40,12 @@ public class CommandeController {
 
     @Autowired
     private UtilisateurService utilisateurService;
+
+    @Autowired
+    private DemandeService demandeService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private MessageManager messageManager;
@@ -70,8 +79,20 @@ public class CommandeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView display(RedirectAttributes redirectAttributes) {
-        if (commandeService.findOpenCmd() != null) return new ModelAndView("commande_list");
-        else {
+        if (commandeService.findOpenCmd() != null) {
+            ModelAndView mv = new ModelAndView("commande_list");
+            boolean isAuthored = false;
+            for (Role role : roleService.getCurrent()) {
+                if (role.getCode().equals("ROLE_ADMIN") || role.getCode().equals("ROLE_CAFE")) {
+                    isAuthored = true;
+                    break;
+                }
+            }
+            Demande demande = demandeService.findByUtilisateur();
+            if (demande != null) mv.addObject("id", demande.getId());
+            if (isAuthored) mv.addObject("isAuthored", true);
+            return new ModelAndView("commande_list");
+        } else {
             redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
             return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
         }

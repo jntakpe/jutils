@@ -153,8 +153,7 @@ var jUtils = {
                 btnEdit = "<a href='javascript:;' class='edit-btn' " +
                     "onclick='jUtils.displayEditPopup(" + data + ",$(this))'><i class='icon-edit icon-large'></i></a>";
                 fct = "jUtils.displayConfirmPopup(" + data + ",$(this))";
-                btnDelete = "<a href='javascript:;' onclick='" + fct + "'>" +
-                    "<i class='icon-trash icon-large pull-right'></i></a>";
+                btnDelete = "<a href='javascript:;' onclick='" + fct + "'><i class='icon-trash icon-large pull-right'></i></a>";
                 return btnEdit + btnDelete;
             }
         };
@@ -177,9 +176,67 @@ var jUtils = {
                 editUrl = path.match(/\/$/) ? path + data : path + "/" + data;
                 btnEdit = "<a href='" + editUrl + "'><i class='icon-edit icon-large'></i></a>";
                 fct = "jUtils.displayConfirmPopup(" + data + ",$(this))";
-                btnDelete = "<a href='javascript:;' onclick='" + fct + "'>" +
-                    "<i class='icon-trash icon-large pull-right'></i></a>";
+                btnDelete = "<a href='javascript:;' onclick='" + fct + "'><i class='icon-trash icon-large pull-right'></i></a>";
                 return btnEdit + btnDelete;
+            }
+        };
+    },
+
+    /**
+     * Affiche le contenu d'une colonne de détail avec débranchement vers écran détail
+     * @returns {{mData: string, sWidth: number, bSearchable: boolean, bSortable: boolean, sClass: string, mRender: Function}}
+     */
+    detailCol: function () {
+        "use strict";
+        return {
+            mData: "id",
+            sWidth: 25,
+            bSearchable: false,
+            bSortable: false,
+            sClass: "center",
+            mRender: function (data) {
+                var path = window.location.pathname, detailUrl;
+                detailUrl = path.match(/\/$/) ? path + data + "/detail" : path + "/" + data + "/detail";
+                return "<a href='" + detailUrl + "'><i class='icon-search icon-large'></i></a>";
+            }
+        };
+    },
+
+    /**
+     * Affiche le contenu d'une colonne de édition avec débranchement vers écran détail
+     * @returns {{mData: string, sWidth: number, bSearchable: boolean, bSortable: boolean, sClass: string, mRender: Function}}
+     */
+    editCol: function () {
+        "use strict";
+        return {
+            mData: "id",
+            sWidth: 25,
+            bSearchable: false,
+            bSortable: false,
+            sClass: "center",
+            mRender: function (data) {
+                var path = window.location.pathname, editUrl;
+                editUrl = path.match(/\/$/) ? path + data : path + "/" + data;
+                return "<a href='" + editUrl + "'><i class='icon-edit icon-large'></i></a>";
+            }
+        };
+    },
+
+    /**
+     * Affiche le contenu d'une colonne de suppression
+     * @returns {{mData: string, sWidth: number, bSearchable: boolean, bSortable: boolean, sClass: string, mRender: Function}}
+     */
+    deleteCol: function () {
+        "use strict";
+        return {
+            mData: "id",
+            sWidth: 25,
+            bSearchable: false,
+            bSortable: false,
+            sClass: "center",
+            mRender: function (data) {
+                var fct = "jUtils.displayConfirmPopup(" + data + ",$(this))";
+                return "<a href='javascript:;' onclick='" + fct + "'><i class='icon-trash icon-large'></i></a>";
             }
         };
     },

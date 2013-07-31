@@ -1,8 +1,10 @@
 package com.github.jntakpe.jutils.service.impl;
 
 import com.github.jntakpe.fmk.service.impl.GenericServiceImpl;
-import com.github.jntakpe.fmk.util.FmkUtils;
-import com.github.jntakpe.jutils.domain.*;
+import com.github.jntakpe.jutils.domain.Cafe;
+import com.github.jntakpe.jutils.domain.Demande;
+import com.github.jntakpe.jutils.domain.DemandeCafe;
+import com.github.jntakpe.jutils.domain.DemandeCafeId;
 import com.github.jntakpe.jutils.repository.DemandeCafeRepository;
 import com.github.jntakpe.jutils.repository.DemandeRepository;
 import com.github.jntakpe.jutils.service.CafeService;
@@ -38,17 +40,21 @@ public class DemandeServiceImpl extends GenericServiceImpl<Demande> implements D
     @Autowired
     private CommandeService commandeService;
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     public CrudRepository<Demande, Long> getRepository() {
         return demandeRepository;
     }
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public DemandeDTO findDemandeAndCafes() {
-        Commande commande = commandeService.findOpenCmd();
-        Utilisateur utilisateur = utilisateurService.findByLogin(FmkUtils.getCurrentUsername());
-        Demande demande = demandeRepository.findByCommandeAndUtilisateur(commande, utilisateur);
+        Demande demande = findByUtilisateur();
         DemandeDTO demandeDTO = new DemandeDTO();
         if (demande != null) demandeDTO.setDemande(demande);
         else demandeDTO.setDemande(new Demande());
@@ -58,6 +64,9 @@ public class DemandeServiceImpl extends GenericServiceImpl<Demande> implements D
 
     }
 
+    /**
+     * @{inhericDoc}
+     */
     @Override
     @Transactional
     public Demande saveDemandeAndCafes(DemandeDTO demandeDTO) {
@@ -78,5 +87,12 @@ public class DemandeServiceImpl extends GenericServiceImpl<Demande> implements D
         return demande;
     }
 
-
+    /**
+     * @{inhericDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Demande findByUtilisateur() {
+        return demandeRepository.findByCommandeAndUtilisateur(commandeService.findOpenCmd(), utilisateurService.getCurrent());
+    }
 }
