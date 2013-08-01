@@ -11,10 +11,7 @@ import com.github.jntakpe.jutils.service.DemandeService;
 import com.github.jntakpe.jutils.util.dto.DemandeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -62,6 +59,17 @@ public class DemandeController {
         messageManager.logMessage("MSG50000", LogLevel.INFO, FmkUtils.getCurrentUsername(), demandeDTO.getDemande().getNombreBoites());
         String redirUrl = FmkUtils.CONTEXT_ROOT + "/demande/" + demande.getId();
         return ResponseMessage.getSuccessMessage(messageManager.getMessage("demande.saved"), redirUrl);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseMessage delete(@PathVariable Long id) {
+        Demande demande = demandeService.findOne(id);
+        String user = demande.getUtilisateur().getLogin();
+        demandeService.delete(id);
+        if (user.equals(FmkUtils.getCurrentUsername())) messageManager.logMessage("MSG50002", LogLevel.INFO, FmkUtils.getCurrentUsername());
+        else messageManager.logMessage("MSG50001", LogLevel.INFO, FmkUtils.getCurrentUsername(), user);
+        return ResponseMessage.getSuccessMessage(messageManager.getMessage("demande.deleted"), FmkUtils.CONTEXT_ROOT + "/commande");
     }
 
 }

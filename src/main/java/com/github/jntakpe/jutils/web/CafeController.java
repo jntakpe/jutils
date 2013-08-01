@@ -46,7 +46,7 @@ public class CafeController extends GenericController<Cafe> {
         return mv.addObject("categories", Categorie.values());
     }
 
-    @RequestMapping(value ="/image/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/image/{id}", method = RequestMethod.GET)
     @ResponseBody
     public byte[] getImageData(@PathVariable Long id) {
         return cafeService.findOne(id).getImage();

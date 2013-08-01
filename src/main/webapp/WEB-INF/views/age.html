@@ -86,12 +86,12 @@
                                     $('#second').text(data.second);
                                     $('#age-table').show();
                                 } else {
-                                    jUtils.displayError(response.message);
+                                    jUtils.displayError(response);
                                     clearInterval(refresh);
                                 }
                             },
-                            error: function () {
-                                jUtils.displayError();
+                            error: function (response) {
+                                jUtils.displayError(response);
                                 clearInterval(refresh);
                             }
                         });

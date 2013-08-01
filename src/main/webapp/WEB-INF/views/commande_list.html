@@ -7,6 +7,7 @@
     <div th:include="../fragments/alertFragment :: alert"></div>
     <h2>Liste des commandes</h2>
 
+    <input id="demande-id" type="hidden" th:if="${demandeId != null}" th:value="${demandeId}"/>
     <table id="dt_commande" class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -25,7 +26,7 @@
         </tr>
         </tbody>
     </table>
-    <div th:if="${id != null}">
+    <div th:if="${demandeId != null}">
         <a class="btn btn-success" th:href="@{/demande}">
             <i class="icon-edit"></i> Modifier votre commande
         </a>
@@ -33,7 +34,7 @@
             <i class="icon-trash"></i> Supprimer votre commande
         </button>
     </div>
-    <div th:if="${id == null}">
+    <div th:if="${demandeId == null}">
         <a class="btn btn-success" th:href="@{/demande}">
             <i class="icon-plus"></i> Commander du café
         </a>
@@ -46,15 +47,27 @@
     /*<![CDATA[*/
     $(function () {
         "use strict";
-        var isAuthored = $('#empty-size').prop('colspan') === 7;
+
+        $('#delete-cmd').click(function () {
+            $.ajax({
+                type: 'delete',
+                url: 'demande/' + $('#demande-id').val()
+            }).
+                    success(function (response) {
+                        jUtils.displaySuccess(response.message);
+                    }).
+                    error(function (response) {
+                        jUtils.displayError(response);
+                    });
+        });
 
         $('#dt_commande').dataTable({
             sAjaxSource: "commande/list",
             aoColumns: getCols()
         });
 
-        function getCols(isAuthored) {
-            if (isAuthored) {
+        function getCols() {
+            if ($('#empty-size').prop('colspan') === 7) {
                 return [
                     {mData: "utilisateur.nom", sWidth: 250},
                     {mData: "nombreBoites"},

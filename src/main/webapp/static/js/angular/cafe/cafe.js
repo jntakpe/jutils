@@ -199,7 +199,7 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
     };
 
     $scope.submitCmd = function () {
-        var cafe, cafesDTO = [], cafeDTO;
+        var cafe, cafesDTO = [], cafeDTO, msg = {};
         if ($scope.demande.nombreBoites !== 0) {
             for (cafe in $scope.cafes) {
                 if ($scope.cafes.hasOwnProperty(cafe) && $scope.cafes[cafe].nb !== 0) {
@@ -211,16 +211,22 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
             }
             $http.post('demande', {demande: $scope.demande, cafes: cafesDTO}).
                 success(function (response) {
-                    jUtils.displaySuccess(response.message);
-                    setTimeout(function () {
-                        window.location = response.data;
-                    }, 5000);
+                    window.location = response.data;
                 }).
                 error(function (response) {
-                    jUtils.displayError(response && response.message ? response.message : null);
+                    jUtils.displayError(response);
+                });
+        } else if ($scope.demande !== null) {
+            $http.method({method: 'delete', url: 'demande/' + $scope.demande.id}).
+                success(function (response) {
+                    window.location = response.data;
+                }).
+                error(function (response) {
+                    jUtils.displayError(response);
                 });
         } else {
-            jUtils.displayError('Veuillez sélectionner au moins un café.');
+            msg.message = 'Veuillez sélectionner au moins un café.';
+            jUtils.displayError(msg);
         }
     };
 });

@@ -106,8 +106,11 @@
                     if (response.success) {
                         jUtils.displaySuccess(response.message);
                     } else {
-                        jUtils.displayError(response.message);
+                        jUtils.displayError(response);
                     }
+                },
+                error: function (response) {
+                    jUtils.displayError(response);
                 }
             })
         });

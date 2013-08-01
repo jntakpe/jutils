@@ -106,4 +106,11 @@ public class Demande extends GenericDomain {
         result = 31 * result + (utilisateur != null ? utilisateur.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Demande{" +
+                "utilisateur=" + utilisateur +
+                '}';
+    }
 }

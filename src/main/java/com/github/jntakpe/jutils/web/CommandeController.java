@@ -7,7 +7,6 @@ import com.github.jntakpe.fmk.util.dto.ResponseMessage;
 import com.github.jntakpe.jutils.domain.Commande;
 import com.github.jntakpe.jutils.domain.Demande;
 import com.github.jntakpe.jutils.domain.Rib;
-import com.github.jntakpe.jutils.domain.Role;
 import com.github.jntakpe.jutils.service.CommandeService;
 import com.github.jntakpe.jutils.service.DemandeService;
 import com.github.jntakpe.jutils.service.RoleService;
@@ -15,6 +14,7 @@ import com.github.jntakpe.jutils.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -82,16 +82,15 @@ public class CommandeController {
         if (commandeService.findOpenCmd() != null) {
             ModelAndView mv = new ModelAndView("commande_list");
             boolean isAuthored = false;
-            for (Role role : roleService.getCurrent()) {
-                if (role.getCode().equals("ROLE_ADMIN") || role.getCode().equals("ROLE_CAFE")) {
+            for (GrantedAuthority role : FmkUtils.getCurrentRoles()) {
+                if (role.getAuthority().equals("ROLE_ADMIN") || role.getAuthority().equals("RESP_CAFE")) {
                     isAuthored = true;
                     break;
                 }
             }
             Demande demande = demandeService.findByUtilisateur();
-            if (demande != null) mv.addObject("id", demande.getId());
-            if (isAuthored) mv.addObject("isAuthored", true);
-            return new ModelAndView("commande_list");
+            if (demande != null) mv.addObject("demandeId", demande.getId());
+            return mv.addObject("isAuthored", isAuthored);
         } else {
             redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
             return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));

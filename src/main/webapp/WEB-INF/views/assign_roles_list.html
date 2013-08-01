@@ -130,11 +130,11 @@
                             icon.addClass('icon-ok');
                         }
                     } else {
-                        jUtils.displayError(response.message);
+                        jUtils.displayError(response);
                     }
                 })
                 .error(function () {
-                    jUtils.displayError();
+                    jUtils.displayError(response);
                 });
     }
     /*]]>*/

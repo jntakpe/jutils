@@ -56,14 +56,12 @@ var jUtils = {
 
     /**
      * Affiche un message d'erreur dans le bandeau
-     * @param [message] à afficher
+     * @param [response] ResponseMessage contenant le message
      */
-    displayError: function (message) {
+    displayError: function (response) {
         "use strict";
-        var alertDiv = $("#alert"), alertIcon = alertDiv.children('i');
-        if (!message) {
-            message = "Une erreur inconnue est survenue";
-        }
+        var alertDiv = $("#alert"), alertIcon = alertDiv.children('i'), message;
+        message = response && response.message ? response.message : "Une erreur inconnue est survenue";
         clearTimeout(jUtils.currentTimeout);
         alertDiv.children('span').text(message);
         if (alertDiv.hasClass('alert-success')) {
@@ -298,7 +296,7 @@ var jUtils = {
                 }
                 jUtils.storeCurrentRow(id, event);
             } else {
-                jUtils.displayError(response.message);
+                jUtils.displayError(response);
                 $('#popup').modal('hide');
             }
         })
@@ -308,12 +306,7 @@ var jUtils = {
                 } else {
                     $('table[id^=dt_]').dataTable().fnReloadAjax();
                 }
-                if (response.message) {
-                    jUtils.displayError(response.message);
-                } else {
-                    jUtils.displayError();
-                }
-
+                jUtils.displayError(response);
             });
     },
 
@@ -333,14 +326,14 @@ var jUtils = {
                     datatable.fnAddData(response.data);
                     jUtils.displaySuccess(response.message);
                 } else {
-                    jUtils.displayError(response.message);
+                    jUtils.displayError(response);
                 }
                 $('#popup').modal('hide');
             },
             error: function (response) {
                 datatable.fnReloadAjax();
                 if (response.message) {
-                    jUtils.displayError(response.message);
+                    jUtils.displayError(response);
                 } else {
                     jUtils.displayError();
                 }
@@ -376,18 +369,14 @@ var jUtils = {
                     jUtils.displaySuccess(response.message);
                 } else {
                     dataTable.fnReloadAjax();
-                    jUtils.displayError(response.message);
+                    jUtils.displayError(response);
                 }
                 $('#confirmDeletePopup').modal('hide');
             }
         ).error(
             function (response) {
                 dataTable.fnReloadAjax();
-                if (response.message) {
-                    jUtils.displayError(response.message);
-                } else {
-                    jUtils.displayError();
-                }
+                jUtils.displayError(response);
                 $('#confirmDeletePopup').modal('hide');
             }
         );
@@ -398,8 +387,7 @@ var jUtils = {
      */
     back: function () {
         "use strict";
-        window.location.pathname = window.location.pathname.substring(0,
-            window.location.pathname.lastIndexOf("/"));
+        window.location.pathname = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
     },
 
     /**
