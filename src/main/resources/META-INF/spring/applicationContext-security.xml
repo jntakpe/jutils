@@ -50,19 +50,18 @@
         <constructor-arg ref="ldapContextSource"/>
     </bean>
 
-    <!--<security:authentication-manager>-->
-    <!--<security:authentication-provider ref="ldapAuthProvider"/>-->
-    <!--</security:authentication-manager>-->
-
     <security:authentication-manager>
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="jntakpe" password="test" authorities="ROLE_USER, ROLE_ADMIN"/>
-                <security:user name="jguerrin" password="test" authorities="ROLE_USER, ROLE_MAIL, RESP_CAFE"/>
-                <security:user name="cegiraud" password="test" authorities="ROLE_USER"/>
-            </security:user-service>
-        </security:authentication-provider>
+        <security:authentication-provider ref="ldapAuthProvider"/>
     </security:authentication-manager>
+
+    <!--<security:authentication-manager>-->
+    <!--<security:authentication-provider>-->
+    <!--<security:user-service>-->
+    <!--<security:user name="jntakpe" password="test" authorities="ROLE_USER, ROLE_ADMIN"/>-->
+    <!--<security:user name="jguerrin" password="test" authorities="ROLE_USER, ROLE_MAIL, RESP_CAFE"/>-->
+    <!--</security:user-service>-->
+    <!--</security:authentication-provider>-->
+    <!--</security:authentication-manager>-->
 
 
     <bean id="webexpressionHandler"

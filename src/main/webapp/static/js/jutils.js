@@ -344,20 +344,24 @@ var jUtils = {
 
     /**
      * Appel ajax du serveur pour supprimer une ligne de la table
+     * @param [url] url à appeler en cas méthode spécifique pour la suppression
      */
-    remove: function () {
+    remove: function (url) {
         "use strict";
-        var dataTable, removeUrl;
+        var dataTable, removeUrl, startUrl, currentRow;
         if (oTable) {
             dataTable = oTable;
         } else {
             dataTable = $('table[id^=dt_]').dataTable();
         }
-
-        if (window.location.pathname.match(/\/$/)) {
-            removeUrl = window.location.pathname + jUtils.getCurrentRowId();
+        if (url) {
+            removeUrl = url;
         } else {
-            removeUrl = window.location.pathname + "/" + jUtils.getCurrentRowId();
+            if (startUrl.match(/\/$/)) {
+                removeUrl = startUrl + jUtils.getCurrentRowId();
+            } else {
+                removeUrl = startUrl + "/" + jUtils.getCurrentRowId();
+            }
         }
         $.ajax({
             type: 'DELETE',
@@ -365,18 +369,24 @@ var jUtils = {
         }).done(
             function (response) {
                 if (response.success) {
-                    dataTable.fnDeleteRow(jUtils.getCurrentRow());
+                    if (!dataTable.fnDeleteRow(jUtils.getCurrentRow())) {
+                        dataTable.fnReloadAjax();
+                    }
                     jUtils.displaySuccess(response.message);
                 } else {
                     dataTable.fnReloadAjax();
-                    jUtils.displayError(response);
+                    jUtils.displayError(response.message);
                 }
                 $('#confirmDeletePopup').modal('hide');
             }
         ).error(
             function (response) {
                 dataTable.fnReloadAjax();
-                jUtils.displayError(response);
+                if (response.message) {
+                    jUtils.displayError(response.message);
+                } else {
+                    jUtils.displayError();
+                }
                 $('#confirmDeletePopup').modal('hide');
             }
         );

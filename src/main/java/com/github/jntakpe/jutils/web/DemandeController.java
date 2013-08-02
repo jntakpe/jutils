@@ -67,9 +67,16 @@ public class DemandeController {
         Demande demande = demandeService.findOne(id);
         String user = demande.getUtilisateur().getLogin();
         demandeService.delete(id);
-        if (user.equals(FmkUtils.getCurrentUsername())) messageManager.logMessage("MSG50002", LogLevel.INFO, FmkUtils.getCurrentUsername());
-        else messageManager.logMessage("MSG50001", LogLevel.INFO, FmkUtils.getCurrentUsername(), user);
+        messageManager.logMessage("MSG50001", LogLevel.INFO, FmkUtils.getCurrentUsername(), user);
         return ResponseMessage.getSuccessMessage(messageManager.getMessage("demande.deleted"), FmkUtils.CONTEXT_ROOT + "/commande");
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public ModelAndView deleteCurrent(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        demandeService.delete(id);
+        messageManager.logMessage("MSG50002", LogLevel.INFO, FmkUtils.getCurrentUsername());
+        redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("demande.deleted")));
+        return new ModelAndView(new RedirectView(FmkUtils.CONTEXT_ROOT + "/commande"));
     }
 
 }

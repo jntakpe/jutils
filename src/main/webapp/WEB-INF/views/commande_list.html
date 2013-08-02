@@ -30,9 +30,9 @@
         <a class="btn btn-success" th:href="@{/demande}">
             <i class="icon-edit"></i> Modifier votre commande
         </a>
-        <button id="delete-cmd" class="btn btn-danger pull-right">
+        <a id="delete-cmd" class="btn btn-danger pull-right" th:href="@{demande/delete/} + ${demandeId}">
             <i class="icon-trash"></i> Supprimer votre commande
-        </button>
+        </a>
     </div>
     <div th:if="${demandeId == null}">
         <a class="btn btn-success" th:href="@{/demande}">
@@ -40,28 +40,31 @@
         </a>
     </div>
 </div>
+<div id="confirmDeletePopup" class="modal hide" tabindex="-1" role="dialog"
+     aria-labelledby="Confirmation suppression" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Confirmation suppression</h3>
+    </div>
+    <div class="modal-body">
+        <span id="delete-message">Veuillez confirmer la suppression de la ligne</span>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+        <button type="button" id="delete-btn" class="btn btn-primary">Supprimer</button>
+    </div>
+</div>
 <footer th:include="../fragments/footerFragment :: footer">
 </footer>
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
+    var oTable;
+
     $(function () {
         "use strict";
 
-        $('#delete-cmd').click(function () {
-            $.ajax({
-                type: 'delete',
-                url: 'demande/' + $('#demande-id').val()
-            }).
-                    success(function (response) {
-                        jUtils.displaySuccess(response.message);
-                    }).
-                    error(function (response) {
-                        jUtils.displayError(response);
-                    });
-        });
-
-        $('#dt_commande').dataTable({
+        oTable = $('#dt_commande').dataTable({
             sAjaxSource: "commande/list",
             aoColumns: getCols()
         });
@@ -77,7 +80,7 @@
                     }},
                     jUtils.detailCol(),
                     {mData: "id", sWidth: 25, bSearchable: false, bSortable: false, sClass: "center", mRender: function () {
-                        var path = window.location.pathname + "/" + jUtils.contextRoot + "/demande";
+                        var path = window.location.pathname + "/demande";
                         return "<a href='" + path + "'><i class='icon-edit icon-large'></i></a>";
                     }},
                     jUtils.deleteCol()
@@ -95,6 +98,7 @@
             }
         }
     });
+
     /*]]>*/
 </script>
 </body>
