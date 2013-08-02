@@ -15,14 +15,13 @@
             <th>Nombre de boites</th>
             <th>Prix</th>
             <th>Montant dû</th>
-            <th>Détail</th>
             <th th:if="${isAuthored}">Modifier</th>
             <th th:if="${isAuthored}">Supprimer</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td id="empty-size" th:colspan="${isAuthored} ? 7 : 5" class="dataTables_empty">Chargement des données</td>
+            <td id="empty-size" th:colspan="${isAuthored} ? 6 : 4" class="dataTables_empty">Chargement des données</td>
         </tr>
         </tbody>
     </table>
@@ -70,7 +69,7 @@
         });
 
         function getCols() {
-            if ($('#empty-size').prop('colspan') === 7) {
+            if ($('#empty-size').prop('colspan') === 6) {
                 return [
                     {mData: "utilisateur.nom", sWidth: 250},
                     {mData: "nombreBoites"},
@@ -78,7 +77,6 @@
                     {mData: "montantPaye", mRender: function (data, type, full) {
                         return full.montantTotal - data;
                     }},
-                    jUtils.detailCol(),
                     {mData: "id", sWidth: 25, bSearchable: false, bSortable: false, sClass: "center", mRender: function () {
                         var path = window.location.pathname + "/demande";
                         return "<a href='" + path + "'><i class='icon-edit icon-large'></i></a>";

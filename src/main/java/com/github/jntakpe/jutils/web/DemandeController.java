@@ -57,7 +57,7 @@ public class DemandeController {
     public ResponseMessage save(@RequestBody DemandeDTO demandeDTO) {
         Demande demande = demandeService.saveDemandeAndCafes(demandeDTO);
         messageManager.logMessage("MSG50000", LogLevel.INFO, FmkUtils.getCurrentUsername(), demandeDTO.getDemande().getNombreBoites());
-        String redirUrl = FmkUtils.CONTEXT_ROOT + "/demande/" + demande.getId();
+        String redirUrl = FmkUtils.CONTEXT_ROOT + "/commande";
         return ResponseMessage.getSuccessMessage(messageManager.getMessage("demande.saved"), redirUrl);
     }
 

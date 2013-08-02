@@ -74,7 +74,7 @@ public class CommandeController {
         Commande commande = commandeService.cloture(id);
         messageManager.logMessage("MSG40001", LogLevel.INFO, FmkUtils.getCurrentUsername(), commandeService);
         redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("commande.close", commande)));
-        return new ModelAndView(new RedirectView(FmkUtils.CONTEXT_ROOT + "/commande"));
+        return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
     }
 
     @RequestMapping(method = RequestMethod.GET)
