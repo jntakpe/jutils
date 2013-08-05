@@ -30,6 +30,8 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
+    <context:property-placeholder location="classpath:params.properties" />
+
     <bean id="updateItems" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="itemServiceImpl"/>
         <property name="targetMethod" value="saveLdapItems"/>
