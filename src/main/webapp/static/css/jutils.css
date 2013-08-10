@@ -86,3 +86,10 @@ div.darken {
     padding-top: 6px;
     cursor: pointer;
 }
+
+/*!
+* Ecran liste des commandes (demande)
+*/
+#paiementPopup {
+    width: 250px;
+}

@@ -201,6 +201,25 @@ var jUtils = {
     },
 
     /**
+     * Affiche le contenu d'une colonne de modification avec débranchement vers une popup
+     * @returns {{mData: string, sWidth: number, bSearchable: boolean, bSortable: boolean, sClass: string, mRender: Function}}
+     */
+    popupCol: function (){
+        "use strict";
+        return {
+            mData: "id",
+            sWidth: 25,
+            bSearchable: false,
+            bSortable: false,
+            sClass: "center",
+            mRender: function (data) {
+                var fct = "jUtils.displayEditPopup(" + data + ", $(this))";
+                return "<a href='javascript:;' class='edit-btn' onclick='" + fct + "'><i class='icon-edit icon-large'></i></a>";
+            }
+        };
+    },
+
+    /**
      * Affiche le contenu d'une colonne de édition avec débranchement vers écran détail
      * @returns {{mData: string, sWidth: number, bSearchable: boolean, bSortable: boolean, sClass: string, mRender: Function}}
      */
@@ -215,7 +234,7 @@ var jUtils = {
             mRender: function (data) {
                 var path = window.location.pathname, editUrl;
                 editUrl = path.match(/\/$/) ? path + data : path + "/" + data;
-                return "<a href='" + editUrl + "'><i class='icon-edit icon-large'></i></a>";
+                return "<a class='edit-btn' href='" + editUrl + "'><i class='icon-edit icon-large'></i></a>";
             }
         };
     },
@@ -297,7 +316,7 @@ var jUtils = {
                 jUtils.storeCurrentRow(id, event);
             } else {
                 jUtils.displayError(response);
-                $('#popup').modal('hide');
+                popup.modal('hide');
             }
         })
             .error(function (response) {
@@ -348,7 +367,7 @@ var jUtils = {
      */
     remove: function (url) {
         "use strict";
-        var dataTable, removeUrl, startUrl, currentRow;
+        var dataTable, removeUrl;
         if (oTable) {
             dataTable = oTable;
         } else {
@@ -357,10 +376,10 @@ var jUtils = {
         if (url) {
             removeUrl = url;
         } else {
-            if (startUrl.match(/\/$/)) {
-                removeUrl = startUrl + jUtils.getCurrentRowId();
+            if (window.location.pathname.match(/\/$/)) {
+                removeUrl = window.location.pathname + jUtils.getCurrentRowId();
             } else {
-                removeUrl = startUrl + "/" + jUtils.getCurrentRowId();
+                removeUrl = window.location.pathname + "/" + jUtils.getCurrentRowId();
             }
         }
         $.ajax({

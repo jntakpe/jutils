@@ -4,6 +4,8 @@ import com.github.jntakpe.fmk.service.GenericService;
 import com.github.jntakpe.jutils.domain.Demande;
 import com.github.jntakpe.jutils.util.dto.DemandeDTO;
 
+import java.math.BigDecimal;
+
 /**
  * Services associés à l'entité {@link Demande}
  *
@@ -33,4 +35,10 @@ public interface DemandeService extends GenericService<Demande> {
      */
     Demande findByUtilisateur();
 
+    /**
+     * Met à jour le paiement d'une demande
+     * @param id identifiant de la demande
+     * @param paiement montant payé
+     */
+    void pay(Long id, BigDecimal paiement);
 }

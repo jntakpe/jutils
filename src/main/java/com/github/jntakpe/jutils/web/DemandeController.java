@@ -79,4 +79,16 @@ public class DemandeController {
         return new ModelAndView(new RedirectView(FmkUtils.CONTEXT_ROOT + "/commande"));
     }
 
+    @RequestMapping(value = "/popup/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessage popupPaiement(@PathVariable Long id) {
+        return ResponseMessage.getSuccessMessage(demandeService.findOne(id));
+    }
+
+    @RequestMapping(value = "/paiement", method = RequestMethod.POST)
+    public ModelAndView paiement(@ModelAttribute Demande demande, RedirectAttributes redirectAttributes) {
+        demandeService.pay(demande.getId(), demande.getMontantPaye());
+        redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("demande.paiement")));
+        return new ModelAndView(new RedirectView(FmkUtils.CONTEXT_ROOT + "/commande"));
+    }
 }

@@ -15,28 +15,61 @@
             <th>Nombre de boites</th>
             <th>Prix</th>
             <th>Montant dû</th>
-            <th th:if="${isAuthored}">Modifier</th>
+            <th>Détail</th>
+            <th th:if="${isAuthored}">Paiement</th>
             <th th:if="${isAuthored}">Supprimer</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td id="empty-size" th:colspan="${isAuthored} ? 6 : 4" class="dataTables_empty">Chargement des données</td>
+            <td id="empty-size" th:colspan="${isAuthored} ? 7 : 4" class="dataTables_empty">Chargement des données</td>
         </tr>
         </tbody>
     </table>
     <div th:if="${demandeId != null}">
         <a class="btn btn-success" th:href="@{/demande}">
-            <i class="icon-edit"></i> Modifier votre commande
+            <i class="icon-edit"></i> Modifier la commande
         </a>
-        <a id="delete-cmd" class="btn btn-danger pull-right" th:href="@{demande/delete/} + ${demandeId}">
-            <i class="icon-trash"></i> Supprimer votre commande
+        <a class="btn btn-danger pull-right" th:href="@{demande/delete/} + ${demandeId}">
+            <i class="icon-trash"></i> Supprimer la commande
         </a>
     </div>
     <div th:if="${demandeId == null}">
         <a class="btn btn-success" th:href="@{/demande}">
-            <i class="icon-plus"></i> Commander du café
+            <i class="icon-plus"></i> Ajouter une commande
         </a>
+    </div>
+</div>
+<div id="paiementPopup" class="modal hide" tabindex="-1" role="dialog"
+     aria-labelledby="Paiement de la commande" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Paiement de la commande</h3>
+    </div>
+    <div class="modal-body">
+        <form id="popupForm" th:action="@{/demande/paiement}" method="post">
+            <input type="hidden" id="id" name="id"/>
+            <input type="hidden" id="version" name="version"/>
+
+            <div class="control-group">
+                <label class="control-label" for="montantTotal">Montant total</label>
+
+                <div class="controls">
+                    <input class="input-mini" disabled="disabled=" type="text" id="montantTotal" name="montantTotal"/>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="montantPaye">Montant payé</label>
+
+                <div class="controls">
+                    <input class="input-mini" type="text" id="montantPaye" name="montantPaye"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div th:include="../fragments/buttonFragment :: popupButtonsFragment"></div>
     </div>
 </div>
 <div id="confirmDeletePopup" class="modal hide" tabindex="-1" role="dialog"
@@ -63,39 +96,69 @@
     $(function () {
         "use strict";
 
+        $('#delete-btn').click(function () {
+            jUtils.remove('demande/' + jUtils.getCurrentRowId());
+        });
+
         oTable = $('#dt_commande').dataTable({
             sAjaxSource: "commande/list",
             aoColumns: getCols()
         });
-
-        function getCols() {
-            if ($('#empty-size').prop('colspan') === 6) {
-                return [
-                    {mData: "utilisateur.nom", sWidth: 250},
-                    {mData: "nombreBoites"},
-                    {mData: "montantTotal"},
-                    {mData: "montantPaye", mRender: function (data, type, full) {
-                        return full.montantTotal - data;
-                    }},
-                    {mData: "id", sWidth: 25, bSearchable: false, bSortable: false, sClass: "center", mRender: function () {
-                        var path = window.location.pathname + "/demande";
-                        return "<a href='" + path + "'><i class='icon-edit icon-large'></i></a>";
-                    }},
-                    jUtils.deleteCol()
-                ];
-            } else {
-                return [
-                    {mData: "utilisateur.nom", sWidth: 250},
-                    {mData: "nombreBoites"},
-                    {mData: "montantTotal"},
-                    {mData: "montantPaye", mRender: function (data, type, full) {
-                        return full.montantTotal - data;
-                    }},
-                    jUtils.detailCol()
-                ];
-            }
-        }
     });
+
+    function displayPaiementPopup(id, event) {
+        "use strict";
+        var dataUrl, popup = $("#paiementPopup");
+        popup.modal();
+        dataUrl = jUtils.contextRoot + "/demande/popup/" + id;
+        $.ajax(dataUrl).done(function (response) {
+            var field, data = response.data;
+            if (response.success) {
+                for (field in data) {
+                    if (data.hasOwnProperty(field)) {
+                        $('#popupForm').find('input[name="' + field + '"]').val(data[field]);
+                    }
+                }
+                jUtils.storeCurrentRow(id, event);
+            } else {
+                jUtils.displayError(response);
+                popup.modal('hide');
+            }
+        })
+                .error(function (response) {
+                    oTable.fnReloadAjax();
+                    jUtils.displayError(response);
+                });
+    }
+
+    function getCols() {
+        if ($('#empty-size').prop('colspan') === 8) {
+            return [
+                {mData: "utilisateur.nom", sWidth: 250},
+                {mData: "nombreBoites"},
+                {mData: "montantTotal"},
+                {mData: "montantPaye", mRender: function (data, type, full) {
+                    return full.montantTotal - data;
+                }},
+                jUtils.detailCol(),
+                {mData: "id", sWidth: 25, bSearchable: false, bSortable: false, sClass: "center", mRender: function (data) {
+                    var fct = "displayPaiementPopup(" + data + ", $(this))";
+                    return "<a href='javascript:;' onclick='" + fct + "'><i class='icon-eur icon-large'></i></a>";
+                }},
+                jUtils.deleteCol()
+            ];
+        } else {
+            return [
+                {mData: "utilisateur.nom", sWidth: 250},
+                {mData: "nombreBoites"},
+                {mData: "montantTotal"},
+                {mData: "montantPaye", mRender: function (data, type, full) {
+                    return full.montantTotal - data;
+                }},
+                jUtils.detailCol()
+            ];
+        }
+    }
 
     /*]]>*/
 </script>

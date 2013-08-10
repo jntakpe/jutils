@@ -17,6 +17,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 /**
  * Implémentation des services associés à l'entité {@link Demande}
  *
@@ -94,5 +96,15 @@ public class DemandeServiceImpl extends GenericServiceImpl<Demande> implements D
     @Transactional(readOnly = true)
     public Demande findByUtilisateur() {
         return demandeRepository.findByCommandeAndUtilisateur(commandeService.findOpenCmd(), utilisateurService.getCurrent());
+    }
+
+    /**
+     * @{inhericDoc}
+     */
+    @Override
+    @Transactional
+    public void pay(Long id, BigDecimal paiement) {
+        Demande demande = findOne(id);
+        demande.setMontantPaye(paiement);
     }
 }
