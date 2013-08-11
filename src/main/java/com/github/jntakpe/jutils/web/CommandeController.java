@@ -9,7 +9,6 @@ import com.github.jntakpe.jutils.domain.Demande;
 import com.github.jntakpe.jutils.domain.Rib;
 import com.github.jntakpe.jutils.service.CommandeService;
 import com.github.jntakpe.jutils.service.DemandeService;
-import com.github.jntakpe.jutils.service.RoleService;
 import com.github.jntakpe.jutils.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -43,9 +42,6 @@ public class CommandeController {
 
     @Autowired
     private DemandeService demandeService;
-
-    @Autowired
-    private RoleService roleService;
 
     @Autowired
     private MessageManager messageManager;
@@ -101,6 +97,12 @@ public class CommandeController {
     @ResponseBody
     public Set<Demande> list() {
         return commandeService.findDemandes();
+    }
+
+
+    @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
+    public ModelAndView recap(@PathVariable Long id) {
+        return new ModelAndView("recap_commande").addObject("demandeId", id);
     }
 
     @InitBinder

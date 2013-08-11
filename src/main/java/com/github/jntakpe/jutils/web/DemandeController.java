@@ -48,14 +48,14 @@ public class DemandeController {
 
     @RequestMapping(value = "/cafes", method = RequestMethod.GET)
     @ResponseBody
-    public DemandeDTO initialize() {
-        return demandeService.findDemandeAndCafes();
+    public DemandeDTO initialize(@RequestParam(required = false) Long id) {
+        return demandeService.findDemandeAndCafes(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessage save(@RequestBody DemandeDTO demandeDTO) {
-        Demande demande = demandeService.saveDemandeAndCafes(demandeDTO);
+        demandeService.saveDemandeAndCafes(demandeDTO);
         messageManager.logMessage("MSG50000", LogLevel.INFO, FmkUtils.getCurrentUsername(), demandeDTO.getDemande().getNombreBoites());
         String redirUrl = FmkUtils.CONTEXT_ROOT + "/commande";
         return ResponseMessage.getSuccessMessage(messageManager.getMessage("demande.saved"), redirUrl);
@@ -91,4 +91,5 @@ public class DemandeController {
         redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("demande.paiement")));
         return new ModelAndView(new RedirectView(FmkUtils.CONTEXT_ROOT + "/commande"));
     }
+
 }

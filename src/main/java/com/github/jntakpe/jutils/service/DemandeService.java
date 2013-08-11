@@ -16,9 +16,10 @@ public interface DemandeService extends GenericService<Demande> {
     /**
      * Récupère la demande si elle existe et la liste triée des cafés
      *
+     * @param id : identifiant de la demande si null recherche la demande à l'aide de l'utilisateur courant
      * @return un objet contenant la demande courante et les cafés
      */
-    DemandeDTO findDemandeAndCafes();
+    DemandeDTO findDemandeAndCafes(Long id);
 
     /**
      * Sauvegarde une demande et les cafés asociés
@@ -41,4 +42,5 @@ public interface DemandeService extends GenericService<Demande> {
      * @param paiement montant payé
      */
     void pay(Long id, BigDecimal paiement);
+
 }

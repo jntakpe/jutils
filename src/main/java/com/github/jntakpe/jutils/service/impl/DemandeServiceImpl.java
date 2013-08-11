@@ -55,11 +55,10 @@ public class DemandeServiceImpl extends GenericServiceImpl<Demande> implements D
      */
     @Override
     @Transactional(readOnly = true)
-    public DemandeDTO findDemandeAndCafes() {
-        Demande demande = findByUtilisateur();
+    public DemandeDTO findDemandeAndCafes(Long id) {
+        Demande demande = id == null ? findByUtilisateur() : findOne(id);
         DemandeDTO demandeDTO = new DemandeDTO();
-        if (demande != null) demandeDTO.setDemande(demande);
-        else demandeDTO.setDemande(new Demande());
+        demandeDTO.setDemande(demande != null ? demande : new Demande());
         demandeDTO.setCafes(cafeService.initialize(demande));
         return demandeDTO;
 
