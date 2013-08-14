@@ -45,4 +45,5 @@ public interface CommandeService extends GenericService<Commande> {
      */
     Set<Demande> findDemandes();
 
+
 }

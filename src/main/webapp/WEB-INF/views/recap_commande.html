@@ -9,7 +9,7 @@
     <div th:include="../fragments/alertFragment :: alert"></div>
     <h2>Récapitulatif commande</h2>
 
-    <div class="offset2" ng-controller="RecapCtrl" ng-init="findCafes()">
+    <div ng-controller="RecapCtrl" ng-init="findCafes()">
         <input type="hidden" id="demandeId" name="demandeId" th:value="${demandeId}"/>
         <table id="recap-table" class="table table-striped table-bordered table-hover table-condensed">
             <thead>
@@ -44,6 +44,11 @@
             </tfoot>
         </table>
     </div>
+    <div>
+        <a class="btn btn-primary" th:href="@{/commande}">
+            <i class="icon-arrow-left"></i> Retour
+        </a>
+    </div>
 </div>
 <script type="text/javascript">
     var cafeRecap = angular.module('cafeRecap', []);
@@ -52,7 +57,7 @@
         "use strict";
 
         $scope.findCafes = function () {
-            $http.get(jUtils.contextRoot + "/demande/cafes", {id : $('#demandeId').val()})
+            $http.get(jUtils.contextRoot + "/demande/cafes", {id: $('#demandeId').val()})
                     .success(function (data) {
                         $scope.cafes = data.cafes;
                         $scope.demande = data.demande;

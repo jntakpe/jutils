@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implémentation des services associés à l'entité {@link Demande}
@@ -105,5 +107,27 @@ public class DemandeServiceImpl extends GenericServiceImpl<Demande> implements D
     public void pay(Long id, BigDecimal paiement) {
         Demande demande = findOne(id);
         demande.setMontantPaye(paiement);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional
+    public List<Cafe> findTotal() {
+        List<Cafe> cafes = new ArrayList<>();
+        for (Cafe cafe : cafeService.findAll()) {
+            Integer totalBoites = 0;
+            BigDecimal totalPrix = new BigDecimal(0);
+            for (DemandeCafe dc : demandeCafeRepository.findDemandeCafesByCafe(cafe)) {
+                Integer nbBoites = dc.getNombreBoites();
+                totalBoites += nbBoites;
+                totalPrix = totalPrix.add(cafe.getPrix().multiply(new BigDecimal(10 * nbBoites)));
+            }
+            cafe.setNbTotal(totalBoites);
+            cafe.setPrixTotal(totalPrix);
+            if (totalBoites != 0) cafes.add(cafe);
+        }
+        return cafes;
     }
 }

@@ -51,18 +51,15 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     public List<Item> mapItemsAndUtilisateurs(List<Item> items) {
         List<Utilisateur> utilisateurs = utilisateurRepository.findAllLdapUtilisateurs();
         Map<String, Utilisateur> utilisateurMap = new HashMap<>(utilisateurs.size());
-        for (Utilisateur utilisateur : utilisateurs) { //On créé une map pour indexer les utilisateurs
-            utilisateurMap.put(normalize(utilisateur.getNom()), utilisateur);
-        }
+        for (Utilisateur utilisateur : utilisateurs) utilisateurMap.put(normalize(utilisateur.getNom()), utilisateur);
         for (Item item : items) {
             String itemKey = normalize(item.getDescription());
             if (utilisateurMap.containsKey(itemKey)) {
                 Utilisateur utilisateur = utilisateurMap.get(itemKey);
                 Utilisateur managedUtilisateur = findByLogin(utilisateur.getLogin());
                 utilisateur.setTelephone(StringUtils.deleteWhitespace(utilisateur.getTelephone()));
-                if (managedUtilisateur == null) {
-                    managedUtilisateur = save(utilisateur);
-                } else {
+                if (managedUtilisateur == null) managedUtilisateur = save(utilisateur);
+                else {
                     managedUtilisateur.setNom(utilisateur.getNom());
                     managedUtilisateur.setAgence(utilisateur.getAgence());
                     managedUtilisateur.setLogin(utilisateur.getLogin());
@@ -114,9 +111,7 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
     @Transactional(readOnly = true)
     public Iterable<Utilisateur> findAllUtilisateursWithItems() {
         Iterable<Utilisateur> utilisateurs = findAll();
-        for (Utilisateur utilisateur : utilisateurs) {
-            Hibernate.initialize(utilisateur.getItems());
-        }
+        for (Utilisateur utilisateur : utilisateurs) Hibernate.initialize(utilisateur.getItems());
         return utilisateurs;
     }
 
@@ -167,7 +162,6 @@ public class UtilisateurServiceImpl extends GenericServiceImpl<Utilisateur> impl
      * @return string normalisé
      */
     private String normalize(String str) {
-        str = Normalizer.normalize(str, Normalizer.Form.NFD);
-        return str.replaceAll("[^\\p{ASCII}]", "").replaceAll("\\W", " ").trim().toLowerCase();
+        return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").replaceAll("\\W", " ").trim().toLowerCase();
     }
 }

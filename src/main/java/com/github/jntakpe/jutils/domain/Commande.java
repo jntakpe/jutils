@@ -4,6 +4,7 @@ import com.github.jntakpe.fmk.domain.GenericDomain;
 import org.joda.time.Instant;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,12 +24,6 @@ public class Commande extends GenericDomain {
 
     @Column(nullable = false)
     private Date cloture;
-
-    private Float montantTotal;
-
-    private Float montantPaye;
-
-    private Integer nombreBoites;
 
     private String informations;
 
@@ -60,30 +55,6 @@ public class Commande extends GenericDomain {
 
     public void setCloture(Date cloture) {
         this.cloture = cloture;
-    }
-
-    public Float getMontantTotal() {
-        return montantTotal;
-    }
-
-    public void setMontantTotal(Float montantTotal) {
-        this.montantTotal = montantTotal;
-    }
-
-    public Float getMontantPaye() {
-        return montantPaye;
-    }
-
-    public void setMontantPaye(Float montantPaye) {
-        this.montantPaye = montantPaye;
-    }
-
-    public Integer getNombreBoites() {
-        return nombreBoites;
-    }
-
-    public void setNombreBoites(Integer nombreBoites) {
-        this.nombreBoites = nombreBoites;
     }
 
     public String getInformations() {

@@ -4,6 +4,7 @@ import com.github.jntakpe.fmk.service.MessageManager;
 import com.github.jntakpe.fmk.util.FmkUtils;
 import com.github.jntakpe.fmk.util.constant.LogLevel;
 import com.github.jntakpe.fmk.util.dto.ResponseMessage;
+import com.github.jntakpe.jutils.domain.Cafe;
 import com.github.jntakpe.jutils.domain.Commande;
 import com.github.jntakpe.jutils.domain.Demande;
 import com.github.jntakpe.jutils.domain.Rib;
@@ -103,6 +104,17 @@ public class CommandeController {
     @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
     public ModelAndView recap(@PathVariable Long id) {
         return new ModelAndView("recap_commande").addObject("demandeId", id);
+    }
+
+    @RequestMapping(value = "/recaptotal", method = RequestMethod.GET)
+    public String recapTotal() {
+        return "recap_total";
+    }
+
+    @RequestMapping(value = "/recaptotal/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Iterable<Cafe> listRecapTotal() {
+        return demandeService.findTotal();
     }
 
     @InitBinder

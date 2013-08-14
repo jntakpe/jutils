@@ -47,6 +47,12 @@ public class Cafe extends GenericDomain {
     @Transient
     private Integer nb = 0;
 
+    @Transient
+    private Integer nbTotal = 0;
+
+    @Transient
+    private BigDecimal prixTotal = new BigDecimal(0);
+
     public String getNom() {
         return nom;
     }
@@ -117,6 +123,22 @@ public class Cafe extends GenericDomain {
 
     public void setNb(Integer nb) {
         this.nb = nb;
+    }
+
+    public Integer getNbTotal() {
+        return nbTotal;
+    }
+
+    public void setNbTotal(Integer nbTotal) {
+        this.nbTotal = nbTotal;
+    }
+
+    public BigDecimal getPrixTotal() {
+        return prixTotal;
+    }
+
+    public void setPrixTotal(BigDecimal prixTotal) {
+        this.prixTotal = prixTotal;
     }
 
     @Override

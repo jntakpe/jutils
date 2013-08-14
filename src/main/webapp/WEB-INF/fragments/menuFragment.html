@@ -39,17 +39,16 @@
                                data-toggle="dropdown" href="#"><i class="icon-coffee"></i>
                                 Café<b class="caret"></b></a>
                             <ul class="dropdown-menu">
+                                <li><a th:href="@{/demande}"><i class="icon-shopping-cart"></i> Commander</a></li>
+                                <li><a th:href="@{/commande}"><i class="icon-tasks"></i> Liste des commandes</a></li>
                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN','RESP_CAFE')">
                                     <a th:href="@{/commande/new}"><i class="icon-book"></i> Gestion commande</a>
                                 </li>
                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN','RESP_CAFE')">
+                                    <a th:href="@{/commande/recaptotal}"><i class="icon-reorder"></i> Récapitulatif</a>
+                                </li>
+                                <li sec:authorize="hasAnyRole('ROLE_ADMIN','RESP_CAFE')">
                                     <a th:href="@{/cafe}"><i class="icon-list"></i> Liste des cafés</a>
-                                </li>
-                                <li>
-                                    <a th:href="@{/demande}"><i class="icon-shopping-cart"></i> Commander</a>
-                                </li>
-                                <li>
-                                    <a th:href="@{/commande}"><i class="icon-shopping-cart"></i> Liste des commandes</a>
                                 </li>
                             </ul>
                         </li>

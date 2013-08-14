@@ -3,6 +3,7 @@ package com.github.jntakpe.jutils.web;
 import com.github.jntakpe.fmk.util.FmkUtils;
 import com.github.jntakpe.jutils.domain.Utilisateur;
 import com.github.jntakpe.jutils.service.UtilisateurService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +35,7 @@ public class UtilisateurController {
 
     @RequestMapping(value = "/utilisateur/account", method = RequestMethod.GET)
     public ModelAndView accountInfos() {
-        String login = FmkUtils.getCurrentUsername();
-        return new ModelAndView("utilisateur_form").addObject(utilisateurService.findByLoginAndInitialize(login));
+        return new ModelAndView("utilisateur_form").addObject(utilisateurService.findByLoginAndInitialize(FmkUtils.getCurrentUsername()));
     }
 
 }
