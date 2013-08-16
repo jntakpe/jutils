@@ -63,7 +63,7 @@ public class CommandeController {
         commandeService.create(commande, rib);
         messageManager.logMessage("MSG40000", LogLevel.INFO, FmkUtils.getCurrentUsername(), commande.getCloture());
         redirAttr.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("commande.create")));
-        return new ModelAndView(new RedirectView(FmkUtils.CONTEXT_ROOT + "/commande"));
+        return new ModelAndView(new RedirectView(FmkUtils.CONTEXT_ROOT + "/demande"));
     }
 
     @RequestMapping(value = "/cloture/{id}", method = RequestMethod.GET)
@@ -102,13 +102,25 @@ public class CommandeController {
 
 
     @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
-    public ModelAndView recap(@PathVariable Long id) {
-        return new ModelAndView("recap_commande").addObject("demandeId", id);
+    public ModelAndView recap(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        ModelAndView mv;
+        if (commandeService.findOpenCmd() != null) mv = new ModelAndView("recap_total").addObject("demandeId", id);
+        else {
+            redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
+            mv = new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
+        }
+        return mv;
     }
 
     @RequestMapping(value = "/recaptotal", method = RequestMethod.GET)
-    public String recapTotal() {
-        return "recap_total";
+    public ModelAndView recapTotal(RedirectAttributes redirectAttributes) {
+        ModelAndView mv;
+        if (commandeService.findOpenCmd() != null) mv = new ModelAndView("recap_total");
+        else {
+            redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
+            mv = new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
+        }
+        return mv;
     }
 
     @RequestMapping(value = "/recaptotal/list", method = RequestMethod.GET)

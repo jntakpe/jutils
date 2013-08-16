@@ -1,9 +1,6 @@
 package com.github.jntakpe.jutils.repository;
 
-import com.github.jntakpe.jutils.domain.Cafe;
-import com.github.jntakpe.jutils.domain.Demande;
-import com.github.jntakpe.jutils.domain.DemandeCafe;
-import com.github.jntakpe.jutils.domain.DemandeCafeId;
+import com.github.jntakpe.jutils.domain.*;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -23,6 +20,6 @@ public interface DemandeCafeRepository extends CrudRepository<DemandeCafe, Deman
     void deleteByDemande(@Param("demande") Demande demande);
 
     @Modifying
-    @Query("SELECT dc FROM DemandeCafe dc WHERE dc.demandeCafeId.cafe = :cafe")
-    List<DemandeCafe> findDemandeCafesByCafe(@Param("cafe") Cafe cafe);
+    @Query("SELECT dc FROM DemandeCafe dc WHERE dc.demandeCafeId.cafe = :cafe AND dc.demandeCafeId.demande.commande = :commande")
+    List<DemandeCafe> findDemandeCafesByCommandeAndCafe(@Param("cafe") Cafe cafe, @Param("commande") Commande commande);
 }

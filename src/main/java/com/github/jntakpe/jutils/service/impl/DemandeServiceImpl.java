@@ -119,7 +119,7 @@ public class DemandeServiceImpl extends GenericServiceImpl<Demande> implements D
         for (Cafe cafe : cafeService.findAll()) {
             Integer totalBoites = 0;
             BigDecimal totalPrix = new BigDecimal(0);
-            for (DemandeCafe dc : demandeCafeRepository.findDemandeCafesByCafe(cafe)) {
+            for (DemandeCafe dc : demandeCafeRepository.findDemandeCafesByCommandeAndCafe(cafe, commandeService.findOpenCmd())) {
                 Integer nbBoites = dc.getNombreBoites();
                 totalBoites += nbBoites;
                 totalPrix = totalPrix.add(cafe.getPrix().multiply(new BigDecimal(10 * nbBoites)));
