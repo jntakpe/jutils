@@ -57,7 +57,9 @@
         "use strict";
 
         $scope.findCafes = function () {
-            $http.get(jUtils.contextRoot + "/demande/cafes", {id: $('#demandeId').val()})
+            $http.get(jUtils.contextRoot + "/demande/cafes", {
+                params : {id: $('#demandeId').val()}
+            })
                     .success(function (data) {
                         $scope.cafes = data.cafes;
                         $scope.demande = data.demande;

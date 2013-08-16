@@ -104,7 +104,7 @@ public class CommandeController {
     @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
     public ModelAndView recap(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         ModelAndView mv;
-        if (commandeService.findOpenCmd() != null) mv = new ModelAndView("recap_total").addObject("demandeId", id);
+        if (commandeService.findOpenCmd() != null) mv = new ModelAndView("recap_commande").addObject("demandeId", id);
         else {
             redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
             mv = new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
