@@ -67,10 +67,10 @@
             </div>
         </div>
 
-        <div ng-repeat="cafe in cafes" class="inline cafe-frame">
+        <div id="popCafe{{cafe.id}}" ng-repeat="cafe in cafes" class="inline cafe-frame" data-toggle="popover" data-placement="right" data-trigger="hover">
             <div class="{{ resolveCoffeeClass(cafe) }}">
                 <div class="img-text">
-                    <img ng-src="cafe/image/{{ cafe.id }}" class="cafe-img"/>
+                    <img ng-src="cafe/image/{{ cafe.id }}" class="cafe-img" ng-click="increment(cafe)"/>
                     <i>{{ cafe.nom }}</i>
                 </div>
                 <div class="signs">

@@ -176,6 +176,7 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
     };
 
     $scope.resolveCoffeeClass = function (cafe) {
+        $scope.displayInfos(cafe);
         return isActive(cafe) ? 'active' : 'darken';
     };
 
@@ -228,6 +229,18 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
             msg.message = 'Veuillez sélectionner au moins un café.';
             jUtils.displayError(msg);
         }
+    };
+
+    $scope.displayInfos = function(cafe){
+        $('#popCafe'+cafe.id).popover({
+            html:true,
+            title:cafe.nom,
+            content:
+                "Catégorie : " + cafe.categorie + "<br/>" +
+                "Description : " + cafe.description + "<br/>" +
+                 (cafe.profilAromatique? "Profil aromatique : " + cafe.profilAromatique  + "<br/>" : "")+
+                "Intensité : " + cafe.intensite
+        });
     };
 });
 

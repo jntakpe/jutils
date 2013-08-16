@@ -22,7 +22,7 @@
         </property>
         <property name="dataSource" ref="jutilsDS"/>
         <property name="packagesToScan" value="com.github.jntakpe.fmk.domain, com.github.jntakpe.jutils.domain"/>
-        <property name="${persistence.prop.name}" value="${persistence.prop.value}"/>
+        <property name="persistenceUnitName" value="jutilsPU"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
