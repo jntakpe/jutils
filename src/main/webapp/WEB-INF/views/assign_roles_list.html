@@ -19,39 +19,6 @@
         </tr>
         </tbody>
     </table>
-    <div th:include="../fragments/buttonFragment :: newPopupFragment"></div>
-</div>
-<div id="popup" class="modal hide" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 id="popupTitle"></h3>
-        <input id="newTitle" type="hidden" value="Création d'un rôle"/>
-        <input id="editTitle" type="hidden" value="Modification d'un rôle"/>
-    </div>
-    <div class="modal-body">
-        <form id="popupForm" th:action="@{/admin/role/ajax}" method="post">
-            <input type="hidden" id="id" name="id"/>
-            <input type="hidden" id="version" name="version"/>
-
-            <div class="control-group">
-                <label class="control-label" for="code">Code</label>
-
-                <div class="controls">
-                    <input type="text" id="code" name="code" maxlength="40"/>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="description">Description</label>
-
-                <div class="controls">
-                    <input type="text" id="description" name="description" class="input-xlarge"/>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <div th:include="../fragments/buttonFragment :: popupButtonsFragment"></div>
-    </div>
 </div>
 <div th:include="../fragments/popupFragment :: confirmDeletePopupFragment"></div>
 <footer th:include="../fragments/footerFragment :: footer"></footer>
@@ -125,9 +92,11 @@
                         if (event.attr('hasrole') === "true") {
                             icon.removeClass('icon-ok');
                             icon.addClass('icon-remove');
+                            event.attr('hasrole', "false");
                         } else {
                             icon.removeClass('icon-remove');
                             icon.addClass('icon-ok');
+                            event.attr('hasrole', "true");
                         }
                     } else {
                         jUtils.displayError(response);

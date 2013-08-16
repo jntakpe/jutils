@@ -30,13 +30,13 @@ fieldset {
 /*Connexion*/
 
 #connexion-container {
-    margin-top: 230px;
+    margin: 200px auto;
     width: 300px;
+    text-align: center;
 }
 
 #connexion-container > .row {
     border: solid 1px;
-    text-align: center;
 }
 
 .connexion-help {

@@ -35,7 +35,6 @@ public class FmkAuthoritiesPopulator implements LdapAuthoritiesPopulator {
     @Autowired
     private RoleService roleService;
 
-
     @Autowired
     private MessageManager messageManager;
 
@@ -57,9 +56,7 @@ public class FmkAuthoritiesPopulator implements LdapAuthoritiesPopulator {
         utilisateur.incrementNombreAcces();
         Set<Role> roles = utilisateur.getRoles();
         if (roles.isEmpty()) roles.add(roleService.findByCode("ROLE_USER"));
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getCode()));
-        }
+        for (Role role : roles) authorities.add(new SimpleGrantedAuthority(role.getCode()));
         messageManager.logMessage("MSG00000", LogLevel.INFO, utilisateur.getNom());
         return authorities;
     }

@@ -216,8 +216,8 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
                 error(function (response) {
                     jUtils.displayError(response);
                 });
-        } else if ($scope.demande !== null) {
-            $http.method({method: 'delete', url: 'demande/' + $scope.demande.id}).
+        } else if ($scope.demande.id !== null) {
+            $http.delete('demande/' + $scope.demande.id).
                 success(function (response) {
                     window.location = response.data;
                 }).
