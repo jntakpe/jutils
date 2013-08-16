@@ -234,6 +234,10 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
     $scope.displayInfos = function(cafe){
         $('#popCafe'+cafe.id).popover({
             html:true,
+            delay: {
+                show: 500,
+                hide: 200
+            } ,
             title:cafe.nom,
             content:
                 "Catégorie : " + cafe.categorie + "<br/>" +
