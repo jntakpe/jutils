@@ -67,7 +67,8 @@
             </div>
         </div>
 
-        <div id="popCafe{{cafe.id}}" ng-repeat="cafe in cafes" class="inline cafe-frame" data-toggle="popover" data-placement="right" data-trigger="hover">
+        <div id="popCafe{{cafe.id}}" ng-repeat="cafe in cafes" dspinfos="" class="inline cafe-frame"
+             data-toggle="popover" data-placement="right" data-trigger="hover">
             <div class="{{ resolveCoffeeClass(cafe) }}">
                 <div class="img-text">
                     <img ng-src="cafe/image/{{ cafe.id }}" class="cafe-img" ng-click="increment(cafe)"/>

@@ -1,5 +1,25 @@
 var cafeApp = angular.module('cafeApp', []);
 
+cafeApp.directive('dspinfos', function(){
+    return {
+        link : function (scope, element) {
+            element.popover({
+                html:true,
+                delay: {
+                    show: 500,
+                    hide: 200
+                } ,
+                title:scope.cafe.nom,
+                content:
+                    "Catégorie : " + scope.cafe.categorie + "<br/>" +
+                        "Description : " + scope.cafe.description + "<br/>" +
+                        (scope.cafe.profilAromatique? "Profil aromatique : " + scope.cafe.profilAromatique  + "<br/>" : "")+
+                        "Intensité : " + scope.cafe.intensite
+            });
+        }
+    }
+});
+
 cafeApp.service('InitService', function ($http) {
     "use strict";
 
@@ -176,7 +196,6 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
     };
 
     $scope.resolveCoffeeClass = function (cafe) {
-        $scope.displayInfos(cafe);
         return isActive(cafe) ? 'active' : 'darken';
     };
 
@@ -229,22 +248,6 @@ cafeApp.controller('CafeCtrl', function ($scope, $http, InitService) {
             msg.message = 'Veuillez sélectionner au moins un café.';
             jUtils.displayError(msg);
         }
-    };
-
-    $scope.displayInfos = function(cafe){
-        $('#popCafe'+cafe.id).popover({
-            html:true,
-            delay: {
-                show: 500,
-                hide: 200
-            } ,
-            title:cafe.nom,
-            content:
-                "Catégorie : " + cafe.categorie + "<br/>" +
-                "Description : " + cafe.description + "<br/>" +
-                 (cafe.profilAromatique? "Profil aromatique : " + cafe.profilAromatique  + "<br/>" : "")+
-                "Intensité : " + cafe.intensite
-        });
     };
 });
 
