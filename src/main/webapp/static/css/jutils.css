@@ -1,6 +1,13 @@
 /*!
-* La taille des champs de recherche dépend du conteneur
-*/
+ * Ecran d'accueil
+ */
+#portal-title{
+    margin-bottom: 30px;
+}
+
+/*!
+ * La taille des champs de recherche dépend du conteneur
+ */
 .text_filter {
     width: 100%;
 }
@@ -10,8 +17,8 @@
 }
 
 /*!
-* Ecran de gestion des commandes de café
-*/
+ * Ecran de gestion des commandes de café
+ */
 div.inline {
     display: inline-block;
     vertical-align: top;
@@ -88,8 +95,8 @@ div.darken {
 }
 
 /*!
-* Ecran liste des commandes (demande)
-*/
+ * Ecran liste des commandes (demande)
+ */
 #paiementPopup {
     width: 250px;
 }

@@ -7,9 +7,93 @@
 </header>
 <div class="container row" ng-app="cafeRecap">
     <div th:include="../fragments/alertFragment :: alert"></div>
-    <h2>Récapitulatif commande</h2>
+    <h2>Informations commande</h2>
 
-    <div ng-controller="RecapCtrl" ng-init="findCafes()">
+    <div class="offset2">
+        <form id="commande-form" class="form-horizontal" th:object="${commande}">
+            <fieldset>
+                <input type="hidden" id="id" th:field="*{id}"/>
+                <input type="hidden" id="version" th:field="*{version}"/>
+
+                <div class="input-append control-group">
+                    <label class="control-label" for="cloture">Date de clôture</label>
+
+                    <div class="controls date datepicker">
+                        <input type="text" id="cloture" th:field="*{cloture}" class="input-medium" disabled="disabled"/>
+                        <span class="add-on"><i class="icon-calendar"></i></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="cloture">Informations complémentaires</label>
+
+                    <div class="controls">
+                        <textarea id="informations" rows="5" th:field="*{informations}" class="input-xlarge"
+                                  disabled="disabled">
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="radio inline">
+                        Liquide avec appoint uniquement
+                        <input type="radio" id="avecAppoint" name="accepteLiquideSansAppoint"
+                               value="false" th:checked="!${accepteLiquideSansAppoint}" disabled="disabled"/>
+                    </label>
+                    <label class="radio inline">
+                        Liquide sans appoint accepté
+                        <input type="radio" id="sansAppoint" name="accepteLiquideSansAppoint"
+                               value="true" th:checked="${accepteLiquideSansAppoint}" disabled="disabled"/>
+                    </label>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="accepteCheque">Chèques acceptés</label>
+
+                    <div class="controls">
+                        <input type="checkbox" id="accepteCheque" th:field="*{accepteCheque}" disabled="disabled"/>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="accepteVirement">Virement acceptés</label>
+
+                    <div class="controls">
+                        <input type="checkbox" id="accepteVirement" th:field="*{accepteVirement}" disabled="disabled"/>
+                    </div>
+                </div>
+
+                <div th:class="${accepteVirement == true} ? 'control-group vir' : 'control-group vir hide'">
+                    <label class="control-label" for="titulaire">Titulaire du compte</label>
+
+                    <div class="controls">
+                        <input type="text" id="titulaire" name="titulaire" th:value="${rib.titulaire}"
+                               class="input-medium" disabled="disabled"/>
+                    </div>
+                </div>
+
+                <div th:class="${accepteVirement == true} ? 'control-group vir' : 'control-group vir hide'">
+                    <label class="control-label" for="iban">Numéro IBAN</label>
+
+                    <div class="controls">
+                        <input type="text" id="iban" name="iban" th:value="${rib.iban}" class="input-medium"
+                               disabled="disabled"/>
+                    </div>
+                </div>
+
+                <div th:class="${accepteVirement == true} ? 'control-group vir' : 'control-group vir hide'">
+                    <label class="control-label" for="bic">Numéro BIC</label>
+
+                    <div class="controls">
+                        <input type="text" id="bic" name="bic" th:value="${rib.bic}" class="input-medium"
+                               disabled="disabled"/>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div th:if="${demandeId != null}" ng-controller="RecapCtrl" ng-init="findCafes()">
         <input type="hidden" id="demandeId" name="demandeId" th:value="${demandeId}"/>
         <table id="recap-table" class="table table-striped table-bordered table-hover table-condensed">
             <thead>
@@ -50,7 +134,7 @@
         </a>
     </div>
 </div>
-<script type="text/javascript">
+<script th:if="${demandeId != null}" type="text/javascript">
     var cafeRecap = angular.module('cafeRecap', []);
 
     cafeRecap.controller('RecapCtrl', function ($scope, $http) {

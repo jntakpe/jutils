@@ -70,7 +70,8 @@ public class CommandeController {
     public ModelAndView cloture(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Commande commande = commandeService.cloture(id);
         messageManager.logMessage("MSG40001", LogLevel.INFO, FmkUtils.getCurrentUsername(), commandeService);
-        redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("commande.close", commande)));
+        redirectAttributes.addFlashAttribute(ResponseMessage.getSuccessMessage(messageManager.getMessage("commande" +
+                ".close", commande)));
         return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
     }
 
@@ -89,7 +90,8 @@ public class CommandeController {
             if (demande != null) mv.addObject("demandeId", demande.getId());
             return mv.addObject("isAuthored", isAuthored);
         } else {
-            redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
+            redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero" + "" +
+                    ".commande")));
             return new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
         }
     }
@@ -100,13 +102,35 @@ public class CommandeController {
         return commandeService.findDemandes();
     }
 
-
     @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
     public ModelAndView recap(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         ModelAndView mv;
-        if (commandeService.findOpenCmd() != null) mv = new ModelAndView("recap_commande").addObject("demandeId", id);
-        else {
-            redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
+        if (commandeService.findOpenCmd() != null) {
+            mv = new ModelAndView("recap_commande");
+            Rib rib = utilisateurService.getCurrent().getRib();
+            mv.addObject(rib == null ? new Rib() : rib);
+            mv.addObject("demandeId", id).addObject(commandeService.findOpenCmd());
+        } else {
+            ResponseMessage msg = ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande"));
+            redirectAttributes.addFlashAttribute(msg);
+            mv = new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
+        }
+        return mv;
+    }
+
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public ModelAndView detail(RedirectAttributes redirectAttributes) {
+        ModelAndView mv;
+        if (commandeService.findOpenCmd() != null) {
+            mv = new ModelAndView("recap_commande");
+            Rib rib = utilisateurService.getCurrent().getRib();
+            mv.addObject(rib == null ? new Rib() : rib);
+            Demande demande = demandeService.findByUtilisateur();
+            mv.addObject("demandeId", demande != null ? demande.getId() : null);
+            mv.addObject(commandeService.findOpenCmd());
+        } else {
+            ResponseMessage msg = ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande"));
+            redirectAttributes.addFlashAttribute(msg);
             mv = new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
         }
         return mv;
@@ -117,7 +141,8 @@ public class CommandeController {
         ModelAndView mv;
         if (commandeService.findOpenCmd() != null) mv = new ModelAndView("recap_total");
         else {
-            redirectAttributes.addFlashAttribute(ResponseMessage.getErrorMessage(messageManager.getMessage("zero.commande")));
+            ResponseMessage msg = ResponseMessage.getErrorMessage(messageManager.getMessage("zero" + ".commande"));
+            redirectAttributes.addFlashAttribute(msg);
             mv = new ModelAndView(new RedirectView(FmkUtils.PORTAL_VIEW));
         }
         return mv;

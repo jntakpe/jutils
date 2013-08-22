@@ -41,6 +41,7 @@
                             <ul class="dropdown-menu">
                                 <li><a th:href="@{/demande}"><i class="icon-shopping-cart"></i> Commander</a></li>
                                 <li><a th:href="@{/commande}"><i class="icon-tasks"></i> Liste des commandes</a></li>
+                                <li><a th:href="@{/commande/detail}"><i class="icon-search"></i> Infos commande</a></li>
                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN','RESP_CAFE')">
                                     <a th:href="@{/commande/new}"><i class="icon-book"></i> Gestion commande</a>
                                 </li>
