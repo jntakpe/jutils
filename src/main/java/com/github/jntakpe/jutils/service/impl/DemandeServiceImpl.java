@@ -96,7 +96,8 @@ public class DemandeServiceImpl extends GenericServiceImpl<Demande> implements D
     @Override
     @Transactional(readOnly = true)
     public Demande findByUtilisateur() {
-        return demandeRepository.findByCommandeAndUtilisateur(commandeService.findOpenCmd(), utilisateurService.getCurrent());
+        return demandeRepository.findByCommandeAndUtilisateur(commandeService.findOpenCmd(),
+                utilisateurService.getCurrent());
     }
 
     /**

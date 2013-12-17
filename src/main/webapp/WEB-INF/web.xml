@@ -4,6 +4,11 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>dev</param-value>
+    </context-param>
+
     <display-name>jutils</display-name>
     <description>Java utilitaires : IHM retroupant un ensemble d'utilitaires</description>
 
@@ -70,10 +75,5 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
-    <persistence-unit-ref>
-        <persistence-unit-ref-name>jutilsPU</persistence-unit-ref-name>
-        <persistence-unit-name>jutilsPU</persistence-unit-name>
-    </persistence-unit-ref>
 
 </web-app>

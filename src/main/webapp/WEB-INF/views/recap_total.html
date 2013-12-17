@@ -24,20 +24,32 @@
 <footer th:include="../fragments/footerFragment :: footer">
 </footer>
 
+<script type="text/javascript" th:src="@{/static/js/dev/ZeroClipboard.js}"/>
+<script type="text/javascript" th:src="@{/static/js/dev/dataTables.TableTools.js}"/>
 <script type="text/javascript">
-
+    /*<![CDATA[*/
     $(function () {
         "use strict";
+
         $('#dt_recap_total').dataTable({
             sAjaxSource: "recaptotal/list",
             aoColumns: [
                 {mData: "nom"},
                 {mData: "nbTotal"},
                 {mData: "prixTotal"}
-            ]
+            ],
+            "sDom": "<'row-fluid'<'span6'T><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+            "oTableTools": {
+                "sSwfPath": "/jutils/static/js/dev/tabletools/copy_csv_xls_pdf.swf",
+                "aButtons": [
+                    "print",
+                    "pdf"
+                ]
+            }
+
         });
     });
-
+    /*]]>*/
 </script>
 </body>
 </html>

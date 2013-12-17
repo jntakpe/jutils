@@ -6,26 +6,32 @@
 <header th:include="../fragments/menuFragment :: fullMenu"></header>
 <div id="mainContainer" class="container">
     <div th:include="../fragments/alertFragment :: alert"></div>
+
     <h2 id="portal-title">Bienvenue sur l'application jUtils ! </h2>
 
-    <div class="row lead">
-        <p>Cette application donne l'accès à différents outils notament un annuaire collaborateur/item et
-            item/collaborateur ainsi qu'un module de commande de cafés Nespresso.</p>
+    <div class="hero-unit">
 
-        <p>Le code de l'application est disponnible sur <span class="label"><i class="icon-github"></i> Github</span> à
-            cette adresse : <a href="https://github.com/jntakpe/jutils"> jUtils</a>, vous pouvez y repoter les bugs ou
-            y proposer des évolutions.</p>
+        <div class="row lead">
+            <p>Cette application donne l'accès à différents outils notament un annuaire collaborateur/item et
+                item/collaborateur ainsi qu'un module de commande de cafés Nespresso.</p>
 
-        <p>Les technos utilisées par jUtils sont :
-        <ul>
-            <li>Java EE</li>
-            <li>Spring framework (MVC + security + data)</li>
-            <li>Hibernate</li>
-            <li>Thymeleaf</li>
-            <li>AngularJS</li>
-            <li>Bootstrap</li>
-        </ul>
-        </p>
+            <p>Le code de l'application est disponnible sur <span class="label"><i
+                    class="icon-github"></i> Github</span> à
+                cette adresse : <a href="https://github.com/jntakpe/jutils"> jUtils</a>, vous pouvez y repoter les bugs
+                ou
+                y proposer des évolutions.</p>
+
+            <p>Les technos utilisées par jUtils sont :
+            <ul>
+                <li>Java EE</li>
+                <li>Spring framework (MVC + security + data)</li>
+                <li>Hibernate</li>
+                <li>Thymeleaf</li>
+                <li>AngularJS</li>
+                <li>Bootstrap</li>
+            </ul>
+            </p>
+        </div>
     </div>
 </div>
 <footer th:include="../fragments/footerFragment :: footer"></footer>

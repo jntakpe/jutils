@@ -483,3 +483,4 @@ $(function () {
         jUtils.removeCurrentRow();
     });
 });
+

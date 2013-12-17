@@ -132,4 +132,6 @@ public class Commande extends GenericDomain {
         result = 31 * result + (cloture != null ? cloture.hashCode() : 0);
         return result;
     }
+
+
 }

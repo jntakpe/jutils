@@ -11,26 +11,25 @@
 
         <!-- Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <env>tomcat</env>
 
         <!-- JEE API (JBoss specs) -->
         <version.jboss.javaee>3.0.2.Final</version.jboss.javaee>
         <version.mail>1.4.7</version.mail>
 
         <!-- Spring -->
-        <version.spring>3.2.4.RELEASE</version.spring>
+        <version.spring>3.2.6.RELEASE</version.spring>
 
         <!-- Spring Data JPA -->
-        <version.spring-data-jpa>1.3.4.RELEASE</version.spring-data-jpa>
+        <version.spring-data-jpa>1.4.2.RELEASE</version.spring-data-jpa>
 
         <!-- Spring security -->
-        <version.spring-security>3.1.3.RELEASE</version.spring-security>
+        <version.spring-security>3.1.4.RELEASE</version.spring-security>
 
         <!-- JPA -->
         <version.hibernate-jpa>1.0.1.Final</version.hibernate-jpa>
 
         <!-- Hibernate version -->
-        <version.hibernate>4.2.4.Final</version.hibernate>
+        <version.hibernate>4.2.8.Final</version.hibernate>
         <version.hibernate-validator>4.3.1.Final</version.hibernate-validator>
         <version.hibernate-annotations>3.5.6-Final</version.hibernate-annotations>
 
@@ -40,27 +39,28 @@
 
         <!-- Framework de log -->
         <version.slf4j>1.7.5</version.slf4j>
-        <version.logback>1.0.11</version.logback>
+        <version.logback>1.0.13</version.logback>
 
         <!-- Tests -->
         <version.junit>4.11</version.junit>
         <version.fest-assert>1.4</version.fest-assert>
 
         <!-- Dépendances tierces -->
-        <version.aspectj>1.7.3</version.aspectj>
+        <version.aspectj>1.7.4</version.aspectj>
         <version.commons-lang3>3.1</version.commons-lang3>
         <version.commons-io>2.4</version.commons-io>
         <version.commons-collections>3.2.1</version.commons-collections>
         <version.commons-fileupload>1.3</version.commons-fileupload>
 
         <version.guava>14.0.1</version.guava>
-        <version.joda-time>2.2</version.joda-time>
-        <version.joda-convert>1.3.1</version.joda-convert>
-        <version.jackson>2.1.4</version.jackson>
+        <version.joda-time>2.3</version.joda-time>
+        <version.joda-convert>1.5</version.joda-convert>
+        <version.jackson>2.3.0</version.jackson>
         <version.quartz>2.1.7</version.quartz>
+        <version.hikari>1.2.1</version.hikari>
 
         <!-- Pilote Postgresql -->
-        <version.postgresql>9.2-1002-jdbc4</version.postgresql>
+        <version.postgresql>9.3-1100-jdbc4</version.postgresql>
 
     </properties>
 
@@ -323,13 +323,17 @@
                 <artifactId>quartz</artifactId>
                 <version>${version.quartz}</version>
             </dependency>
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${version.hikari}</version>
+            </dependency>
 
             <!-- Pilote postgresql -->
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${version.postgresql}</version>
-                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -534,16 +538,15 @@
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
 
         <!-- Pilote postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>4.2.3.Final</version>
         </dependency>
     </dependencies>
 
@@ -603,25 +606,4 @@
             </resource>
         </resources>
     </build>
-    <profiles>
-        <profile>
-            <id>tomcat</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <hibernate.scope>compile</hibernate.scope>
-                <persistence.prop.name>persistenceUnitName</persistence.prop.name>
-                <persistence.prop.value>jutilsPU</persistence.prop.value>
-            </properties>
-        </profile>
-        <profile>
-            <id>jboss</id>
-            <properties>
-                <hibernate.scope>provided</hibernate.scope>
-                <persistence.prop.name>persistenceXmlLocation</persistence.prop.name>
-                <persistence.prop.value>classpath*:META-INF/persistence.xml</persistence.prop.value>
-            </properties>
-        </profile>
-    </profiles>
 </project>
